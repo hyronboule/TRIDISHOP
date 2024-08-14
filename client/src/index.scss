@@ -1,0 +1,12 @@
+@import "./style/colorVar.scss";
+
+*,body{
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-family: $kufam;
+  text-decoration: none;
+}
+a{
+  color: black;
+}
