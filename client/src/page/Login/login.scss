@@ -1,4 +1,4 @@
-@import "../../style//colorVar.scss";
+@import "../../style/colorVar.scss";
 
 .inputLogin{
     height: 40px;
@@ -7,4 +7,10 @@
 }
 .titleLogin{
     margin-bottom: 15px;
+    text-align: center;
+    font-size: 35px;
+    height: 60px;
+    font-family: $reem;
+    font-weight: bolder;
+    text-decoration: underline;
 }

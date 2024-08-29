@@ -17,6 +17,7 @@ services:
       - ./backend/api-gateway/.env
     ports:
       - "3000:3000"
+    
     develop:
       watch:
         - path: ./backend/api-gateway
@@ -30,10 +31,11 @@ services:
       context: ./backend/auth
       dockerfile: Dockerfile
     container_name: auth
-    # depends_on:
-    #   - mongodb-auth
+    depends_on:
+      - mongodb-auth
     env_file:
       - ./backend/auth/.env
+ 
     develop:
       watch:
         - action: sync
@@ -42,17 +44,35 @@ services:
         - action: rebuild
           path: ./backend/auth/package.json
 
-    # mongodb-auth:
-    #   image: mongo:latest
-    #   container_name: mongodb-auth
-    #   restart: always
-    #   ports:
-    #     - 27018:27017
-    #   volumes:
-    #     - mongodb-auth:/data/db
-    #   environment:
-    #     MONGO_INITDB_ROOT_USERNAME: root
-    #     MONGO_INITDB_ROOT_PASSWORD: example
+  mongodb-auth:
+      image: mongo:latest
+      container_name: mongodb-auth
+      restart: always
+      ports:
+        - "27018:27017"
+      volumes:
+        - mongodb-auth:/data/db
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+  
+  admin:
+    build:
+      context: ./backend/admin
+      dockerfile: Dockerfile
+    container_name: admin
+    depends_on:
+      - auth
+    env_file:
+      - ./backend/admin/.env
+ 
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/auth
+          target: /app/
+        - action: rebuild
+          path: ./backend/auth/package.json
 
 volumes:
   mongodb-auth:

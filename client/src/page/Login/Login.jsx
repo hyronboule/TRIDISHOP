@@ -15,11 +15,11 @@ const Login = () => {
           <Stack padding={{ xs: 3, sm: 4 }} height={"100%"}>
             <h1 className='titleLogin title'>Connexion</h1>
             <form className='form'>
-              <div>
+              <div className='contentForm'>
                 <InputText placeholder={"Email..."} className={"inputLogin"} />
                 <InputText placeholder={"Mot de passe..."} className={"inputLogin"} />
               </div>
-              <button type="submit" className='buttonValidation'>Valider</button>
+              <button type="submit" className='buttonValidation buttonSignLogin'>Valider</button>
             </form>
           </Stack>
         </Stack>
