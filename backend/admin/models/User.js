@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const uniqueValidator = require('mongoose-unique-validator');
-const { hashPassword } = require("../utils/passwordUtils");
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -33,20 +31,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["admin", "user"],
         default: "user"
-    }
-});
-
-userSchema.plugin(uniqueValidator, { message: "{PATH} est déjà utilisé." });
-
-userSchema.pre("save", async function (next) {
-    try {
-        // Si le mot de passe est modifié, le hacher
-        if (this.isModified("password") && this.password) {
-            this.password = await hashPassword(this.password);
-            next();
-        }
-    } catch (err) {
-        next(err);
     }
 });
 

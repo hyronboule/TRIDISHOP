@@ -10,12 +10,14 @@ import "./App.scss";
 import Settings from "./page/Settings/Settings"
 import { Sign } from "./page/Inscription/Sign"
 import Login from "./page/Login/Login"
+import User from "./context/User"
 
 function App() {
   const location = useLocation();
-  
+
   return (
     <>
+      <User>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/ShoppingCart" element={<ShoppingCart />} />
@@ -27,10 +29,11 @@ function App() {
           <Route path="/PageSupport" element={<PageSupport />} />
         </Routes>
         {
-          location.pathname != "/Login" && location.pathname != "/Sign"?
+          location.pathname != "/Login" && location.pathname != "/Sign" ?
             <Navbar />
-          : ""
+            : ""
         }
+      </User>
     </>
   )
 }

@@ -8,10 +8,14 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import { colorVar } from "../../style/colorVar.js"
+import { useUserContext } from '../../context/User.jsx';
+import { useNavigate } from 'react-router-dom';
 
 
 
 export const Navbar = () => {
+    const {userLogin} = useUserContext()
+    const navigate = useNavigate()
 
     return (
         <AppBar className='nav' position="fixed" sx={
@@ -29,7 +33,7 @@ export const Navbar = () => {
                 <MenuICon icon={HomeIcon} path="/" />
                 <MenuICon icon={ShoppingBasketIcon} path="/ShoppingCart" />
                 <MenuICon icon={AddCircleIcon} path="/AddPublication" />
-                <MenuICon icon={AccountCircleIcon} path="/Profil" />
+                <MenuICon  icon={AccountCircleIcon} path="/Profil" verifCo={true} />
                 <MenuICon icon={ContactSupportIcon} path="/PageSupport" />
             </Stack>
 

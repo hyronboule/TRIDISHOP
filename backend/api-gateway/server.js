@@ -2,12 +2,17 @@ const express = require('express');
 const app = express();
 const proxy = require("express-http-proxy")
 const adminUser = require("./middlewares/middlewareGateway.js");
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config()
+
+app.use(bodyParser.json({ limit: '2400mb' }));
+app.use(bodyParser.urlencoded({ limit: '2400mb', extended: true }));
 
 // Routes
 app.use("/api/auth",proxy(process.env.URL_AUTH))
 app.use("/api/admin",adminUser,proxy(process.env.URL_ADMIN))
+app.use("/api/products",proxy(process.env.URL_PRODUCTS,{parseReqBody: false}))
 
 // Démarrer le serveur
 app.listen(process.env.PORT, () => {

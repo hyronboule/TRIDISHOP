@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const adminRouter = require('./routes/adminRoutes');
-// const { connectDBAuth } = require("../auth/config/db.js");
+const { connectDBAuth } = require("./config/db.js");
 
 dotenv.config()
-// connectDBAuth()
+connectDBAuth()
 
 app.use(express.json());
 //routes

@@ -17,14 +17,18 @@ services:
       - ./backend/api-gateway/.env
     ports:
       - "3000:3000"
+    volumes:
+      - ./backend/api-gateway:/app
     
     develop:
       watch:
-        - path: ./backend/api-gateway
+        - path: ./backend/api-gateway/
           target: /app/
           action: sync
         - path: ./backend/api-gateway/package.json
           action: rebuild
+    
+    command: nodemon server.js
    
   auth:
     build:
@@ -39,7 +43,7 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./backend/auth
+          path: ./backend/auth/
           target: /app/
         - action: rebuild
           path: ./backend/auth/package.json
@@ -62,17 +66,55 @@ services:
       dockerfile: Dockerfile
     container_name: admin
     depends_on:
-      - auth
+      - mongodb-products
+      - mongodb-auth
     env_file:
       - ./backend/admin/.env
  
     develop:
       watch:
         - action: sync
-          path: ./backend/auth
+          path: ./backend/admin/
           target: /app/
         - action: rebuild
-          path: ./backend/auth/package.json
+          path: ./backend/admin/package.json
+  
+  products:
+    build:
+      context: ./backend/products
+      dockerfile: Dockerfile
+    container_name: products
+    depends_on:
+      - mongodb-products
+    env_file:
+      - ./backend/products/.env
+    volumes:
+      - ./backend/products:/app
+    ports:
+      - "8083:8083"
+ 
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/products/
+          target: /app/
+        - action: rebuild
+          path: ./backend/products/package.json
+
+    command: nodemon server.js
+
+  mongodb-products:
+      image: mongo:latest
+      container_name: mongodb-products
+      restart: always
+      ports:
+        - "27019:27017"
+      volumes:
+        - mongodb-products:/data/db
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
 
 volumes:
   mongodb-auth:
+  mongodb-products:
