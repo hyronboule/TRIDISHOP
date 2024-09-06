@@ -20,8 +20,6 @@ const connectDBProducts = async () => {
          const db = mongoose.connection.db;
          const mongoDriver = mongoose.mongo;
          gfsBucket = new GridFSBucket(db, { bucketName: 'fileProducts' });
-        //  gfs = Grid(db, mongoDriver);
-        //  gfs.collection("fileProducts"); // collection name for file products
  
          console.log("GridFS Initialized");
     } catch (error) {

@@ -10,6 +10,7 @@ const upload = multer({
 const controllersProducts = require('../controllers/controllersProducts')
 
 router.get("/products", controllersProducts.getProducts)
+router.get("/displayFile/:id", controllersProducts.displayFile)
 router.get("/products/:name", controllersProducts.getUserProducts)
 router.delete("/deleteProductUser/:id", controllersProducts.deleteProductUser)
 

@@ -4,21 +4,12 @@ const { getGfs } = require('../config/db');
 const uploadFile = async (newFile, fileName, newProductInfo) => {
     try {
         const gfsBucket = getGfs(); // Récupère l'instance GridFS
-        // const gfs = getGfs(); // Récupère l'instance GridFS
        
         const file = newFile;
 
         if (!file) {
             throw new Error('No file uploaded'); // Lance une erreur si aucun fichier n'est uploadé
         }
-
-        // Crée un stream pour écrire le fichier dans GridFS
-        
-        // const writestream = gfs.createWriteStream({
-        //     filename: fileName,
-        //     bucketName: 'fileProducts', // Nom du bucket GridFS
-        // });
-        
         const writestream = gfsBucket.openUploadStream(fileName);
 
         // Promesse pour gérer l'événement 'finish' du stream

@@ -1,4 +1,5 @@
-const Product = require('../models/Product')
+const Product = require('../models/Product');
+const { recoveryFile, displayFilefunction } = require('../utils/recoveryFile');
 const { uploadFile } = require('../utils/uploadFile')
 const { v4: uuidv4 } = require('uuid');
 
@@ -8,12 +9,27 @@ const { v4: uuidv4 } = require('uuid');
 const getProducts = async (_, res) => {
     try {
         const products = await Product.find();
-        if(products.length < 0) {
+        if (products.length === 0) { 
             return res.status(404).json({ message: 'No products found' });
         }
-        res.status(200).json(products);
+
+        const newProducts = await Promise.all(products.map(async (product) => {
+            const newFile = await recoveryFile(product.nameFile);
+            return { ...product.toObject(), file: newFile };
+        }));
+
+        res.status(200).json(newProducts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    catch (error) {
+};
+
+// get one product by id 
+const displayFile = async (req, res) => {
+    try {
+        const fileId = req.params.id;
+        await displayFilefunction(fileId, res);
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
@@ -40,9 +56,9 @@ const getUserProducts = async (req, res) => {
 // add new product
 
 const newProduct = async (req, res) => {
-    try {        
+    try {
         const file = req.file;
-        
+
         if (!file) {
             return res.status(400).json({ msg: 'No file uploaded' });
         }
@@ -63,7 +79,7 @@ const newProduct = async (req, res) => {
             message: result,
             product: newProductInfo,
         });
-       
+
 
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -94,4 +110,4 @@ const uniqueProductId = async (req, res) => {
 
 }
 
-module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct }
+module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct, displayFile }
