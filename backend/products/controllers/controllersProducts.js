@@ -1,30 +1,36 @@
 const Product = require('../models/Product');
-const { recoveryFile, displayFilefunction } = require('../utils/recoveryFile');
+const { displayFilefunction } = require('../utils/recoveryFile');
 const { uploadFile } = require('../utils/uploadFile')
 const { v4: uuidv4 } = require('uuid');
+const { loopProducts } = require('../utils/callRecoveryFile');
+const { arrayTags } = require('../utils/arrayTags');
+const { deleteFile } = require('../utils/deleteFile');
+const dotenv = require('dotenv');
 
+dotenv.config()
 // controllers for interacting to database products
 
-// get all products (rajouter filtre date)
-const getProducts = async (_, res) => {
+// get all products 
+const getProducts = async (req, res) => {
+    const limit = process.env.LIMIT;
     try {
-        const products = await Product.find();
-        if (products.length === 0) { 
+        const page = parseInt(req.query.page) || 0;
+        let skip = limit * page;
+
+        const products = await Product.find().skip(skip).limit(limit)
+        if (products.length === 0) {
             return res.status(404).json({ message: 'No products found' });
         }
 
-        const newProducts = await Promise.all(products.map(async (product) => {
-            const newFile = await recoveryFile(product.nameFile);
-            return { ...product.toObject(), file: newFile };
-        }));
+        const newProducts = await loopProducts(products)
 
-        res.status(200).json(newProducts);
+        res.status(200).json({ data: newProducts, urlPage: process.env.URI + '/products?page=1' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-// get one product by id 
+// get file (image3D) by id 
 const displayFile = async (req, res) => {
     try {
         const fileId = req.params.id;
@@ -34,20 +40,24 @@ const displayFile = async (req, res) => {
     }
 }
 
-// get all products from user with pseudo (rajouter filtre date)
+// get all products from user with pseudo 
 const getUserProducts = async (req, res) => {
+    const limit = process.env.LIMIT;
     try {
-        const userName = req.params.name
+        const page = parseInt(req.query.page) || 0;
+        let skip = limit * page;
 
-        const products = await Product.find({ pseudo: userName });
+        const userName = req.query.name
 
-        if (products.length < 0) {
+        const products = await Product.find({ pseudo: userName }).skip(skip).limit(limit);
+
+        if (products.length === 0) {
             return res.status(404).json({ message: `User not found ${userName}` });
         } else {
-            res.status(200).json(products);
+            const newProducts = await loopProducts(products)
+
+            res.status(200).json({ data: newProducts, urlPage: process.env.URI + '/products?page=1' });
         }
-
-
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
@@ -69,7 +79,7 @@ const newProduct = async (req, res) => {
             nameFile: fileName,
             pseudo: req.body.pseudo,
             description: req.body.description,
-            tags: req.body.tags,
+            tags: arrayTags(req.body.tags),
             price: req.body.price,
         });
 
@@ -88,26 +98,66 @@ const newProduct = async (req, res) => {
 
 // delete a product to user from id (rajouter filtre pour avoir produit de l'user avant de suppr)
 const deleteProductUser = async (req, res) => {
-    try {
-        const productId = req.params.id;
+    const namefile = req.params.id;
 
-        const product = await Product.findByIdAndDelete(productId);
+    if (!namefile) {
+        return res.status(400).json({ message: 'Missing product nameFile' });
+    }
+
+    try {
+
+        const product = await Product.findOne({ nameFile: namefile })
 
         if (!product) {
-            return res.status(404).json({ message: `product not found ${productId}` });
+            return res.status(404).json({ message: 'Product not found' });
         }
 
+        await deleteFile(namefile, res);
+
+        await Product.deleteOne({ _id: product._id })
+
+        return res.status(200).json({
+            message: 'Product deleted successfully',
+            data: product
+        });
+
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        return res.status(500).json({ message: 'Error with deletion', error: error.message });
     }
+
 };
 
 // upadate info product from id
 const uniqueProductId = async (req, res) => {
-    const id = req.params.id
+    const namefile = req.params.id;
 
-    // recupération du body 
+    if (!namefile) {
+        return res.status(400).json({ message: 'Missing product nameFile' });
+    }
 
+    const { tags, description, download } = req.body;
+    
+
+    try {
+        const product = await Product.findOne({ nameFile: namefile })
+
+        if (!product) {
+            return res.status(404).send({ message: "Product not found" });
+        }
+
+        if (tags !== undefined){ 
+            product.tags = arrayTags(tags);
+        };
+        if (description !== undefined) product.description = description;
+        if (download !== undefined) product.download = download;
+
+
+        const updatedProduct = await product.save();
+
+        res.status(200).send(updatedProduct);
+    } catch (error) {
+        res.status(500).send({ message: "Error updating the product", error: error });
+    }
 }
 
-module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct, displayFile }
+module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct, displayFile, uniqueProductId }

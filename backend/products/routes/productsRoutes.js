@@ -11,9 +11,9 @@ const controllersProducts = require('../controllers/controllersProducts')
 
 router.get("/products", controllersProducts.getProducts)
 router.get("/displayFile/:id", controllersProducts.displayFile)
-router.get("/products/:name", controllersProducts.getUserProducts)
+router.get("/productsUser", controllersProducts.getUserProducts)
 router.delete("/deleteProductUser/:id", controllersProducts.deleteProductUser)
-
+router.put("/updateProduct/:id",upload.none(), controllersProducts.uniqueProductId)
 router.post("/upload", upload.single('file'), controllersProducts.newProduct)
 
 

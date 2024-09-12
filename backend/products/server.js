@@ -8,17 +8,9 @@ const bodyParser = require('body-parser');
 dotenv.config()
 connectDBProducts()
 
-app.use(express.json());
+// app.use(express.json());
 app.use(bodyParser.json({ limit: '2400mb' }));
 app.use(bodyParser.urlencoded({ limit: '2400mb', extended: true }));
-
-// middleware debugging call api
-
-// app.use((req, res, next) => {
-//   console.log('Headers:', req.headers);
-//   console.log('Body (avant multer):', req.body);
-//   next();
-// });
 
 //routes
 app.use("/", productsRoutes)

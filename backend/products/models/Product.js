@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
         minlength: 3,
         maxlength: 10
     },
-    donwload: {
+    download: {
         type: Number,
         required: true,
         default: 0

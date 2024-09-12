@@ -48,17 +48,6 @@ services:
         - action: rebuild
           path: ./backend/auth/package.json
 
-  mongodb-auth:
-      image: mongo:latest
-      container_name: mongodb-auth
-      restart: always
-      ports:
-        - "27018:27017"
-      volumes:
-        - mongodb-auth:/data/db
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example
   
   admin:
     build:
@@ -102,6 +91,18 @@ services:
           path: ./backend/products/package.json
 
     command: nodemon server.js
+    
+  mongodb-auth:
+      image: mongo:latest
+      container_name: mongodb-auth
+      restart: always
+      ports:
+        - "27018:27017"
+      volumes:
+        - mongodb-auth:/data/db
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
 
   mongodb-products:
       image: mongo:latest
