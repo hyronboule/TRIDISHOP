@@ -156,7 +156,7 @@ const uniqueProductId = async (req, res) => {
 
         res.status(200).send(updatedProduct);
     } catch (error) {
-        res.status(500).send({ message: "Error updating the product", error: error });
+        res.status(500).send({ message: "Error updating the product", error: error.message });
     }
 }
 

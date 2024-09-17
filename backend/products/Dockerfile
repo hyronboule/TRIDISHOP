@@ -11,5 +11,6 @@ COPY . .
 
 EXPOSE 8083
 
-CMD [ "nodemon", "server.js" ]
+CMD [ "npm", "dev" ]
+# CMD [ "npm", "start" ]
 

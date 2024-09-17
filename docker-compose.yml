@@ -92,6 +92,29 @@ services:
 
     command: nodemon server.js
     
+  profil:
+    build:
+      context: ./backend/profil
+      dockerfile: Dockerfile
+    container_name: profil
+    depends_on:
+      - mongodb-profil
+    env_file:
+      - ./backend/profil/.env
+    volumes:
+      - ./backend/profil:/app
+    ports:
+      - "8084:8084"
+ 
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/profil/
+          target: /app/
+        - action: rebuild
+          path: ./backend/profil/package.json
+
+
   mongodb-auth:
       image: mongo:latest
       container_name: mongodb-auth
@@ -116,6 +139,19 @@ services:
         MONGO_INITDB_ROOT_USERNAME: root
         MONGO_INITDB_ROOT_PASSWORD: example
 
+  mongodb-profil:
+      image: mongo:latest
+      container_name: mongodb-profil
+      restart: always
+      ports:
+        - "27020:27017"
+      volumes:
+        - mongodb-profil:/data/db
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+
 volumes:
   mongodb-auth:
   mongodb-products:
+  mongodb-profil:
