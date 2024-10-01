@@ -4,7 +4,8 @@
     position: relative;
     height: 100vh;
 }
-.logo{
+
+.logo {
     width: 150px;
     height: 40px;
     color: white;
@@ -13,11 +14,17 @@
     position: absolute;
     top: 20px;
     left: 10px;
-    >img{
+
+    >img {
         width: auto;
         height: 100%;
     }
+
+    >h1 {
+        cursor: pointer;
+    }
 }
+
 .page {
     background: $backgroundLinearGradient;
 }
@@ -83,9 +90,10 @@
     border-radius: 10px;
     letter-spacing: 2px;
     cursor: pointer;
-  
+
 }
-.buttonSignLogin{
+
+.buttonSignLogin {
     position: inherit;
     width: 100%;
 }
@@ -98,6 +106,7 @@
     letter-spacing: 1px;
     text-decoration: underline;
     cursor: pointer;
+
     &:hover {
         text-decoration: underline;
     }
@@ -125,4 +134,11 @@
     height: 100%;
     display: flex;
     align-items: end;
+}
+
+.imgProfile {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
 }

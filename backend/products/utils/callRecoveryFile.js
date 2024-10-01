@@ -4,11 +4,14 @@ const { recoveryFile } = require("./recoveryFile");
 
 const loopProducts = async (products) =>{
     const newProducts =  await Promise.all(products.map(async (product) => {
-        const newFile = await recoveryFile(product.nameFile);
-        return { ...product.toObject(), file: newFile };
+        return  fileProduct(product)
     }));
     
     return newProducts;
 }
 
-module.exports = {loopProducts};
+const fileProduct = async (product)=>{
+    const newFile = await recoveryFile(product.nameFile);
+    return {...product.toObject(), file: newFile };
+}
+module.exports = {loopProducts, fileProduct};

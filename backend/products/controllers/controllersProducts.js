@@ -2,10 +2,11 @@ const Product = require('../models/Product');
 const { displayFilefunction } = require('../utils/recoveryFile');
 const { uploadFile } = require('../utils/uploadFile')
 const { v4: uuidv4 } = require('uuid');
-const { loopProducts } = require('../utils/callRecoveryFile');
+const { loopProducts, fileProduct } = require('../utils/callRecoveryFile');
 const { arrayTags } = require('../utils/arrayTags');
 const { deleteFile } = require('../utils/deleteFile');
 const dotenv = require('dotenv');
+
 
 dotenv.config()
 // controllers for interacting to database products
@@ -15,16 +16,30 @@ const getProducts = async (req, res) => {
     const limit = process.env.LIMIT;
     try {
         const page = parseInt(req.query.page) || 0;
-        let skip = limit * page;
+        const skip = limit * page;
 
-        const products = await Product.find().skip(skip).limit(limit)
+        const products = await Product.find().skip(skip).limit(limit);
         if (products.length === 0) {
             return res.status(404).json({ message: 'No products found' });
         }
 
-        const newProducts = await loopProducts(products)
+        const totalProducts = await Product.countDocuments();
 
-        res.status(200).json({ data: newProducts, urlPage: process.env.URI + '/products?page=1' });
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        if (page >= totalPages) {
+            return res.status(404).json({ message: 'No more products found' });
+        }
+
+        const nextPage = page + 1 < totalPages ? page + 1 : null;
+        const nextPageUrl = nextPage !== null ? `${process.env.URI}/products?page=${nextPage}` : null;
+
+        let newProducts = await loopProducts(products);
+
+        res.status(200).json({
+            data: newProducts,
+            urlPage: nextPageUrl,
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -45,32 +60,79 @@ const getUserProducts = async (req, res) => {
     const limit = process.env.LIMIT;
     try {
         const page = parseInt(req.query.page) || 0;
-        let skip = limit * page;
-
-        const userName = req.query.name
+        const skip = limit * page;
+        const userName = req.query.name;
 
         const products = await Product.find({ pseudo: userName }).skip(skip).limit(limit);
 
         if (products.length === 0) {
-            return res.status(404).json({ message: `User not found ${userName}` });
-        } else {
-            const newProducts = await loopProducts(products)
-
-            res.status(200).json({ data: newProducts, urlPage: process.env.URI + '/products?page=1' });
+            return res.status(404).json({ message: `No products found for user ${userName}` });
         }
+
+        const totalProducts = await Product.countDocuments({ pseudo: userName });
+
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        if (page >= totalPages && totalPages > 0) {
+            return res.status(404).json({ message: 'No more products found' });
+        }
+
+        const nextPage = page + 1 < totalPages ? page + 1 : null;
+        const nextPageUrl = nextPage !== null ? `${process.env.URI}/products?name=${userName}&page=${nextPage}` : null;
+
+        const newProducts = await loopProducts(products);
+
+        res.status(200).json({
+            data: newProducts,
+            urlPage: nextPageUrl,
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 }
 
+// detail prduct wuth id
+
+const getDetailProduct = async (req, res) => {
+    try {
+        const productNameFile = req.params.id;
+
+        const product = await Product.findOne({ nameFile: productNameFile });
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        let newProduct = await fileProduct(product);
+
+        res.status(200).json({ data: newProduct });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
 // add new product
 
 const newProduct = async (req, res) => {
     try {
-        const file = req.file;
 
-        if (!file) {
-            return res.status(400).json({ msg: 'No file uploaded' });
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ msg: 'No files uploaded' });
+        }
+
+        let file3D = null;
+        let imageFile = null;
+
+
+        req.files.forEach(file => {
+            if (file.mimetype === 'model/gltf-binary' || file.originalname.endsWith('.glb')) {
+                file3D = file;
+            } else if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+                imageFile = file;
+            }
+        });
+
+        if (!file3D || !imageFile) {
+            return res.status(400).json({ msg: 'Both 3D file and image are required' });
         }
 
         const fileName = uuidv4();
@@ -81,18 +143,18 @@ const newProduct = async (req, res) => {
             description: req.body.description,
             tags: arrayTags(req.body.tags),
             price: req.body.price,
+            image: imageFile.buffer,
         });
 
-        const result = await uploadFile(file, fileName, newProductInfo);
+        const result = await uploadFile(file3D, fileName, newProductInfo);
 
         res.status(201).json({
             message: result,
             product: newProductInfo,
         });
 
-
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 };
 
@@ -136,7 +198,7 @@ const uniqueProductId = async (req, res) => {
     }
 
     const { tags, description, download } = req.body;
-    
+
 
     try {
         const product = await Product.findOne({ nameFile: namefile })
@@ -145,7 +207,7 @@ const uniqueProductId = async (req, res) => {
             return res.status(404).send({ message: "Product not found" });
         }
 
-        if (tags !== undefined){ 
+        if (tags !== undefined) {
             product.tags = arrayTags(tags);
         };
         if (description !== undefined) product.description = description;
@@ -160,4 +222,4 @@ const uniqueProductId = async (req, res) => {
     }
 }
 
-module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct, displayFile, uniqueProductId }
+module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct, displayFile, uniqueProductId, getDetailProduct }

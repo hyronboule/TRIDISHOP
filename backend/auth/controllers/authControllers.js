@@ -12,8 +12,8 @@ const login = (async (req, res) => {
 
         const match = await checkPassword(password, user.password);
         if (!match) return res.status(401).json({ message: "Mot de passe incorrect" });
-
-        const token = generateToken({ id: user._id, fullName: user.fullName, email, role: user.role })
+        
+        const token = generateToken({ id: user._id, pseudo: user.pseudo, email, role: user.role })
 
         res.status(200).json({ token })
     } catch (error) {

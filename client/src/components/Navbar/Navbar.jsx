@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AppBar, Container, Stack } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -31,14 +31,14 @@ export const Navbar = () => {
             <Container maxWidth="x1" sx={{ height: "100%", display: 'flex', justifyContent: "space-between", flexDirection: {sm:"column"},padding:{xs:"0px 20px",sm:"30px 0"},alignItems:"center"}}  >
             <Stack direction={{ xs: "row", sm: "column" }} spacing={{ xs: 3, sm: 10 }} >
                 <MenuICon icon={HomeIcon} path="/" />
-                <MenuICon icon={ShoppingBasketIcon} path="/ShoppingCart" />
-                <MenuICon icon={AddCircleIcon} path="/AddPublication" />
-                <MenuICon  icon={AccountCircleIcon} path="/Profil" verifCo={true} />
+                <MenuICon icon={ShoppingBasketIcon} path="/ShoppingCart" verifCo={userLogin}/>
+                <MenuICon icon={AddCircleIcon} path="/AddPublication"verifCo={userLogin}/>
+                <MenuICon  icon={AccountCircleIcon} path="/Profil" verifCo={userLogin} />
                 <MenuICon icon={ContactSupportIcon} path="/PageSupport" />
             </Stack>
 
             <Stack direction={"row"} >
-                <MenuICon icon={SettingsIcon} path="/Settings" />
+                <MenuICon icon={SettingsIcon} path="/Settings" verifCo={userLogin}/>
             </Stack>
 
         </Container>

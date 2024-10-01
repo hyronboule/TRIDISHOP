@@ -5,6 +5,8 @@ import { Container, Stack } from '@mui/material'
 import { colorVar } from '../../style/colorVar'
 import { useNavigate } from 'react-router-dom';
 import logoTridi from '../../assets/logoTridi.png'
+import { callApiLogin, callApiRegister } from '../../services/callApiUserAuth';
+import { useUserContext } from '../../context/User';
 
 
 export const Sign = () => {
@@ -14,11 +16,40 @@ export const Sign = () => {
   const [date, setDate] = useState("");
   const [password, setPassword] = React.useState("");
   const [pseudo, setPseudo] = useState("");
+  const {setToken} = useUserContext()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    callApiRegister(pseudo, email, password,date).then((data)=>{
+      if (data) {
+        console.log(data);
+        callApiLogin(email,password).then((data)=>{
+          if (data) {
+            setToken(data.token);
+            navigate('/Profil');
+          };
+        }).catch((error) => {
+          console.error('Error during login API call:', error);
+        })
+      }
+    }).catch((error)=>{
+      console.error("error in registration api call",error);
+      // return error popup
+    })
+  }
+  const formatDate = (newDate) => {
+    const [year, month, day] = newDate.split("-");
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+  }
+
   return (
     <>
       <Container className='page' maxWidth="100vw" sx={{ padding: { xs: "0 0 50px 0", sm: " 0px 40px 0px 0px", lg: "0px 15vw 0px 0px" }, minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "end", justifyContent: "center", gap: 5 }}  >
         <Stack className='logo' flexDirection={"row"} justifyContent={"space-evenly"} alignItems={'center'}>
-          <h1>TRIDI</h1>
+          <h1 onClick={() => {
+            navigate("/")
+          }}>TRIDI</h1>
           <img src={logoTridi} />
         </Stack>
         <Stack width={{ xs: "100vw", sm: "500px" }} height={{ xs: "450px" }} sx={{ backgroundColor: colorVar.backgroundPaleGrey, borderRadius: "20px" }}>
@@ -27,16 +58,19 @@ export const Sign = () => {
             <h1 className='title titleSign' style={{ marginBottom: 20 }}>Inscription</h1>
             <form className='form formSign'>
               <div>
-                <InputText placeholder={"Email..."} className={"inputSign"}
+                <InputText placeholder={"Email..."} className={"inputSign"} setValue={setEmail} value={email}
                 />
-                <InputText placeholder={"Pseudo..."} className={"inputSign"} />
-                <InputText placeholder={"Mot de passe..."} className={"inputSign"} />
+                <InputText placeholder={"Pseudo..."} className={"inputSign"}
+                  setValue={setPseudo} value={pseudo} />
+                <InputText placeholder={"Mot de passe..."} className={"inputSign"}
+                  setValue={setPassword} value={password} />
                 <input className='inputSign dateSign' type="date" id="dateBirth" name="dateBirth" value={date} min="1950-01-01" max="2020-12-31" onChange={(e) => {
                   setDate(e.target.value);
                 }} />
-
               </div>
-              <button type="submit" className='buttonValidation buttonSignLogin'>Valider</button>
+              <button type="submit" className='buttonValidation buttonSignLogin' onClick={(e) => {
+                handleSubmit(e)
+              }}>Valider</button>
             </form>
           </Stack>
         </Stack>

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 
-const InputText = ({ placeholder,className,icon}) => {
-    const [value, setValue] = useState('')
-
+const InputText = ({ placeholder,className,icon,setValue, value,type}) => {
+    
     return (
         <div className='search'>
-            <input className={className} id='inputText' type="text" name="search" placeholder={placeholder} onChange={(e)=> setValue(e.target.value)} />
+            <input className={className} id='inputText' type={!type?"text": type} value={value} name="search" placeholder={placeholder} onChange={(e)=> setValue(e.target.value)} />
             {icon&& icon}
         </div>
     )

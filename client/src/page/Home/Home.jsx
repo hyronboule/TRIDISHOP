@@ -3,13 +3,14 @@ import { colorVar } from "../../style/colorVar.js";
 import SearchIcon from '@mui/icons-material/Search';
 import NavigationButton from "../../components/NavigationButton/NavigationButton"
 import "./home.scss"
-import React from 'react'
+import React, { useState } from 'react'
 import InputText from '../../components/InputText/InputText.jsx';
 import Select from '../../components/Select/Select.jsx';
 import Image3D from '../../components/Image3D/Image3D.jsx';
 
 
 const Home = () => {
+  const [data, setData] = useState()
   return (
     <>
       <Container className='page' maxWidth="100vw" sx={{ padding: { sm: " 0px 40px 0px 0px", xs: "0 0 50px 0" }, minHeight: "100%" }}  >
@@ -21,7 +22,7 @@ const Home = () => {
               { title: "Décroissant", value: "decr" },
               { title: "Croissant", value: "incr" }]} />
           </Grid>
-          <Image3D values={[0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2,]}/>
+          <Image3D values={data}/>
         </Grid>
       </Container>
     </>

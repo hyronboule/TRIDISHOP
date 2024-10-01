@@ -3,7 +3,7 @@ const { defaultDate } = require("../utils/date");
 const { v4: uuidv4 } = require('uuid');
 
 const productSchema = new mongoose.Schema({
-    pseudo: { 
+    pseudo: {
         type: String,
         required: true,
         match: /^[a-zA-Z0-9]+$/,
@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
-    description:{
+    description: {
         type: String,
         required: true,
         maxlength: 150
@@ -24,26 +24,29 @@ const productSchema = new mongoose.Schema({
         type: [String],
         required: true,
         validate: {
-            validator: function(tags) {
-              // Limite le nombre d'éléments dans le tableau 'tags' à 5
-              return tags.length <= 5;
+            validator: function (tags) {
+                // Limite le nombre d'éléments dans le tableau 'tags' à 5
+                return tags.length <= 5;
             },
             message: 'Le nombre maximal de tags est de 5.'
-          }
+        }
     },
     // filename for recovery files in GridFs
-    nameFile:{
+    nameFile: {
         type: String,
         required: true,
         unique: true
     },
-    price:{
+    price: {
         type: Number,
         required: true,
         min: 0
-    }
-    ,
-    date:{
+    },
+    image: {
+        type: Buffer,
+        required: true
+    },
+    date: {
         type: String,
         required: true,
         default: defaultDate
@@ -51,7 +54,7 @@ const productSchema = new mongoose.Schema({
 });
 
 // Pre-save hook to generate a unique identifier for `nameFile` using uuid
-productSchema.pre('save', function(next) {
+productSchema.pre('save', function (next) {
     if (!this.nameFile) {
         this.nameFile = uuidv4(); // Génère un identifiant unique en utilisant uuid
     }

@@ -1,0 +1,12 @@
+.buttonMoreProducts{
+    width:150px;
+    height: 30px;
+    border-radius: 20px;
+    border: none;
+    font-size: 14px;
+
+    @media (max-width: 600px ) {
+        width: 100px;
+        font-size: 12px;
+    }
+}
