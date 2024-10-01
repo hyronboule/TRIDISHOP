@@ -1,14 +1,14 @@
 import React from 'react'
 import "./showMoreProducts.scss"
 import Swal from 'sweetalert2'
-import { callApiFileProducts } from '../../services/callApiProducts'
+import { callApiPageProducts } from '../../services/callApiProducts'
 
 
-export const ShowMoreProducts = ({ setData, data, urlPage, setUrlPage }) => {
+export const ShowMoreProducts = ({ setData, urlPage, setUrlPage }) => {
 
     const handleClick = () => {
         if (urlPage) {
-            callApiFileProducts(urlPage)
+            callApiPageProducts(urlPage)
                 .then((newData) => {
                     if (newData.data && newData.data.length > 0) {
                         

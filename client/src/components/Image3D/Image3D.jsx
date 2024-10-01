@@ -16,7 +16,7 @@ const Image3D = ({ values, classname, setValues, urlPage, setUrlPage }) => {
                             <Stack key={i} sx={{ width: { xs: 115, sm: 245, md: 300 }, height: { xs: 115, sm: 245, md: 300 }, boxShadow: 3, borderRadius: 2 }}>
                                 {
                                     value.image && (
-                                        <ProductImage ProductId={value.nameFile} img={value.image} />
+                                        <ProductImage productId={value.nameFile} img={value.image} />
                                     )
                                 }
                             </Stack>)

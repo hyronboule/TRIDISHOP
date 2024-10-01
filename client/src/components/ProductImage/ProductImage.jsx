@@ -2,16 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const ProductImage = ({ img, ProductId }) => {
+const ProductImage = ({ img, productId }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/DetailProduct/${ProductId}`);
+        navigate(`/DetailProduct/${productId}`);
     }
     return (
 
         <img
-            key={ ProductId}
+            key={ productId}
             onClick={() => {
                handleClick()
             }}
