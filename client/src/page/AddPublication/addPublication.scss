@@ -11,9 +11,12 @@
 
 .textarea {
     width: 80%;
-    height: 120px;
+    height: 60px;
     max-width: 400px;
     padding: 10px 15px;
+    @media (min-width:900px) {
+        height: 120px;
+    }
 }
 
 
@@ -23,4 +26,12 @@
     bottom: 30px;
     right: 25px;
     
+}
+
+.labelAddFile{
+    border: 1px solid $backgroundGrey;
+    padding: 5px 20px;
+    font-size: 13px;
+    border-radius: 10px;
+    cursor: pointer;
 }

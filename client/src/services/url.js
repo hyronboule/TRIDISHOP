@@ -7,4 +7,5 @@ export const url = {
     userProducts : `${baseUrl}/products/productsUser`,
     userProfil : `${baseUrl}/profil/profilUser`,
     product : `${baseUrl}/products/detailProduct`,
+    upload : `${baseUrl}/products/upload`,
 }
