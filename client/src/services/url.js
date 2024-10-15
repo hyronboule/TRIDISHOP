@@ -9,4 +9,6 @@ export const url = {
     updateProfil : `${baseUrl}/profil/updateProfil`,
     product : `${baseUrl}/products/detailProduct`,
     upload : `${baseUrl}/products/upload`,
+    updateProduct: `${baseUrl}/products/updateProduct`,
+    deleteProduct: `${baseUrl}/products/deleteProductUser`,
 }

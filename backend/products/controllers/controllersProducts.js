@@ -197,7 +197,7 @@ const uniqueProductId = async (req, res) => {
         return res.status(400).json({ message: 'Missing product nameFile' });
     }
 
-    const { tags, description, download } = req.body;
+    const { tags, description, download, price } = req.body;
 
 
     try {
@@ -212,6 +212,7 @@ const uniqueProductId = async (req, res) => {
         };
         if (description !== undefined) product.description = description;
         if (download !== undefined) product.download = download;
+        if (price !== undefined) product.price = price;
 
 
         const updatedProduct = await product.save();

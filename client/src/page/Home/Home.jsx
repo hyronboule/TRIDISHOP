@@ -28,10 +28,10 @@ const Home = () => {
         <Grid container gap={3} direction="column" justifyContent="space-between" sx={{ padding: "0px 30px", paddingTop: 5 }} >
           <Grid item width={"100%"} sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: { xs: 2, sm: 3 } }} >
             <InputText placeholder={"Recherche..."} className={"inputHome"} icon={<SearchIcon sx={{ color: "white" }} />} />
-            <Select name={"Date"} values={[
+            {/* <Select name={"Date"} values={[
               { title: "Date", value: "" },
               { title: "Décroissant", value: "decr" },
-              { title: "Croissant", value: "incr" }]} />
+              { title: "Croissant", value: "incr" }]} /> */}
           </Grid>
           <Image3D
             values={data}

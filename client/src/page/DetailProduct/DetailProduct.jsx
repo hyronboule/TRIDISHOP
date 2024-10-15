@@ -6,13 +6,30 @@ import View3D from '../../components/View3D/View3D';
 import NavigationButton from '../../components/NavigationButton/NavigationButton';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { useUserContext } from '../../context/User';
+import ButtonUpdateProduct from '../../components/ButtonUpdateProduct/ButtonUpdateProduct.jsx';
 
 const DetailProduct = () => {
     const { productId } = useParams();
+    const [reload, setReload] = useState(false)
     const [product, setProduct] = useState();
     const { setProductShops } = useUserContext();
 
     useEffect(() => {
+        fetchDataProduct()
+    }, [productId]);
+
+    useEffect(() => {
+        if (reload) {
+            fetchDataProduct()
+            setReload(false)
+        }
+    },[reload]);
+
+    const addProduct = () => {
+        setProductShops((allProducts) => [...allProducts, product]);
+    }
+
+    const fetchDataProduct = () => {
         setProduct("");
         callApiDetailProduct(productId).then((data) => {
             if (data.data) {
@@ -21,17 +38,14 @@ const DetailProduct = () => {
         }).catch(err => {
             console.log("error, not found product detail:", err);
         });
-    }, [productId]);
 
-    const addProduct = () => {
-        console.log(product);
-        setProductShops((allProducts) => [...allProducts, product]);
     }
 
     return (
         <>
             {product && (
                 <Container className='page' maxWidth="100vw" sx={{ padding: { sm: "0px 40px 0px 0px", xs: "0 0 50px 0" }, minHeight: "100%" }}>
+                    <ButtonUpdateProduct name={product.pseudo} productId={product.nameFile} setReload={setReload} />
                     <NavigationButton url={"/"} />
                     <Grid container gap={3} width={{ xs: "90%", md: "85%" }} margin={"auto"} direction="column" color={"white"} justifyContent="space-between" fontSize={{ xs: "12px", sm: "14px" }} sx={{ padding: { md: "0 30px", xs: "0px 10px" }, paddingTop: { xs: 10, md: 15 } }}>
 

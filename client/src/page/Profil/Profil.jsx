@@ -69,12 +69,12 @@ const Profil = () => {
             )}
 
           </Grid>
-          <Grid item className='sidePadding' width={"100%"} sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: { xs: 2, sm: 3 } }} >
+          {/* <Grid item className='sidePadding' width={"100%"} sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: { xs: 2, sm: 3 } }} >
             <Select name={"Date"} values={[
               { title: "Date", value: "" },
               { title: "Décroissant", value: "decr" },
               { title: "Croissant", value: "incr" }]} />
-          </Grid>
+          </Grid> */}
 
           <Image3D classname="sidePadding"
             values={productsUser}

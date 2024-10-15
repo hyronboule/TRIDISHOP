@@ -7,6 +7,7 @@ import MenuICon from '../MenuIcon/MenuICon'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { colorVar } from "../../style/colorVar.js"
 import { useUserContext } from '../../context/User.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +30,7 @@ export const Navbar = () => {
             })
         }>
             <Container maxWidth="x1" sx={{ height: "100%", display: 'flex', justifyContent: "space-between", flexDirection: { sm: "column" }, padding: { xs: "0px 20px", sm: "30px 0" }, alignItems: "center" }}  >
-                <Stack direction={{ xs: "row", sm: "column" }} spacing={{ xs: 3, sm: 10 }} >
+                <Stack direction={{ xs: "row", sm: "column" }} spacing={{ xs: 2, sm: 10 }} >
                     <MenuICon icon={HomeIcon} path="/" />
                     <MenuICon
                         shopNumberProduct={productShops.length}
@@ -39,7 +40,11 @@ export const Navbar = () => {
                     <MenuICon icon={ContactSupportIcon} path="/PageSupport" />
                 </Stack>
 
-                <Stack direction={"row"} >
+                <Stack direction={{ xs: "row", sm: "column" }} spacing={2}>
+                    {
+                        !userLogin&&
+                            <MenuICon icon={LogoutRoundedIcon} logount={true} />
+                    }
                     <MenuICon icon={SettingsIcon} path="/Settings" verifCo={userLogin} />
                 </Stack>
 

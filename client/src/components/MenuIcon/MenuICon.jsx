@@ -2,15 +2,25 @@ import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { colorVar } from "../../style/colorVar.js"
 import { Stack } from '@mui/material';
+import { useUserContext } from '../../context/User.jsx';
 
 
-const MenuICon = ({ icon, path, verifCo, shopNumberProduct }) => {
+const MenuICon = ({ icon, path, verifCo, shopNumberProduct, logount }) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    const {setToken} = useUserContext();
+
     const onClick = () => {
-        verifCo ?
-            navigate('/login') :
-            navigate(path)
+        if (verifCo) {
+            navigate('/login')
+        }else{
+            if (logount) { 
+                navigate('/')
+                setToken()
+            }else{
+                navigate(path)
+            }
+        }   
     }
    
 
