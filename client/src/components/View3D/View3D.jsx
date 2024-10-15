@@ -39,9 +39,11 @@ const View3D = ({ modelUrl, moveBool }) => {
     return (
         <Canvas className='canva3D' style={{
             width: '100%',
-            height:'70%',
+            height:'65vw',
+            maxHeight: '500px',
+            minHeight:'400px'
         }}>
-            <ambientLight intensity={1} />
+            <ambientLight intensity={5} />
             <directionalLight position={[0, 15, 15]} intensity={3.0} />
             <Suspense>
                 {urlFile ? <Model url={urlFile} /> : <p>Loading the file URL...</p>}

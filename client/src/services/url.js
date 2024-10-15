@@ -6,6 +6,7 @@ export const url = {
     register : `${baseUrl}/auth/register`,
     userProducts : `${baseUrl}/products/productsUser`,
     userProfil : `${baseUrl}/profil/profilUser`,
+    updateProfil : `${baseUrl}/profil/updateProfil`,
     product : `${baseUrl}/products/detailProduct`,
     upload : `${baseUrl}/products/upload`,
 }

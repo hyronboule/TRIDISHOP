@@ -14,6 +14,12 @@ const UserProvider = ({ children }) => {
         pseudo: "",
         email: "",
     });
+    const [productShops, setProductShops] = useState([])
+
+    useEffect(() => {
+        console.log(productShops);
+        
+    },[productShops])
 
     useEffect(() => {
         if (token) {
@@ -54,7 +60,7 @@ const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ userLogin, setUserLogin, setToken, infoUser }}>
+        <UserContext.Provider value={{ userLogin, setUserLogin, setToken, infoUser, setProductShops,productShops }}>
             {children}
         </UserContext.Provider>
     );

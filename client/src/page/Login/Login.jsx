@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import logoTridi from '../../assets/logoTridi.png'
 import { callApiLogin } from '../../services/callApiUserAuth';
 import { useUserContext } from '../../context/User';
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const navigate = useNavigate()
@@ -16,14 +17,34 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !password) {
+      Swal.fire({
+        text: `Entrez un ${!email ? 'email' : 'password'} valide`,
+        icon: 'error',
+      })
+    }
+
+    if (!emailRegex.test(email)) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Format de l\'email incorrect'
+      })
+    }
+
     callApiLogin(email, password).then((data) => {
       if (data) {
         setToken(data.token)
         navigate('/Profil')
+      } else {
+        Swal.fire({
+          text: "L'utilisateur n'existe pas",
+          icon: 'error',
+        })
       }
     }).catch((error) => {
       console.error('Error during login API call:', error);
-      // return error popup
     })
   }
   return (

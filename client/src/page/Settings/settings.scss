@@ -1,0 +1,39 @@
+.settings{
+    &>h1{
+        color: white;
+        font-size: 25px;
+        text-align: start;
+        padding-left: 40px;
+        padding-bottom: 20px;
+        font-weight: 500;
+        text-decoration: underline;
+        letter-spacing: 2px;
+
+        @media (min-width: 700px) {
+            font-size: 30px;
+        }
+    }
+}
+
+.buttonSettings{
+    font-size: 14px;
+    width: fit-content;
+}
+
+.inputSettings{
+    font-size: 10px;
+
+    @media (min-width:600px) {
+        font-size: 13px;
+    }
+}
+.inputTextSettings{
+    width: 50%;
+    min-width: 400px;
+    margin-left: 20px;
+    margin-top: 10px;
+    @media (max-width:700px) {
+        width: 90%;
+        min-width: 100px;
+    }
+}

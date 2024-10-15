@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { url } from './url';
+import Swal from 'sweetalert2';
 
 export const callApiLogin = async (email, password) => {
     try {
@@ -29,5 +30,9 @@ export const callApiRegister = async (pseudo, email, password,date) => {
         }
     } catch (error) {
         console.error('Error during API call:', error);
+        Swal.fire({
+            icon: 'error',
+            text: "L'utilisateur existe déjà"
+          })
     }
 }

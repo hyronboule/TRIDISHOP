@@ -1,13 +1,14 @@
 const express = require('express');
 const app = express();
 const { connectDBProfil } = require('./config/db.js');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const profilRouter = require('./routes/ProfilRoutes')
 const dotenv = require('dotenv');
 dotenv.config()
 
 connectDBProfil();
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use("/",profilRouter)

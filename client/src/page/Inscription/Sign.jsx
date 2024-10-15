@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import logoTridi from '../../assets/logoTridi.png'
 import { callApiLogin, callApiRegister } from '../../services/callApiUserAuth';
 import { useUserContext } from '../../context/User';
+import Swal from 'sweetalert2';
 
 
 export const Sign = () => {
@@ -16,25 +17,41 @@ export const Sign = () => {
   const [date, setDate] = useState("");
   const [password, setPassword] = React.useState("");
   const [pseudo, setPseudo] = useState("");
-  const {setToken} = useUserContext()
+  const { setToken } = useUserContext()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    callApiRegister(pseudo, email, password,date).then((data)=>{
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !date || !password || !pseudo) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Remplissez tous les champs'
+      })
+    }
+
+    if (!emailRegex.test(email)) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Format de l\'email incorrect'
+      })
+    }
+
+    callApiRegister(pseudo, email, password, date).then((data) => {
       if (data) {
-        console.log(data);
-        callApiLogin(email,password).then((data)=>{
+        callApiLogin(email, password).then((data) => {
           if (data) {
             setToken(data.token);
             navigate('/Profil');
-          };
+          }
         }).catch((error) => {
+          
           console.error('Error during login API call:', error);
         })
       }
-    }).catch((error)=>{
-      console.error("error in registration api call",error);
-      // return error popup
+    }).catch((error) => {
+      console.error("error in registration api call", error);
     })
   }
   const formatDate = (newDate) => {
@@ -63,7 +80,7 @@ export const Sign = () => {
                 <InputText placeholder={"Pseudo..."} className={"inputSign"}
                   setValue={setPseudo} value={pseudo} />
                 <InputText placeholder={"Mot de passe..."} className={"inputSign"}
-                  setValue={setPassword} value={password} />
+                  setValue={setPassword} value={password} type="password" />
                 <input className='inputSign dateSign' type="date" id="dateBirth" name="dateBirth" value={date} min="1950-01-01" max="2020-12-31" onChange={(e) => {
                   setDate(e.target.value);
                 }} />

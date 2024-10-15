@@ -25,8 +25,27 @@
     }
 }
 
+input,
+label {
+    height: 40px;
+    padding: 0px 15px;
+    border: 1px solid $backgroundGrey;
+    border-radius: 10px;
+    background-color: $backgroundPaleGrey;
+}
+label{
+    padding: 5px;
+}
+
 .page {
     background: $backgroundLinearGradient;
+}
+
+.inputLogin {
+    
+    padding: 0px 15px;
+    width: 100%;
+    min-width: 50px;
 }
 
 .search {
@@ -48,12 +67,12 @@
     }
 }
 
-.inputText {
-    padding: 0px 15px;
-    width: 100%;
-    min-width: 50px;
-    border: 1px solid $backgroundGrey;
-}
+// .inputText {
+//     padding: 0px 15px;
+//     width: 100%;
+//     min-width: 50px;
+//     border: 1px solid $backgroundGrey;
+// }
 
 .select {
     padding: 2px 4px;
@@ -116,6 +135,13 @@
     }
 }
 
+.boutonShop {
+    position: inherit;
+    font-size: 16px;
+    width: 100px;
+    padding: 3px 17px;
+}
+
 .secondTitle {
     font-size: 30px;
     font-weight: bold;
@@ -141,4 +167,9 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.image3DShop {
+    box-shadow: none !important;
+    border: none !important;
 }

@@ -30,6 +30,14 @@ const MenuLinks = ({ links }) => {
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
+                sx={{
+                    '& .MuiMenuItem-root': {
+                        '&:hover': {
+                            backgroundColor: colorVar.backgroundPaleBlue, 
+                            color: 'white', 
+                        },
+                    },
+                }}
                 onClose={handleClose}
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
@@ -39,7 +47,7 @@ const MenuLinks = ({ links }) => {
                     links.map((link, index) => (
 
                         <MenuItem key={index} onClick={handleClose}>
-                            <a href={link.link}>{link.title}</a>
+                            <a href={link.link} target="_blank" rel="noopener noreferrer">{link.title}</a>
                         </MenuItem>
                     ))
                 }

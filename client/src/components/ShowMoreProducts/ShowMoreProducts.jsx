@@ -39,7 +39,7 @@ export const ShowMoreProducts = ({ setData, urlPage, setUrlPage }) => {
 
     return (
         <>
-            <button onClick={handleClick} className='buttonMoreProducts'>
+            <button onClick={handleClick} className='buttonMoreProducts' >
                 Voir plus...
             </button>
         </>

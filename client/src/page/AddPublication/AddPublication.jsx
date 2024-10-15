@@ -49,6 +49,12 @@ const AddPublication = () => {
             })
           )
         }).catch(err => console.error('not add a new product: ', err));
+        setDescription("")
+        setFile()
+        setFile2()
+        setPrice()
+        setTags("")
+        setDisplayImage()
       } else {
         Swal.fire({
           text: "Les tags doivent être séparés par une virgule, ne pas commencer ou finir par une virgule et les mots ne doivent pas contenir de caractère spéciaux.",

@@ -6,6 +6,7 @@
     background-color: $backgroundPaleGrey;
     max-width: 150px;
     min-width: 60px;
+    border: 1px solid $backgroundGrey;
 }
 
 
@@ -28,10 +29,3 @@
     
 }
 
-.labelAddFile{
-    border: 1px solid $backgroundGrey;
-    padding: 5px 20px;
-    font-size: 13px;
-    border-radius: 10px;
-    cursor: pointer;
-}

@@ -5,10 +5,12 @@ import { Container, Grid, Stack } from '@mui/material';
 import View3D from '../../components/View3D/View3D';
 import NavigationButton from '../../components/NavigationButton/NavigationButton';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import { useUserContext } from '../../context/User';
 
 const DetailProduct = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState();
+    const { setProductShops } = useUserContext();
 
     useEffect(() => {
         setProduct("");
@@ -21,17 +23,24 @@ const DetailProduct = () => {
         });
     }, [productId]);
 
+    const addProduct = () => {
+        console.log(product);
+        setProductShops((allProducts) => [...allProducts, product]);
+    }
+
     return (
         <>
             {product && (
                 <Container className='page' maxWidth="100vw" sx={{ padding: { sm: "0px 40px 0px 0px", xs: "0 0 50px 0" }, minHeight: "100%" }}>
-                    <NavigationButton url={"/"}/>
-                    <Grid container gap={3} width={{ xs: "90%", md: "85%" }} margin={"auto"} direction="column" color={"white"} justifyContent="space-between" fontSize={{ xs: "12px", sm: "14px" }} sx={{ padding: { md: "0 30px", xs: "0px 10px" }, paddingTop: { xs: 10, md: 5 } }} height={"100vh"}>
+                    <NavigationButton url={"/"} />
+                    <Grid container gap={3} width={{ xs: "90%", md: "85%" }} margin={"auto"} direction="column" color={"white"} justifyContent="space-between" fontSize={{ xs: "12px", sm: "14px" }} sx={{ padding: { md: "0 30px", xs: "0px 10px" }, paddingTop: { xs: 10, md: 15 } }}>
 
                         <View3D
                             modelUrl={product.file.fileUrl}
                             moveBool={true}
                         />
+
+
                         <Grid container direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
 
                             {product && (
@@ -43,11 +52,10 @@ const DetailProduct = () => {
                                     </Grid>
                                     <Grid container direction={"row"} gap={3} width={"20%"} justifyContent={"end"} alignItems={"center"} sx={{ height: "fit-content" }}>
                                         <p>{product.price} €</p>
-                                        <div onClick={()=>{
-                                            console.log("add product");
-                                            
+                                        <div onClick={() => {
+                                            addProduct()
                                         }}>
-                                            <LocalGroceryStoreIcon sx={{ fontSize: { xs: "25px", md: '30px' }, cursor:"pointer" }} />
+                                            <LocalGroceryStoreIcon sx={{ fontSize: { xs: "25px", md: '30px' }, cursor: "pointer" }} />
                                         </div>
 
                                     </Grid>
@@ -56,7 +64,8 @@ const DetailProduct = () => {
                         </Grid>
                         <Grid item>
                             <p style={{ textDecoration: "underline", paddingBottom: "10px" }}>Description:</p>
-                            <p>{product.description} </p>
+                            <p style={{ maxWidth: "50%", minWidth: '200px', whiteSpace: 'normal' }} >{product.description}
+                            </p>
                         </Grid>
                     </Grid>
                 </Container>
