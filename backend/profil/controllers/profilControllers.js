@@ -52,7 +52,7 @@ const addProfil = async (req, res) => {
 const updateProfil = async (req, res) => {
     try {
         const pseudo = req.params.pseudo;
-        const { contentType, links } = req.body;
+        const { contentType, links, paypalEmail } = req.body;
         const updateFields = {};
 
         if (req.file && req.file.buffer) {
@@ -61,6 +61,9 @@ const updateProfil = async (req, res) => {
 
         if (contentType) {
             updateFields.contentType = contentType || 'image/jpeg';
+        }
+        if (paypalEmail) {
+            updateFields.paypalEmail = paypalEmail || '';
         }
 
         if (links) {

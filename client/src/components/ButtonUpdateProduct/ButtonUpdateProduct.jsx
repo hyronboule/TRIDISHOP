@@ -3,9 +3,9 @@ import { Stack } from '@mui/material'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import './buttonUpdateProduct.scss';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
+// import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded';
 import { useUserContext } from '../../context/User';
-import reportForm from '../../services/reportProduct';
+// import reportForm from '../../services/reportProduct';
 import { updateProductForm } from '../../services/updateProduct';
 import { deleteConfirmation } from '../../services/deleteProduct';
 import { useNavigate } from 'react-router-dom';
@@ -36,20 +36,20 @@ const ButtonUpdateProduct = ({ name, productId, setReload }) => {
     });
   }
 
-  const reportProduct = () => {
-    // open a form for reporting
-    reportForm(nameFile)
+  // const reportProduct = () => {
+  //   // open a form for reporting
+  //   reportForm(nameFile)
 
-  }
+  // }
 
   return (
     <>
       <Stack position={'absolute'} right={"15vw"} top={45} display={'flex'} flexDirection={'row'} gap={2}>
-        <button className='buttonUpdateProduct' onClick={() => {
+        {/* <button className='buttonUpdateProduct' onClick={() => {
           reportProduct()
         }}>
           <WarningAmberRoundedIcon fontSize='small' />
-        </button>
+        </button> */}
         {
           nameUser === infoUser.pseudo && (
             <>

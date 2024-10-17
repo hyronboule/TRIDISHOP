@@ -50,7 +50,7 @@ const ShoppingCart = () => {
             >
               <h2 style={{ fontSize: 19, fontWeight: '500' }}>Informations :</h2>
               <Stack justifyContent={"space-between"} display={"flex"} flexDirection={"column"} height={"70%"}>
-                <InputText className={"inputLogin inputShop"} type={'text'} placeholder={"Email..."} value={email} setValue={setEmail} />
+                <InputText className={"inputLogin inputShop"} type={'text'} placeholder={"Email du paypal..."} value={email} setValue={setEmail} />
                 <InputText className={"inputLogin inputShop"} type={'text'} placeholder={"Nom, Prénom..."} value={name} setValue={setName} />
               </Stack>
 

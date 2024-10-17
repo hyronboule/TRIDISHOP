@@ -21,6 +21,7 @@ app.use("/api/auth",proxy(process.env.URL_AUTH))
 app.use("/api/admin",adminUser,proxy(process.env.URL_ADMIN))
 app.use("/api/products",proxy(process.env.URL_PRODUCTS,{parseReqBody: false}))
 app.use("/api/profil",proxy(process.env.URL_PROFIL,{parseReqBody: false}))
+app.use("/api/service",proxy(process.env.URL_SERVICE))
 
 // Démarrer le serveur
 app.listen(process.env.PORT, () => {

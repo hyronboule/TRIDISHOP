@@ -113,15 +113,15 @@ const AddPublication = () => {
 
             </Grid>
 
-            <Grid item width={{ xs: "100%", md: "50%" }} height={{ xs: "45%", md: "60%", lg: "80%" }} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"}>
-              <Stack sx={{ width: { sm: "100%", xs: "250px" }, maxWidth: "400px", height: { xs: "50%", sm: "60%" }, background: "grey", marginTop: "10px", borderRadius: 3 }}>
+            <Grid item width={{ xs: "100%", md: "50%" }} height={{ xs: "50%" ,md: "70%", lg: "90%" }} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"}>
+              <Stack sx={{ width: { sm: "280px", xs: "200px", md:"350px" }, height: { xs: "40%", sm: "120px", md:"140px" }, background: "grey", marginTop: "10px", borderRadius: 3 }}>
                 {
                   displayImage && (
                     <img alt="image" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} src={URL.createObjectURL(displayImage)} />
                   )
                 }
               </Stack>
-              <div>
+              <div style={{marginBottom:10}}>
                 <label htmlFor="file" className='labelAddFile'>{file?file.name:"Importer image (jpeg)..."}</label>
                 <input type="file" name="file" id="file" onChange={(e) => addFileInput(e, setFile, "jpeg")}  style={{ display: 'none' }}/>
               </div>
@@ -133,7 +133,7 @@ const AddPublication = () => {
 
               <p style={{ fontSize: "10px" }}>*choisissez votre image et le fichier3D... (obligatoire)</p>
             </Grid>
-            <button className='buttonValidation' onClick={() => {
+            <button className='buttonValidation buttonAddProduct' onClick={() => {
               handleClick()
             }}>Publier</button>
           </Grid>

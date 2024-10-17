@@ -113,6 +113,26 @@ services:
           target: /app/
         - action: rebuild
           path: ./backend/profil/package.json
+  
+  service:
+    build:
+      context: ./backend/service
+      dockerfile: Dockerfile
+    container_name: service
+    env_file:
+      - ./backend/service/.env
+    volumes:
+      - ./backend/service:/app
+    ports:
+      - "8085:8085"
+ 
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/service/
+          target: /app/
+        - action: rebuild
+          path: ./backend/service/package.json
 
 
   mongodb-auth:

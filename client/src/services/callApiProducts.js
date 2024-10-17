@@ -123,3 +123,21 @@ export const deleteProduct = async (nameFile) =>{
     }
     
 }
+
+export const callApiSearchProduct = async (search) => {
+    try {
+        const response = await axios.get(`${url.products}`, {
+            params: {
+                search: search 
+            }
+        });
+        console.log(response);
+        
+        if (response.status === 200) {
+            return response.data; 
+        }
+    } catch (error) { 
+        console.error('Error during API call:', error);
+        return null;
+    }
+};

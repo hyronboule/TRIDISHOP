@@ -13,29 +13,54 @@ dotenv.config()
 
 // get all products 
 const getProducts = async (req, res) => {
-    const limit = process.env.LIMIT;
+    const limit = parseInt(process.env.LIMIT) || 10;
     try {
         const page = parseInt(req.query.page) || 0;
         const skip = limit * page;
 
-        const products = await Product.find().skip(skip).limit(limit);
+       
+        const search = req.query.search ? req.query.search.trim() : '';
+
+        let products;
+
+        // If search is present, search by tags or nickname
+        if (search) {
+            products = await Product.find({
+                $or: [
+                    { tags: { $regex: search, $options: 'i' } }, // search with tags
+                    { pseudo: { $regex: search, $options: 'i' } } // search with pseudo
+                ]
+            }).skip(skip).limit(limit);
+        } else {
+            products = await Product.find().skip(skip).limit(limit);
+        }
+
+        
         if (products.length === 0) {
             return res.status(404).json({ message: 'No products found' });
         }
 
-        const totalProducts = await Product.countDocuments();
+        const totalProducts = await Product.countDocuments(search ? {
+            $or: [
+                { tags: { $regex: search, $options: 'i' } },
+                { pseudo: { $regex: search, $options: 'i' } }
+            ]
+        } : {});
 
         const totalPages = Math.ceil(totalProducts / limit);
 
+        
         if (page >= totalPages) {
             return res.status(404).json({ message: 'No more products found' });
         }
 
         const nextPage = page + 1 < totalPages ? page + 1 : null;
-        const nextPageUrl = nextPage !== null ? `${process.env.URI}/products?page=${nextPage}` : null;
+        const nextPageUrl = nextPage !== null ? `${process.env.URI}/products?page=${nextPage}&search=${search}` : null;
 
+      
         let newProducts = await loopProducts(products);
 
+        // Return data
         res.status(200).json({
             data: newProducts,
             urlPage: nextPageUrl,

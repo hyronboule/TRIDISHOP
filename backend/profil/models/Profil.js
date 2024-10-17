@@ -36,7 +36,12 @@ const profilSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'image/png'
-    }
+    },
+    paypalEmail: {
+        type: String,
+        required: true,
+        match: /.+@.+\..+/
+    },
 })
 
 const UserProfil = mongoose.model("UserProfil", profilSchema);

@@ -4,7 +4,7 @@
     height: 35px;
     border-radius: 10px;
     background-color: $backgroundPaleGrey;
-    max-width: 150px;
+    max-width: 85px;
     min-width: 60px;
     border: 1px solid $backgroundGrey;
 }
@@ -28,4 +28,9 @@
     right: 25px;
     
 }
+
+.buttonAddProduct{
+    bottom: 10px;
+}
+
 
