@@ -15,7 +15,7 @@ const ButtonUpdateProduct = ({ name, productId, setReload }) => {
   const { infoUser } = useUserContext()
   const [nameUser, setNameUser] = useState(name)
   const navigate = useNavigate()
-
+  
   const deleteProduct = () => {
     // open a form for delete product
     deleteConfirmation(productId).then((result)=>{
@@ -51,7 +51,7 @@ const ButtonUpdateProduct = ({ name, productId, setReload }) => {
           <WarningAmberRoundedIcon fontSize='small' />
         </button> */}
         {
-          nameUser === infoUser.pseudo && (
+          infoUser.pseudo && nameUser === infoUser.pseudo &&   (
             <>
               <button className='buttonUpdateProduct' onClick={() => {
                 deleteProduct()

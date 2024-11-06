@@ -8,6 +8,7 @@ connectDBAuth()
 
 // Middleware pour parser les requêtes en JSON
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 //routes
 app.use("/", authRouter)
 

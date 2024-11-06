@@ -9,7 +9,7 @@ export const UserContext = createContext();
 const UserProvider = ({ children }) => {
     const [userLogin, setUserLogin] = useState(false);
     const [token, setToken] = useState("")
-    const [parsedToken, setParsedToken] = useState(null);
+    // const [parsedToken, setParsedToken] = useState(null);
     const [infoUser, setInfoUser] = useState({
         pseudo: "",
         email: "",
@@ -17,15 +17,10 @@ const UserProvider = ({ children }) => {
     const [productShops, setProductShops] = useState([])
 
     useEffect(() => {
-        console.log(productShops);
-        
-    },[productShops])
-
-    useEffect(() => {
         if (token) {
             setUserLogin(false);
             const decodedToken = tokenParsed(token); 
-            setParsedToken(decodedToken);
+            // setParsedToken(decodedToken);
             
             if (decodedToken) {
                 setInfoUser({
@@ -55,12 +50,12 @@ const UserProvider = ({ children }) => {
 
         } catch (err) {
             console.error('Invalid token', err);
-            setParsedToken(null);
+            // setParsedToken(null);
         }
     };
 
     return (
-        <UserContext.Provider value={{ userLogin, setUserLogin, setToken, infoUser, setProductShops,productShops, }}>
+        <UserContext.Provider value={{ userLogin, setUserLogin, setToken, infoUser, setProductShops,productShops, setInfoUser}}>
             {children}
         </UserContext.Provider>
     );

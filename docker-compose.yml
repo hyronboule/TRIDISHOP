@@ -99,6 +99,7 @@ services:
     container_name: profil
     depends_on:
       - mongodb-profil
+      - auth
     env_file:
       - ./backend/profil/.env
     volumes:

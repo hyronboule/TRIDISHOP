@@ -33,7 +33,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/ShoppingCart" element={<ShoppingCart />} />
           <Route path="/AddPublication" element={<AddPublication />} />
-          <Route path="/Profil" element={<Profil />} />
+          <Route path="/Profil/:nameOtherUser?" element={<Profil />} />
           <Route path="/DetailProduct/:productId" element={<DetailProduct />} />
           <Route path="/Settings" element={<Settings />} />
           <Route path="/Sign" element={<Sign />} />

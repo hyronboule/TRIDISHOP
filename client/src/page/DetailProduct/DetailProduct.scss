@@ -1,0 +1,10 @@
+#buttonPseudoDetailProduct{
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+
+    &:hover{
+        text-decoration: underline;
+    }
+}

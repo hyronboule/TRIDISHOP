@@ -3,20 +3,32 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { colorVar } from "../../style/colorVar.js"
 import { Stack } from '@mui/material';
 import { useUserContext } from '../../context/User.jsx';
+import Swal from 'sweetalert2';
 
 
 const MenuICon = ({ icon, path, verifCo, shopNumberProduct, logount }) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const {setToken} = useUserContext();
+    const {setToken,setInfoUser} = useUserContext();
 
     const onClick = () => {
         if (verifCo) {
             navigate('/login')
         }else{
             if (logount) { 
+                Swal.fire({
+                    text: "Vous avez été déconnecté",
+                    icon: 'success',
+                    confirmButtonText: 'Ok',
+                    timer: 1500,
+                    showConfirmButton: false,
+                })
                 navigate('/')
                 setToken()
+                setInfoUser({
+                    pseudo: "",
+                    email: "",
+                })
             }else{
                 navigate(path)
             }

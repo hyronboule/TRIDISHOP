@@ -40,6 +40,9 @@ export const Sign = () => {
 
     callApiRegister(pseudo, email, password, date).then((data) => {
       if (data) {
+        // create profil
+        
+        // call api for login user
         callApiLogin(email, password).then((data) => {
           if (data) {
             setToken(data.token);

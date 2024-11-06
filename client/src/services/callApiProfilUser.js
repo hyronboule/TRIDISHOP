@@ -28,6 +28,9 @@ export const updatedUserProfil = async (data, name) => {
         if (data.image) {
             formData.append('image', data.image);
         }
+        if (data.paypalEmail) {
+            formData.append('paypalEmail', data.paypalEmail);
+        }
 
 
         const response = await axios.put(`${url.updateProfil}/${name}`, formData, {
@@ -50,4 +53,21 @@ export const updatedUserProfil = async (data, name) => {
     }
 
 
+}
+
+export const callApiCreateProfilUser = async (pseudo, email) =>{
+    try {
+        const formData = new FormData()
+        formData.append('pseudo', pseudo);
+        formData.append('paypalEmail', email);
+
+        const response = await axios.post(`${url.createProfil}`);
+
+        if (response.data) {
+            return response.data
+        }
+        
+    }catch(err){
+        console.error('Error during API call:', err);
+    }
 }

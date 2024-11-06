@@ -2,12 +2,14 @@ const paypal = require('paypal-rest-sdk');
 const dotenv = require('dotenv');
 const { paypalConfig } = require('../config/paypalConfig');
 dotenv.config();
+const path = require('path');
+
 
 const PORT = process.env.BASE_PORT;
 const sitePayPalId = process.env.PAYPAL_TRIDI; // paypal TRIDI
 
 const paypalPayement = (req, res) => {
-    const { payments, buyerId } = req.body; 
+    const { payments, buyerId } = req.body;
     if (!payments || payments.length === 0) {
         return res.status(400).json({ message: 'No payments provided' });
     }
@@ -16,7 +18,7 @@ const paypalPayement = (req, res) => {
 
     // Total amount with site fees
     const totalAmount = payments.reduce((sum, payment) => sum + parseFloat(payment.amount), 0);
-    const siteFee = (totalAmount * 0.05).toFixed(2); 
+    const siteFee = (totalAmount * 0.05).toFixed(2);
     const totalAmountWithFee = (totalAmount + parseFloat(siteFee)).toFixed(2);
 
     const paymentData = {
@@ -25,12 +27,12 @@ const paypalPayement = (req, res) => {
             payment_method: 'paypal',
         },
         redirect_urls: {
-            return_url: `http://localhost:${PORT}/api/service/successPayments?buyerId=${buyerId}&payments=${encodeURIComponent(JSON.stringify(payments))}`, 
-            cancel_url: `http://localhost:${PORT}/api/service/cancelPayments`, 
+            return_url: `http://localhost:${PORT}/api/service/successPayments?buyerId=${buyerId}&payments=${encodeURIComponent(JSON.stringify(payments))}`,
+            cancel_url: `http://localhost:${PORT}/api/service/cancelPayments`,
         },
         transactions: [{
             amount: {
-                total: totalAmountWithFee, 
+                total: totalAmountWithFee,
                 currency: 'EUR',
             },
             description: 'Achat des produits choisis',
@@ -55,7 +57,7 @@ const paypalPayement = (req, res) => {
 
 // cancel payment
 const cancelPayments = (req, res) => {
-    res.json({ message: 'Paiement annulé' });
+    res.sendFile(path.join(__dirname, '../html/renderCancelPaiement.html'))
 }
 
 // Success payment and paid seller and the fees to site
@@ -63,7 +65,7 @@ const successPayments = (req, res) => {
     const paymentId = req.query.paymentId;
     const payerId = { payer_id: req.query.PayerID };
 
-    const payments = JSON.parse(decodeURIComponent(req.query.payments)); 
+    const payments = JSON.parse(decodeURIComponent(req.query.payments));
 
     paypal.payment.execute(paymentId, payerId, (error, payment) => {
         if (error) {
@@ -73,7 +75,9 @@ const successPayments = (req, res) => {
                 if (!Array.isArray(payments) || payments.length === 0) {
                     return res.status(400).json({ message: 'No valid payments to distribute' });
                 }
-                distributePayments(payments, res); 
+                distributePayments(payments, res);
+                // displays page html
+                res.sendFile(path.join(__dirname, '../html/renderSucessPaiement.html'))
             } else {
                 res.status(400).json({ status: 203, message: 'Paiement non approuvé' });
             }
@@ -83,6 +87,7 @@ const successPayments = (req, res) => {
 
 // function paid seller and the fees to site
 const distributePayments = (payments, res) => {
+    let errorMessage = '';
     payments.forEach(paymentDetail => {
         const sellerPayment = {
             amount: paymentDetail.amount,
@@ -97,16 +102,16 @@ const distributePayments = (payments, res) => {
             items: [{
                 recipient_type: 'EMAIL',
                 amount: {
-                    value: parseFloat(sellerPayment.amount).toFixed(2), 
+                    value: parseFloat(sellerPayment.amount).toFixed(2),
                     currency: 'EUR',
                 },
-                receiver: sellerPayment.sellerPayPalId, 
+                receiver: sellerPayment.sellerPayPalId,
                 note: 'Félicitation pour votre vente!',
                 sender_item_id: 'item_1',
             }],
         };
 
-        // Payer les frais du site
+        // Pay the site fees
         const sitePayout = {
             sender_batch_header: {
                 sender_batch_id: Math.random().toString(36).substring(9),
@@ -115,31 +120,40 @@ const distributePayments = (payments, res) => {
             items: [{
                 recipient_type: 'EMAIL',
                 amount: {
-                    value: (parseFloat(sellerPayment.amount) * 0.05).toFixed(2), 
+                    value: (parseFloat(sellerPayment.amount) * 0.05).toFixed(2),
                     currency: 'EUR',
                 },
-                receiver: sitePayPalId, 
+                receiver: sitePayPalId,
                 note: 'Frais de service',
                 sender_item_id: 'service_fee',
             }],
         };
 
         // Create payment for seller
-        paypal.payout.create(payout, true, (error, payoutResponse) => {
-            if (error) {
-                return res.status(500).json({ message: 'Error distributing payment', error: error });
+        paypal.payout.create(payout, true
+                , (error, payoutResponse) => {
+                if (error) {
+                    errorMessage = error;
+                   return;
+                }
             }
-        });
+        );
 
         // Create payment for site fees
-        paypal.payout.create(sitePayout, true, (error, payoutResponse) => {
-            if (error) {
-                return res.status(500).json({ message: 'Error distributing site fees', error: error });
+        paypal.payout.create(sitePayout, true
+                , (error, payoutResponse) => {
+                if (error) {
+                    errorMessage = error;
+                    return;
+                }
             }
-        });
+        );
     });
+    if (errorMessage) {
+        return res.status(500).json({ message: 'Error distributing payment: ', error: errorMessage });
+    }
+    
 
-    res.json({ message: 'Achat réussi!' });
 }
 
 module.exports = {

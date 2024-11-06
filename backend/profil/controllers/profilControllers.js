@@ -25,7 +25,7 @@ const profilUser = async (req, res) => {
 
 const addProfil = async (req, res) => {
     try {
-        const { pseudo, image, contentType, links } = req.body;
+        const { pseudo, image, contentType, links, paypalEmail } = req.body;
 
         const existingUser = await UserProfil.findOne({ pseudo: pseudo });
 
@@ -37,7 +37,8 @@ const addProfil = async (req, res) => {
             pseudo: pseudo,
             image: image,
             contentType: contentType,
-            links: links
+            links: links,
+            paypalEmail : paypalEmail
         });
 
         const savedUserProfil = await newUserProfil.save();

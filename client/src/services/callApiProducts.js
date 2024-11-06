@@ -97,8 +97,10 @@ export const callApiUpdatePoducts = async (nameFile, data) => {
             data.tags.forEach(tag => {
                 formData.append('tags[]', tag);
             });
-        } else if (data.price) { 
+        } else if (data.price) {
             formData.append("price", data.price);
+        }else if (data.download) {
+            formData.append("download", data.download);
         }
 
         const response = await axios.put(`${url.updateProduct}/${nameFile}`, formData, {
@@ -106,7 +108,7 @@ export const callApiUpdatePoducts = async (nameFile, data) => {
                 "Content-Type": "multipart/form-data",
             }
         });
-       
+
         return response
 
     } catch (error) {
@@ -114,29 +116,29 @@ export const callApiUpdatePoducts = async (nameFile, data) => {
     }
 }
 
-export const deleteProduct = async (nameFile) =>{
+export const deleteProduct = async (nameFile) => {
     try {
         const response = await axios.delete(`${url.deleteProduct}/${nameFile}`)
         return response.status
     } catch (error) {
         console.error('Error during API call:', error);
     }
-    
+
 }
 
 export const callApiSearchProduct = async (search) => {
     try {
         const response = await axios.get(`${url.products}`, {
             params: {
-                search: search 
+                search: search
             }
         });
         console.log(response);
-        
+
         if (response.status === 200) {
-            return response.data; 
+            return response.data;
         }
-    } catch (error) { 
+    } catch (error) {
         console.error('Error during API call:', error);
         return null;
     }

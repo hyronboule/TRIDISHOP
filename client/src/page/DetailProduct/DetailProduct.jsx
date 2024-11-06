@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { callApiDetailProduct } from '../../services/callApiProducts';
 import { Container, Grid, Stack } from '@mui/material';
 import View3D from '../../components/View3D/View3D';
@@ -7,12 +7,14 @@ import NavigationButton from '../../components/NavigationButton/NavigationButton
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import { useUserContext } from '../../context/User';
 import ButtonUpdateProduct from '../../components/ButtonUpdateProduct/ButtonUpdateProduct.jsx';
+import '../DetailProduct/DetailProduct.scss';
 
 const DetailProduct = () => {
     const { productId } = useParams();
     const [reload, setReload] = useState(false)
     const [product, setProduct] = useState();
     const { setProductShops } = useUserContext();
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchDataProduct()
@@ -40,6 +42,9 @@ const DetailProduct = () => {
         });
 
     }
+    const navigateProfilUser = () => {
+        navigate(`/profil/${product.pseudo}`)
+    }
 
     return (
         <>
@@ -60,7 +65,11 @@ const DetailProduct = () => {
                             {product && (
                                 <>
                                     <Grid container direction={"row"} width={"50%"} alignItems={"center"} justifyContent={"space-between"} gap={2} sx={{ height: "fit-content" }} >
-                                        <p>@{product.pseudo.toUpperCase()}</p>
+                                        <button id='buttonPseudoDetailProduct'
+                                        onClick={()=>{
+                                            navigateProfilUser()
+                                        }}
+                                        >@{product.pseudo.toUpperCase()}</button>
                                         <p>{product.download} Téléchargements</p>
                                         <p>{product.date}</p>
                                     </Grid>

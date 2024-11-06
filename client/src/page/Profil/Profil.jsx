@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./profil.scss"
 import { Container, Grid, Stack } from '@mui/material'
+import { useParams } from 'react-router-dom'
 import { colorVar } from '../../style/colorVar.js';
 import Select from '../../components/Select/Select.jsx';
 import Image3D from '../../components/Image3D/Image3D.jsx';
@@ -13,34 +14,44 @@ import { apiCallUserProfil } from '../../services/callApiProfilUser.js';
 
 
 const Profil = () => {
-  const { infoUser } = useUserContext()
+  const { infoUser } = useUserContext() // user info who logged into the application
+  const {nameOtherUser} = useParams() // display other profil User with the name
   const [productsUser, setProductsUser] = useState()
   const [profilUser, setProfilUser] = useState()
   const [productPage, setProductPage] = useState()
+  
 
   useEffect(() => {
-    if (infoUser.pseudo) {
-      // retrieve the user's profile image
-      apiCallUserProfil(infoUser.pseudo).then((data) => {
-        if (data) {
-          setProfilUser(data)
-        }
-      }).catch((error) => {
-        console.error('Error fetching info user:', error);
-      })
-      // retrieve the user's products
-      callApiProductsUser(infoUser.pseudo).then((data) => {
-        if (data) {
-          setProductsUser(data.data)
-          
-          setProductPage(data.urlPage)
-        }
-      }).catch((error) => {
-        console.error('Error fetching products:', error);
-      })
+    if (nameOtherUser) {
+      callApiForRetrieveInfoUser(nameOtherUser)
+    }else{
+      callApiForRetrieveInfoUser(infoUser.pseudo)
     }
+  
    
-  }, [infoUser])
+  }, [infoUser,nameOtherUser])
+
+  const callApiForRetrieveInfoUser = (info) => { 
+     // retrieve the user's profile image
+     apiCallUserProfil(info).then((data) => {
+      if (data) {
+        setProfilUser(data)
+      }
+    }).catch((error) => {
+      console.error('Error fetching info user:', error);
+    })
+    // retrieve the user's products
+    callApiProductsUser(info).then((data) => {
+      if (data) {
+        setProductsUser(data.data)
+        
+        setProductPage(data.urlPage)
+      }
+    }).catch((error) => {
+      console.error('Error fetching products:', error);
+    })
+
+  }
 
   return (
     <>
@@ -52,7 +63,7 @@ const Profil = () => {
               {profilUser && <img className='imgProfile' src={profilUser.image} alt="image profile" />}
             </Stack>
 
-            <h2 id='titleProfil'>{`@${infoUser.pseudo}`}</h2>
+           { profilUser&& <h2 id='titleProfil'>{`@${profilUser.pseudo}`}</h2>}
             {profilUser && profilUser.links && (
               <MenuLinks links={[
                 profilUser.links.instagram && {
@@ -69,12 +80,6 @@ const Profil = () => {
             )}
 
           </Grid>
-          {/* <Grid item className='sidePadding' width={"100%"} sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: { xs: 2, sm: 3 } }} >
-            <Select name={"Date"} values={[
-              { title: "Date", value: "" },
-              { title: "Décroissant", value: "decr" },
-              { title: "Croissant", value: "incr" }]} />
-          </Grid> */}
 
           <Image3D classname="sidePadding"
             values={productsUser}
