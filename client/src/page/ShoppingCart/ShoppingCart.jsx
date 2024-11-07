@@ -164,10 +164,11 @@ const downaloadAndUpdateProduct = () => {
                   values={productShops.length > 0 ? productShops : 0}
                   displayShowMore={true} displayButtonDelete={true} />
               </Stack>
-              <Stack sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "end", alignItems: "end", gap: 3 }}>
+              <Stack sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "end", alignItems: "end", gap: 3, marginBottom:2 }}>
                 <p>Total: {productShops.length > 0 ? totalPrice() : 0} €</p>
                 <button className='buttonValidation boutonShop' onClick={() => handleClick()}>Payer</button>
               </Stack>
+              <p style={{fontSize:10}}>* Si le total dépasse 0 euro, des frais sont ajoutés égal à 5% du prix total</p>
             </Grid>
 
             <Grid item sx={{ background: colorVar.backgroundPaleGrey }} height={{ xs: "40%", md: "50%" }} width={{ xs: "100%", md: "45%" }} borderRadius={5}

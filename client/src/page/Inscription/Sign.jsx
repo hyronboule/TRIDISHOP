@@ -23,19 +23,30 @@ export const Sign = () => {
     e.preventDefault()
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
 
     if (!email || !date || !password || !pseudo) {
       Swal.fire({
         icon: 'error',
         text: 'Remplissez tous les champs'
       })
+      return;
     }
-
+    // test email regex
     if (!emailRegex.test(email)) {
       Swal.fire({
         icon: 'error',
         text: 'Format de l\'email incorrect'
       })
+      return;
+    }
+    // test password regex
+    if (!passwordRegex.test(password)) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Veuillez rentrer un mot de passe valide ! ( Contient au moins 1 lettre majucule , minuscule, 1 chiffre, 1 caractère  spécial et minimum de 8 caractères...)'
+      })
+      return;
     }
 
     callApiRegister(pseudo, email, password, date).then((data) => {
@@ -69,7 +80,7 @@ export const Sign = () => {
         <Stack className='logo' flexDirection={"row"} justifyContent={"space-evenly"} alignItems={'center'}>
           <h1 onClick={() => {
             navigate("/")
-          }}>TRIDI</h1>
+          }}>TRIDISHOP</h1>
           <img src={logoTridi} />
         </Stack>
         <Stack width={{ xs: "100vw", sm: "500px" }} height={{ xs: "450px" }} sx={{ backgroundColor: colorVar.backgroundPaleGrey, borderRadius: "20px" }}>

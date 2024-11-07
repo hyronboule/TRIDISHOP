@@ -53,7 +53,7 @@ const Login = () => {
         <Stack className='logo' flexDirection={"row"} justifyContent={"space-evenly"} alignItems={'center'}>
           <h1 onClick={() => {
             navigate("/")
-          }}>TRIDI</h1>
+          }}>TRIDISHOP</h1>
           <img src={logoTridi} />
         </Stack>
         <Stack width={{ xs: "100%", sm: "500px" }} height={{ xs: "450px" }} sx={{ backgroundColor: colorVar.backgroundPaleGrey, borderRadius: "20px" }}>

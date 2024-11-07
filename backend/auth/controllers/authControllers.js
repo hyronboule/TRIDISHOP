@@ -29,6 +29,7 @@ const register = async (req, res) => {
         let { date } = req.body; 
 
         const newUser = new User({ pseudo, email, password, date, role });
+
         const savedUser = await newUser.save();
 
         res.status(201).json(savedUser);
