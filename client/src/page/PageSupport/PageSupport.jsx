@@ -59,6 +59,7 @@ const PageSupport = () => {
             <p>
               Bienvenue sur la page support. Pour toute aide , veuillez adresser
               un message à l'adresse mail suivante :
+              (pour une suppression de compte veuillez nous adresser la demande)
             </p>
             <a
               style={{ color: "#0057c7", textDecoration: "underline" }}
