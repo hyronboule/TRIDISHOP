@@ -7,14 +7,21 @@ import Swal from 'sweetalert2';
 import InputText from '../../components/InputText/InputText';
 import { updatedUserProfil } from '../../services/callApiProfilUser.js';
 import { useUserContext } from '../../context/User.jsx';
+import { updateNameUserAllProducts } from '../../services/callApiProducts.js';
+import { callApiUpdateUserAuth } from '../../services/callApiUserAuth.js';
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
 
   const [image, setImage] = useState()
   const [linkInstagram, setLinkInstagram] = useState()
+  const [newPseudo, setNewPseudo] = useState("")
+  const [newEmail, setNewEmail] = useState("")
   const [linkFacebook, setLinkFacebook] = useState()
   const [paypalEmail, setPaypalEmail] = useState()
-  const { infoUser } = useUserContext()
+  const [newPassword, setNewPassword] = useState("")
+  const { infoUser, setToken } = useUserContext()
+  const navigate = useNavigate()
 
   const addImage = (e) => {
     if (e.target.files[0]) {
@@ -41,10 +48,19 @@ const Settings = () => {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
   };
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/
+    return regex.test(password);
+  }
 
-  const upadateInfoUser = () => {
-    if (verifyData()){
-      return ;
+  const validatePseudo = (pseudo) => {
+    const regex = /^[a-zA-Z0-9]+$/;
+    return regex.test(pseudo);
+  }
+
+  const upadateInfoUserProfil = () => {
+    if (verifyData()) {
+      return;
     }
 
     let data = {
@@ -92,6 +108,104 @@ const Settings = () => {
     }
     return false;
   }
+  const updatedUser = async () => {
+    if (newEmail && !validateEmail(newEmail)) {
+      Swal.fire({
+        text: "Veuillez renseigner une email valide.",
+        icon: 'error',
+      })
+      return;
+    }
+    if (newPassword && !validatePassword(newPassword)) {
+      Swal.fire({
+        text: "Veuillez renseigner une mot de passe valide.",
+        icon: 'error',
+      })
+      return;
+    }
+    if (newPseudo && !validatePseudo(newPseudo)) {
+      Swal.fire({
+        text: "Veuillez renseigner une pseudo valide.",
+        icon: 'error',
+      })
+      return;
+    }
+    let pseudoUser = infoUser.pseudo
+    let emailUser = infoUser.email
+    let hasError = false;
+    let hasUpdate = false;
+
+    if (newPseudo) {
+      let data = { pseudo: newPseudo }; 
+
+      try {
+        const response = await callApiUpdateUserAuth(data, emailUser);
+
+        if (response.status === 400) {
+          Swal.fire({
+            title: "Erreur sur le pseudo",
+            text: response.message,
+            icon: "error",
+          });
+          hasError = true;
+        } else {
+          await updatedUserProfil(data, pseudoUser);
+          await updateNameUserAllProducts(pseudoUser, newPseudo);
+          hasUpdate = true;
+        }
+      } catch (err) {
+        console.error("Erreur lors de la mise à jour du pseudo :", err);
+        hasError = true;
+      }
+    }
+
+
+    if (newEmail || newPassword) {
+      let data = {};
+      if (newEmail) data.newEmail = newEmail;
+      if (newPassword) data.password = newPassword;
+
+      try {
+        const response = await callApiUpdateUserAuth(data, emailUser);
+
+        if (response.status === 400) {
+          Swal.fire({
+            title: "Erreur sur l'email ou le mot de passe",
+            text: response.message,
+            icon: "error",
+          });
+          hasError = true;
+        } else {
+          hasUpdate = true;
+        }
+      } catch (err) {
+        console.error("Erreur lors de la mise à jour de l'email ou du mot de passe :", err);
+        hasError = true;
+      }
+    }
+
+    if (hasUpdate) {
+      Swal.fire({
+        title: "Données mises à jour avec succès.",
+        text: hasError
+          ? "Certaines modifications ont échoué. Reconnexion obligatoire pour appliquer les changements réussis."
+          : "Reconnexion obligatoire pour appliquer les changements.",
+        icon: "success",
+      });
+
+      setNewPseudo("");
+      setNewEmail("");
+      setNewPassword("");
+
+      setToken();
+      navigate("/Login");
+    } else if (!hasError) {
+      Swal.fire({
+        title: "Aucune modification effectuée.",
+        icon: "info",
+      });
+    }
+  };
 
   return (
     <Container className='page settings'
@@ -100,7 +214,11 @@ const Settings = () => {
       <NavigationButton url={'/'} />
       <h1>Settings :</h1>
 
-      <Stack sx={{ background: colorVar.backgroundPaleGrey, width: { xs: '70vw', md: '80vw' }, height: { xs: '70vh', md: '60vh' }, borderRadius: "20px", padding: { xs: '0 20px', sm: '0 50px' } }} flexDirection={'column'} justifyContent={'space-between'} >
+      <Stack sx={{
+        background: colorVar.backgroundPaleGrey, width: { xs: '70vw', md: '80vw' },
+        //  height: { xs: '70vh', md: '60vh' },
+        borderRadius: "20px", padding: { xs: '0 20px', sm: '0 50px' }
+      }} flexDirection={'column'} justifyContent={'space-between'} gap={2} >
 
         <Grid display={'flex'} flexDirection={'row'} alignItems={'center'} justifyContent={{ xs: 'center', md: 'start' }} width={'100%'} height={200} flexWrap={'wrap'} gap={{ xs: 2, sm: 5 }}>
           <Stack sx={{ width: { sm: "100%", xs: "250px" }, maxWidth: "200px", height: { xs: "50%", sm: "60%" }, background: "grey", marginTop: "10px", borderRadius: 3 }}>
@@ -119,24 +237,36 @@ const Settings = () => {
               }} style={{ display: 'none' }} />
           </div>
         </Grid>
-
+        <Stack>
+          <p style={{ textAlign: 'start', textDecoration: 'underline' }}>Vos informations personnelles:</p>
+          <InputText placeholder={'Pseudo'} className={'inputTextSettings'} disabled value={newPseudo} setValue={setNewPseudo} />
+          <InputText placeholder={'Email'} className={'inputTextSettings'} disabled value={newEmail} setValue={setNewEmail} />
+          <InputText placeholder={'Mot de passe'} className={'inputTextSettings'} disabled value={newPassword} setValue={setNewPassword} type={'password'} />
+        </Stack>
         <Stack>
           <p style={{ textAlign: 'start', textDecoration: 'underline' }}>Liens de profil:</p>
           <InputText placeholder={'Rentrez un lien instagram...'} className={'inputTextSettings'}
             value={linkInstagram} setValue={setLinkInstagram} />
           <InputText placeholder={'Rentrez un lien facebook...'} className={'inputTextSettings'}
             value={linkFacebook} setValue={setLinkFacebook} />
+        </Stack>
+        <Stack>
+          <p style={{ textAlign: 'start', textDecoration: 'underline' }}>Modifier email Paypal du compte: </p>
           <InputText placeholder={'Rentrez votre email Paypal...'} className={'inputTextSettings'}
             value={paypalEmail} setValue={setPaypalEmail} />
         </Stack>
 
         <button className='buttonValidation buttonSettings' style={{ position: 'inherit', margin: '20px 0px', marginLeft: 'auto' }} onClick={() => {
-          linkInstagram || linkFacebook || image || paypalEmail ? upadateInfoUser() :
+          linkInstagram || linkFacebook || image || paypalEmail ? upadateInfoUserProfil() :
             Swal.fire({
-              text: "Veuillez renseigner au moins un lien d'instagram ou facebook ou une image de profil.",
+              text: "Veuillez renseigner au moins une information à modifier",
               icon: 'error',
             })
-
+          newPseudo || newEmail || newPassword ? updatedUser() :
+            Swal.fire({
+              text: "Veuillez renseigner au moins une information à modifier",
+              icon: 'error',
+            })
         }}>Valider</button>
       </Stack>
     </Container>

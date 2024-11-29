@@ -38,10 +38,10 @@ const MenuICon = ({ icon, path, verifCo, shopNumberProduct, logount }) => {
 
     return (
         <>
-            {React.createElement(icon, { onClick, sx: { color: pathname === path ? colorVar.backgroundPaleBlue : "white", height: "auto"} })}
+            {React.createElement(icon, { onClick, sx: { color: pathname === path ? colorVar.backgroundPaleBlue : "white", height: "auto", fontSize:"23px"} })}
             {shopNumberProduct > 0 && <Stack sx={{ 
                 position: 'absolute',
-                top: {xs:20,sm:70}, right: {sm: 3},left:{xs:60, sm: 'auto'},
+                top: {xs:20,sm:58}, right: {sm: 3},left:{xs:50, sm: 'auto'},
             backgroundColor: 'red', color: 'white', padding: '2px 5px', borderRadius: '100%', fontSize: 10 }}>{shopNumberProduct}</Stack>}
         </>
     )

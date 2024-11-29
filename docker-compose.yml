@@ -6,6 +6,8 @@ services:
     container_name: client-tridi
     ports:
       - "8080:8080"
+    # command: sh -c "npm run test && npm run dev"
+
   
 
   api-gateway:
@@ -37,6 +39,8 @@ services:
     container_name: auth
     depends_on:
       - mongodb-auth
+    ports:
+      - "8081:8081"
     env_file:
       - ./backend/auth/.env
  
@@ -59,7 +63,8 @@ services:
       - mongodb-auth
     env_file:
       - ./backend/admin/.env
- 
+    ports:
+      - "8082:8082"
     develop:
       watch:
         - action: sync
@@ -134,6 +139,37 @@ services:
           target: /app/
         - action: rebuild
           path: ./backend/service/package.json
+    
+  test:
+    build:
+      context: ./backend/testApi
+      dockerfile: Dockerfile
+    container_name: test
+    depends_on:
+      - service
+      - profil
+      - products
+      - api-gateway
+      - auth
+    volumes:
+      - ./backend/testApi:/app
+    develop:
+        watch:
+          - action: sync
+            path: ./backend/testApi/
+            target: /app/
+          - action: rebuild
+            path: ./backend/testApi/package.json
+    env_file:
+      - ./backend/testApi/.env.test
+    command: >
+      ./wait-for-it.sh auth:8081 -- 
+      ./wait-for-it.sh service:8085 -- 
+      ./wait-for-it.sh profil:8084 -- 
+      ./wait-for-it.sh products:8083 -- 
+      ./wait-for-it.sh api-gateway:3000 -- 
+      npm test
+
 
 
   mongodb-auth:

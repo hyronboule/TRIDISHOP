@@ -4,7 +4,10 @@ const dotenv = require('dotenv');
 const authRouter = require('./routes/authRoutes.js');
 const { connectDBAuth } = require('./config/db.js');
 dotenv.config()
+
 connectDBAuth()
+
+
 
 // Middleware pour parser les requêtes en JSON
 app.use(express.json());

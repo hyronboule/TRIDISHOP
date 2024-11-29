@@ -16,7 +16,7 @@ export const callApiLogin = async (email, password) => {
     }
 };
 
-export const callApiRegister = async (pseudo, email, password,date) => {
+export const callApiRegister = async (pseudo, email, password, date) => {
 
     try {
         const result = await axios.post(url.register, {
@@ -33,6 +33,26 @@ export const callApiRegister = async (pseudo, email, password,date) => {
         Swal.fire({
             icon: 'error',
             text: "L'utilisateur existe déjà"
-          })
+        })
     }
 }
+
+export const callApiUpdateUserAuth = async (data, email) => {
+    try {
+        const requestBody = {
+            email,
+            ...data,
+        };
+        const response = await axios.put(url.updateUserAuth, requestBody);
+
+        return response.data;
+    } catch (error) {
+        if (error.response.status === 400) {
+
+            return {status: 400,message : "Email ou pseudo déjà utilisé"};
+        } else {
+            console.error('Error updating user info:', error.response?.data || error.message);
+            throw error;
+        }
+    }
+};

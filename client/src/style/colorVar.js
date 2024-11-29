@@ -11,8 +11,8 @@ export const colorVar = {
     
     // font
     
-    kufam : "'Kufam', sans-serif",
-    reem : "'Reem Kufi', sans-serif",
+    font1 : "'Lexend', sans-serif",
+    font2 : "'Reem Kufi', sans-serif",
     
     // gradient / shadow
     

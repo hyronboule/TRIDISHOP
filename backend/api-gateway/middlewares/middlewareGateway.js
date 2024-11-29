@@ -16,7 +16,6 @@ const adminUser = async (req, res, next) => {
             const role = response.data.role;
            
             if (role === 'admin') {
-                // res.status(200).json({message: "Role admin: accès à l'admin"});
                 next();
             } else {
                 res.status(403).json({ message: "Vous n'avez pas accès à l'espace admin de l'api" });

@@ -14,9 +14,10 @@ router.get("/displayFile/:id", controllersProducts.displayFile)
 router.get("/productsUser", controllersProducts.getUserProducts)
 router.get("/detailProduct/:id", controllersProducts.getDetailProduct)
 router.delete("/deleteProductUser/:id", controllersProducts.deleteProductUser)
+router.delete("/deleteAllProductUser/:pseudo", controllersProducts.deleteAllProductUser)
 router.put("/updateProduct/:id", upload.none(), controllersProducts.uniqueProductId)
+router.put("/updateNameUserAllProduct", upload.none(), controllersProducts.updateNameUserAllProducts)
 router.post("/upload", upload.array('files',2), controllersProducts.newProduct)
-
 
 
 

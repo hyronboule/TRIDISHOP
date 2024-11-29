@@ -99,7 +99,7 @@ export const callApiUpdatePoducts = async (nameFile, data) => {
             });
         } else if (data.price) {
             formData.append("price", data.price);
-        }else if (data.download) {
+        } else if (data.download) {
             formData.append("download", data.download);
         }
 
@@ -141,5 +141,20 @@ export const callApiSearchProduct = async (search) => {
     } catch (error) {
         console.error('Error during API call:', error);
         return null;
+    }
+};
+
+export const updateNameUserAllProducts = async (name, pseudo) => {
+    try {
+        const response = await axios.put(url.updateNameUserAllProduct, null, {
+            params: {
+                name,
+                pseudo,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating user name:', error.response?.data || error.message);
+        throw error;
     }
 };

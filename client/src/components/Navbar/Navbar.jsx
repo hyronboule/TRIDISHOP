@@ -11,6 +11,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { colorVar } from "../../style/colorVar.js"
 import { useUserContext } from '../../context/User.jsx';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/logoTridi.png'
 
 
 
@@ -29,8 +30,14 @@ export const Navbar = () => {
                 }
             })
         }>
-            <Container maxWidth="x1" sx={{ height: "100%", display: 'flex', justifyContent: "space-between", flexDirection: { sm: "column" }, padding: { xs: "0px 20px", sm: "30px 0" }, alignItems: "center" }}  >
-                <Stack direction={{ xs: "row", sm: "column" }} spacing={{ xs: 2, sm: 10 }} >
+            <Container maxWidth="x1" sx={{ height: "100%", display: 'flex', flexDirection: { sm: "column" }, padding: { xs: "0px 10px", sm: "20px 0" }, alignItems: "center" }}  >
+               
+                {/* <img style={{ width: '30px', height: 'auto' }} src={logo} /> */}
+                
+                <Stack direction={{ xs: "row", sm: "column" }} 
+                // marginTop={{xs:0,sm:5}} marginLeft={{xs:2,sm:0}} 
+                spacing={{ xs: 2, sm: 10 }} >
+
                     <MenuICon icon={HomeIcon} path="/" />
                     <MenuICon
                         shopNumberProduct={productShops.length}
@@ -40,10 +47,10 @@ export const Navbar = () => {
                     <MenuICon icon={ContactSupportIcon} path="/PageSupport" />
                 </Stack>
 
-                <Stack direction={{ xs: "row", sm: "column" }} spacing={2}>
+                <Stack marginLeft={{xs:'auto', sm:0}} marginTop={{xs:0,sm:'auto'}} direction={{ xs: "row", sm: "column" }} spacing={2}>
                     {
-                        !userLogin&&
-                            <MenuICon icon={LogoutRoundedIcon} logount={true} />
+                        !userLogin &&
+                        <MenuICon icon={LogoutRoundedIcon} logount={true} />
                     }
                     <MenuICon icon={SettingsIcon} path="/Settings" verifCo={userLogin} />
                 </Stack>

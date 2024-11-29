@@ -1,0 +1,94 @@
+CONDITIONS GÉNÉRALES DE VENTE (CGV)
+Dernière mise à jour : 28/11/2024
+
+Bienvenue sur TRDISHOP ! Les présentes Conditions Générales de Vente (CGV) définissent les règles applicables aux transactions réalisées sur notre plateforme. 
+En effectuant un achat ou une vente sur TRDISHOP, vous acceptez les termes des présentes CGV.
+
+1. OBJET DES CGV
+
+Les présentes CGV régissent les relations entre :
+- Les acheteurs, utilisateurs de la plateforme pour l'acquisition de modèles 3D.
+- Les vendeurs, créateurs proposant leurs modèles 3D à la vente.
+- La plateforme TRDISHOP, agissant comme intermédiaire technique.
+
+Ces conditions s’appliquent à toutes les ventes effectuées sur TRDISHOP.
+
+2. ACCÈS ET INSCRIPTION
+
+2.1. Accès à la plateforme  
+L'achat de modèles 3D peut être effectué sans inscription pour des achats ponctuels. 
+Cependant, l'inscription permet de créer un profil de type vitrine, où les utilisateurs peuvent afficher leurs modèles 3D pour les partager ou les vendre.
+
+2.2. Création de compte pour les vendeurs  
+Les vendeurs doivent créer un compte en fournissant des informations exactes et à jour.
+
+3. PROCESSUS DE COMMANDE
+
+3.1. Sélection des produits  
+L'acheteur sélectionne les modèles 3D qu'il souhaite acheter, ajoute ceux-ci au panier, puis procède au paiement via PayPal.
+
+3.2. Confirmation de commande  
+Une fois le paiement validé, l'acheteur reçoit via un dossier ZIP téléchargé contenant les modèles.
+
+3.3. Livraison  
+Les modèles 3D sont livrés sous forme de fichier ZIP téléchargé immédiatement après validation du paiement.
+
+4. TARIFS ET FRAIS
+
+4.1. Tarification des produits  
+Les prix des modèles 3D sont fixés par les vendeurs et affichés en euros (€).
+
+4.2. Frais de service  
+- TRDISHOP applique des frais de 5 % du prix total de la commande.
+- Ces frais sont ajoutés au montant payé par l’acheteur.
+
+Exemple :  
+- Prix fixé par le vendeur : 100 €  
+- Frais TRDISHOP (5 %) : 5 €  
+- Montant payé par l’acheteur : 105 €  
+- Montant reçu par le vendeur : 100 €
+
+4.3. Paiement au vendeur  
+Le montant total (hors frais TRDISHOP) est versé au vendeur via PayPal.
+
+5. DROIT DE RÉTRACTATION
+
+5.1. Exclusion du droit de rétractation  
+Conformément à l’article L221-28 du Code de la consommation, le droit de rétractation ne s’applique pas aux contenus numériques fournis immédiatement après le paiement.
+
+5.2. Téléchargement irréversible  
+Une fois le modèle téléchargé, l'achat est définitif et aucun remboursement ne sera effectué.
+
+6. RESPONSABILITÉS
+
+6.1. Rôle de TRDISHOP  
+TRDISHOP agit uniquement en tant qu'intermédiaire technique entre acheteurs et vendeurs.
+- La responsabilité de la qualité, de la conformité et de l’exactitude des descriptions des modèles incombe aux vendeurs.
+
+6.2. Litiges entre acheteurs et vendeurs  
+En cas de problème, les utilisateurs doivent régler leurs différends directement entre eux. TRDISHOP n’intervient pas dans les litiges, sauf en cas de manquement prouvé à ses propres obligations.
+
+7. PROPRIÉTÉ INTELLECTUELLE
+
+7.1. Garanties des vendeurs  
+Les vendeurs garantissent qu’ils disposent des droits nécessaires pour vendre les modèles publiés sur TRDISHOP.
+
+7.2. Utilisation par les acheteurs  
+L'achat d'un modèle 3D confère à l’acheteur une licence d’utilisation personnelle. Toute revente ou redistribution est strictement interdite, sauf accord spécifique du vendeur.
+
+8. DONNÉES PERSONNELLES
+
+Les données des utilisateurs sont collectées et traitées conformément au Règlement Général sur la Protection des Données (RGPD).  
+Pour plus d'informations, consultez notre Politique de Confidentialité.
+
+9. MODIFICATION DES CGV
+
+TRDISHOP se réserve le droit de modifier les présentes CGV à tout moment.  
+Les utilisateurs seront informés des modifications via un avis sur le site. Les CGV en vigueur au moment de la commande restent applicables.
+
+10. LOI APPLICABLE ET JURIDICTION
+
+Les présentes CGV sont régies par le droit français.  
+En cas de litige, les tribunaux compétents sont ceux situés dans la juridiction du siège social de TRDISHOP.
+
+EN UTILISANT TRDISHOP, VOUS ACCEPTEZ CES CONDITIONS GÉNÉRALES DE VENTE.

@@ -12,5 +12,6 @@ const upload = multer({
 router.get("/profilUser/:pseudo", controllers.profilUser )
 router.post("/addProfil",upload.single('image') ,controllers.addProfil)
 router.put("/updateProfil/:pseudo",upload.single('image') ,controllers.updateProfil)
+router.delete("/deleteProfil/:pseudo",upload.none(),controllers.deleteProfil)
 
 module.exports = router;

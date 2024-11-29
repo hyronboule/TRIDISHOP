@@ -1,4 +1,7 @@
 const User = require('../models/User');
+const axios = require('axios');
+const dotenv = require('dotenv');
+dotenv.config()
 
 // controllers for interacting to database authentication 
 
@@ -34,19 +37,39 @@ const getUser = async (req, res) => {
 }
 
 // delete a user with id
+
 const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id;
 
-        // Suppression de l'utilisateur
-        const user = await User.findByIdAndDelete(userId);
-
+        // find user with id
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: `User not found ${userId}` });
-        } else {
-            res.status(200).json({ message: 'User deleted successfully' });
         }
 
+        // delete all products of user
+        try {
+            const productsResponse = await axios.delete(`${process.env.URL_DELETE_ALL_PRODUCT_USER}${user.pseudo}`);
+            console.log('Products deletion response:', productsResponse.data);
+        } catch (error) {
+            console.error('Error deleting user products:', error.message);
+            return res.status(500).json({ message: 'Failed to delete user products', error: error.message });
+        }
+
+        // delete Profil
+        try {
+            const profileResponse = await axios.delete(`${process.env.URL_DELETE_PROFIL}${user.pseudo}`);
+            console.log('Profile deletion response:', profileResponse.data);
+        } catch (error) {
+            console.error('Error deleting user profile:', error.message);
+            return res.status(500).json({ message: 'Failed to delete user profile', error: error.message });
+        }
+
+        // delete user of the database auth
+        await User.findByIdAndDelete(userId);
+
+        return res.status(200).json({ message: 'User, associated products, and profile deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }

@@ -27,8 +27,6 @@ const Profil = () => {
     }else{
       callApiForRetrieveInfoUser(infoUser.pseudo)
     }
-  
-   
   }, [infoUser,nameOtherUser])
 
   const callApiForRetrieveInfoUser = (info) => { 

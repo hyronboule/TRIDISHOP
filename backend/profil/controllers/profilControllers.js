@@ -38,7 +38,7 @@ const addProfil = async (req, res) => {
             image: image,
             contentType: contentType,
             links: links,
-            paypalEmail : paypalEmail
+            paypalEmail: paypalEmail
         });
 
         const savedUserProfil = await newUserProfil.save();
@@ -53,8 +53,17 @@ const addProfil = async (req, res) => {
 const updateProfil = async (req, res) => {
     try {
         const pseudo = req.params.pseudo;
-        const { contentType, links, paypalEmail } = req.body;
+        const { contentType, links, paypalEmail, newPseudo } = req.body;
         const updateFields = {};
+
+        if (newPseudo) {
+            const existingProduct = await UserProfil.findOne({ pseudo: newPseudo });
+            if (existingProduct) {
+                return res.status(400).send({
+                    message: "The new pseudo is already in use in the products collection",
+                });
+            }
+        }
 
         if (req.file && req.file.buffer) {
             updateFields.image = req.file.buffer;
@@ -66,10 +75,13 @@ const updateProfil = async (req, res) => {
         if (paypalEmail) {
             updateFields.paypalEmail = paypalEmail || '';
         }
+        if (newPseudo) {
+            updateFields.pseudo = newPseudo || '';
+        }
 
         if (links) {
             if (links.instagram && isValidUrl(links.instagram)) {
-                updateFields.links = updateFields.links || {}; 
+                updateFields.links = updateFields.links || {};
                 updateFields.links.instagram = links.instagram;
             } else if (links.instagram) {
                 return res.status(400).json({ message: 'Le lien Instagram doit commencer par http:// ou https://' });
@@ -77,7 +89,7 @@ const updateProfil = async (req, res) => {
             }
 
             if (links.facebook && isValidUrl(links.facebook)) {
-                updateFields.links = updateFields.links || {}; 
+                updateFields.links = updateFields.links || {};
                 updateFields.links.facebook = links.facebook;
             } else if (links.facebook) {
                 return res.status(400).json({ message: 'Le lien Facebook doit commencer par http:// ou https://' });
@@ -103,11 +115,30 @@ const updateProfil = async (req, res) => {
     }
 };
 
+const deleteProfil = async (req, res) => {
+    const pseudo = req.params.pseudo;
+    if (!pseudo) {
+        return res.status(400).json({ message: 'Missing pseudo parameter' });
+    }
+    try {
+        const user = await UserProfil.findOneAndDelete({ pseudo });
+
+        if (!user) {
+            return res.status(404).json({ message: `User with pseudo "${pseudo}" not found` });
+        }
+
+        return res.status(200).json({ message: `User with pseudo "${pseudo}" deleted successfully` });
+    } catch (error) {
+        console.error('Error deleting profile:', error.message);
+        return res.status(500).json({ message: 'Error deleting profile', error: error.message });
+    }
+};
+
 
 const isValidUrl = (url) => {
-    const regex = /^(http:\/\/|https:\/\/)/; 
+    const regex = /^(http:\/\/|https:\/\/)/;
     return regex.test(url);
 };
 
 
-module.exports = { profilUser, addProfil, updateProfil };
+module.exports = { profilUser, addProfil, updateProfil, deleteProfil };

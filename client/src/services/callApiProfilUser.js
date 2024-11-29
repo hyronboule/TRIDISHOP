@@ -24,7 +24,9 @@ export const updatedUserProfil = async (data, name) => {
         if (data.facebook) {
             formData.append('links[facebook]', data.facebook);
         }
-
+        if (data.pseudo) {
+            formData.append('newPseudo', data.pseudo);
+        }
         if (data.image) {
             formData.append('image', data.image);
         }

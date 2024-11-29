@@ -39,13 +39,13 @@ const paypalPayement = (req, res) => {
         }],
     };
 
-    // Créer le paiement
+    // Create the payment
     paypal.payment.create(paymentData, (error, payment) => {
         if (error) {
             console.error('Error creating payment:', error);
             return res.status(500).json({ message: 'Error creating payment', error: error });
         }
-
+        // return the url for the payment in paypal
         const approvalUrl = payment.links.find(link => link.rel === 'approval_url');
         if (approvalUrl) {
             return res.json({ approvalUrl: approvalUrl.href });

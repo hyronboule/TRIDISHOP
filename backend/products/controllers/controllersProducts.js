@@ -18,7 +18,7 @@ const getProducts = async (req, res) => {
         const page = parseInt(req.query.page) || 0;
         const skip = limit * page;
 
-       
+
         const search = req.query.search ? req.query.search.trim() : '';
 
         let products;
@@ -35,7 +35,7 @@ const getProducts = async (req, res) => {
             products = await Product.find().skip(skip).limit(limit);
         }
 
-        
+
         if (products.length === 0) {
             return res.status(404).json({ message: 'No products found' });
         }
@@ -49,7 +49,7 @@ const getProducts = async (req, res) => {
 
         const totalPages = Math.ceil(totalProducts / limit);
 
-        
+
         if (page >= totalPages) {
             return res.status(404).json({ message: 'No more products found' });
         }
@@ -57,7 +57,7 @@ const getProducts = async (req, res) => {
         const nextPage = page + 1 < totalPages ? page + 1 : null;
         const nextPageUrl = nextPage !== null ? `${process.env.URI}/products?page=${nextPage}&search=${search}` : null;
 
-      
+
         let newProducts = await loopProducts(products);
 
         // Return data
@@ -183,7 +183,7 @@ const newProduct = async (req, res) => {
     }
 };
 
-// delete a product to user from id (rajouter filtre pour avoir produit de l'user avant de suppr)
+// delete a product to user from id 
 const deleteProductUser = async (req, res) => {
     const namefile = req.params.id;
 
@@ -213,6 +213,37 @@ const deleteProductUser = async (req, res) => {
     }
 
 };
+const deleteAllProductUser = async (req, res) => {
+    const pseudo = req.params.pseudo; 
+
+    if (!pseudo) {
+        return res.status(400).json({ message: 'Missing pseudo parameter' });
+    }
+
+    try {
+        const products = await Product.find({ pseudo });
+
+        if (products.length === 0) {
+            return res.status(404).json({ message: 'No products found for this user' });
+        }
+
+        for (const product of products) {
+            await deleteFile(product.nameFile, res); 
+        }
+        await Product.deleteMany({ pseudo });
+
+        return res.status(200).json({
+            message: 'All products deleted successfully',
+            count: products.length,
+            data: products,
+        });
+
+    } catch (error) {
+        console.error('Error deleting products:', error);
+        return res.status(500).json({ message: 'Error deleting products', error: error.message });
+    }
+};
+
 
 // upadate info product from id
 const uniqueProductId = async (req, res) => {
@@ -248,4 +279,42 @@ const uniqueProductId = async (req, res) => {
     }
 }
 
-module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct, displayFile, uniqueProductId, getDetailProduct }
+// update pseudo with the new pseudo in all the products of user
+const updateNameUserAllProducts = async (req, res) => {
+    const nameUser = req.query.name;
+    const newPseudo = req.query.pseudo;
+
+    if (!nameUser || !newPseudo) {
+        return res.status(404).send({
+            message: "No name provided to change the pseudo of the products or no new pseudo",
+        });
+    }
+    const existingProduct = await Product.findOne({ pseudo: newPseudo });
+    if (existingProduct) {
+        return res.status(400).send({
+            message: "The new pseudo is already in use in the products collection",
+        });
+    }
+
+    try {
+        const result = await Product.updateMany(
+            { pseudo: nameUser }, 
+            { $set: { pseudo: newPseudo } } 
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).send({ message: "No products found to update" });
+        }
+
+        return res.status(200).send({
+            message: `${result.modifiedCount} product(s) updated successfully`,
+        });
+    } catch (error) {
+        console.error("Error updating products:", error);
+        return res.status(500).send({
+            message: "An error occurred while updating the pseudo",
+        });
+    }
+};
+
+module.exports = { getProducts, getUserProducts, deleteProductUser, newProduct, displayFile, uniqueProductId, getDetailProduct, updateNameUserAllProducts, deleteAllProductUser }

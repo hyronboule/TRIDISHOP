@@ -42,6 +42,7 @@ const DetailProduct = () => {
         });
 
     }
+    
     const navigateProfilUser = () => {
         navigate(`/profil/${product.pseudo}`)
     }

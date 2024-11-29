@@ -3,11 +3,16 @@
 #root {
     position: relative;
     height: 100vh;
-    
+
 }
 
-*{
+* {
     z-index: 1;
+}
+
+p,
+input {
+    font-size: 15px;
 }
 
 .logo {
@@ -38,7 +43,14 @@ label {
     border-radius: 10px;
     background-color: $backgroundPaleGrey;
 }
-label{
+
+input {
+    @media (max-width:600px) {
+        font-size: 13px;
+    }
+}
+
+label {
     padding: 5px;
 }
 
@@ -47,7 +59,7 @@ label{
 }
 
 .inputLogin {
-    
+
     padding: 0px 15px;
     width: 100%;
     min-width: 50px;
@@ -109,8 +121,8 @@ label{
     background-color: $backgroundPaleBlue;
     border: none;
     box-shadow: $boxShadow;
-    font-family: $reem;
-    font-size: 18px;
+    font-family: $font2;
+    font-size: 20px;
     padding: 8px;
     border-radius: 10px;
     letter-spacing: 2px;

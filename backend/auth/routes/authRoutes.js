@@ -7,6 +7,7 @@ const middleware = require("../middlewares/middlewaresAuth");
 router.post("/login",controllers.login)
 router.post("/register",controllers.register)
 router.get("/getRole", middleware,controllers.getUserInfo);
+router.put("/updateInfoUser",controllers.updateUser);
 
 
 module.exports = router;
