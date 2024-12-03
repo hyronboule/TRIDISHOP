@@ -16,11 +16,11 @@ export const deleteConfirmation = (nameFile) => {
             const response = await deleteProduct(nameFile);
             if (response) {
                 if (response == "200") {
-                    return true
+                    return true;
                 }
-            } 
+            }
         }
         // Code for cancel the deletion
-        return false; 
+        return false;
     });
 };

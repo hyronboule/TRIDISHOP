@@ -4,11 +4,11 @@ services:
       context: ./client
       dockerfile: Dockerfile
     container_name: client-tridi
+    environment:
+      - CI=true
     ports:
       - "8080:8080"
-    # command: sh -c "npm run test && npm run dev"
-
-  
+    command: sh -c "npm run test && npm run dev"
 
   api-gateway:
     build:
@@ -21,7 +21,7 @@ services:
       - "3000:3000"
     volumes:
       - ./backend/api-gateway:/app
-    
+
     develop:
       watch:
         - path: ./backend/api-gateway/
@@ -29,9 +29,9 @@ services:
           action: sync
         - path: ./backend/api-gateway/package.json
           action: rebuild
-    
+
     command: nodemon server.js
-   
+
   auth:
     build:
       context: ./backend/auth
@@ -43,7 +43,7 @@ services:
       - "8081:8081"
     env_file:
       - ./backend/auth/.env
- 
+
     develop:
       watch:
         - action: sync
@@ -52,7 +52,6 @@ services:
         - action: rebuild
           path: ./backend/auth/package.json
 
-  
   admin:
     build:
       context: ./backend/admin
@@ -72,7 +71,7 @@ services:
           target: /app/
         - action: rebuild
           path: ./backend/admin/package.json
-  
+
   products:
     build:
       context: ./backend/products
@@ -86,7 +85,7 @@ services:
       - ./backend/products:/app
     ports:
       - "8083:8083"
- 
+
     develop:
       watch:
         - action: sync
@@ -96,7 +95,7 @@ services:
           path: ./backend/products/package.json
 
     command: nodemon server.js
-    
+
   profil:
     build:
       context: ./backend/profil
@@ -111,7 +110,7 @@ services:
       - ./backend/profil:/app
     ports:
       - "8084:8084"
- 
+
     develop:
       watch:
         - action: sync
@@ -119,7 +118,7 @@ services:
           target: /app/
         - action: rebuild
           path: ./backend/profil/package.json
-  
+
   service:
     build:
       context: ./backend/service
@@ -131,7 +130,7 @@ services:
       - ./backend/service:/app
     ports:
       - "8085:8085"
- 
+
     develop:
       watch:
         - action: sync
@@ -139,7 +138,7 @@ services:
           target: /app/
         - action: rebuild
           path: ./backend/service/package.json
-    
+
   test:
     build:
       context: ./backend/testApi
@@ -154,59 +153,52 @@ services:
     volumes:
       - ./backend/testApi:/app
     develop:
-        watch:
-          - action: sync
-            path: ./backend/testApi/
-            target: /app/
-          - action: rebuild
-            path: ./backend/testApi/package.json
+      watch:
+        - action: sync
+          path: ./backend/testApi/
+          target: /app/
+        - action: rebuild
+          path: ./backend/testApi/package.json
     env_file:
       - ./backend/testApi/.env.test
     command: >
-      ./wait-for-it.sh auth:8081 -- 
-      ./wait-for-it.sh service:8085 -- 
-      ./wait-for-it.sh profil:8084 -- 
-      ./wait-for-it.sh products:8083 -- 
-      ./wait-for-it.sh api-gateway:3000 -- 
-      npm test
-
-
+      ./wait-for-it.sh auth:8081 --  ./wait-for-it.sh service:8085 --  ./wait-for-it.sh profil:8084 --  ./wait-for-it.sh products:8083 --  ./wait-for-it.sh api-gateway:3000 --  npm test
 
   mongodb-auth:
-      image: mongo:latest
-      container_name: mongodb-auth
-      restart: always
-      ports:
-        - "27018:27017"
-      volumes:
-        - mongodb-auth:/data/db
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example
+    image: mongo:latest
+    container_name: mongodb-auth
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb-auth:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
   mongodb-products:
-      image: mongo:latest
-      container_name: mongodb-products
-      restart: always
-      ports:
-        - "27019:27017"
-      volumes:
-        - mongodb-products:/data/db
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example
+    image: mongo:latest
+    container_name: mongodb-products
+    restart: always
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongodb-products:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
   mongodb-profil:
-      image: mongo:latest
-      container_name: mongodb-profil
-      restart: always
-      ports:
-        - "27020:27017"
-      volumes:
-        - mongodb-profil:/data/db
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example
+    image: mongo:latest
+    container_name: mongodb-profil
+    restart: always
+    ports:
+      - "27020:27017"
+    volumes:
+      - mongodb-profil:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
 volumes:
   mongodb-auth:

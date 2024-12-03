@@ -63,8 +63,13 @@ export const callApiCreateProfilUser = async (pseudo, email) =>{
         formData.append('pseudo', pseudo);
         formData.append('paypalEmail', email);
 
-        const response = await axios.post(`${url.createProfil}`);
-
+        const response = await axios.post(`${url.createProfil}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        console.log(response.data);
+        
         if (response.data) {
             return response.data
         }

@@ -15,39 +15,43 @@ import { apiCallUserProfil } from '../../services/callApiProfilUser.js';
 
 const Profil = () => {
   const { infoUser } = useUserContext() // user info who logged into the application
-  const {nameOtherUser} = useParams() // display other profil User with the name
+  const { nameOtherUser } = useParams() // display other profil User with the name
   const [productsUser, setProductsUser] = useState()
   const [profilUser, setProfilUser] = useState()
   const [productPage, setProductPage] = useState()
-  
+
 
   useEffect(() => {
     if (nameOtherUser) {
       callApiForRetrieveInfoUser(nameOtherUser)
-    }else{
-      callApiForRetrieveInfoUser(infoUser.pseudo)
+    } else {
+      if (infoUser.pseudo) {
+        callApiForRetrieveInfoUser(infoUser.pseudo)
+      }
     }
-  }, [infoUser,nameOtherUser])
+  }, [infoUser, nameOtherUser])
 
-  const callApiForRetrieveInfoUser = (info) => { 
-     // retrieve the user's profile image
-     apiCallUserProfil(info).then((data) => {
-      if (data) {
-        setProfilUser(data)
-      }
-    }).catch((error) => {
-      console.error('Error fetching info user:', error);
-    })
-    // retrieve the user's products
-    callApiProductsUser(info).then((data) => {
-      if (data) {
-        setProductsUser(data.data)
-        
-        setProductPage(data.urlPage)
-      }
-    }).catch((error) => {
-      console.error('Error fetching products:', error);
-    })
+  const callApiForRetrieveInfoUser = (info) => {
+    if (info) {
+      // retrieve the user's profile image
+      apiCallUserProfil(info).then((data) => {
+        if (data) {
+          setProfilUser(data)
+        }
+      }).catch((error) => {
+        console.error('Error fetching info user:', error);
+      })
+      // retrieve the user's products
+      callApiProductsUser(info).then((data) => {
+        if (data) {
+          setProductsUser(data.data)
+
+          setProductPage(data.urlPage)
+        }
+      }).catch((error) => {
+        console.error('Error fetching products:', error);
+      })
+    }
 
   }
 
@@ -61,7 +65,7 @@ const Profil = () => {
               {profilUser && <img className='imgProfile' src={profilUser.image} alt="image profile" />}
             </Stack>
 
-           { profilUser&& <h2 id='titleProfil'>{`@${profilUser.pseudo}`}</h2>}
+            {profilUser && <h2 id='titleProfil'>{`@${profilUser.pseudo}`}</h2>}
             {profilUser && profilUser.links && (
               <MenuLinks links={[
                 profilUser.links.instagram && {
@@ -81,10 +85,10 @@ const Profil = () => {
 
           <Image3D classname="sidePadding"
             values={productsUser}
-            setValues={setProductsUser} 
+            setValues={setProductsUser}
             urlPage={productPage}
             setUrlPage={setProductPage}
-            />
+          />
 
         </Grid>
       </Container>

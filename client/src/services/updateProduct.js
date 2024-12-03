@@ -1,8 +1,6 @@
 import Swal from 'sweetalert2';
 import { callApiUpdatePoducts } from './callApiProducts';
 
-
-// form for updating product
 export const updateProductForm = (nameFile) => {
     return Swal.fire({
         title: 'Mise à jour du produit',
@@ -48,26 +46,28 @@ export const updateProductForm = (nameFile) => {
             return { description: description || null, price: price || null, tags: tags || null };
         }
     }).then((result) => {
-        if (result.isConfirmed) {
-            const { description, price, tags } = result.value;
-
-            const data = {};
-            if (description) data.description = description;
-            if (price) data.price = price;
-            if (tags) data.tags = tags;
-
-            return callApiUpdatePoducts(nameFile, data).then((data) => {
-                if (data && data.status == '200') {
-                    //reload page
-                    return true;
-                } else {
-                    // don't reload
-                    return false;
-                }
-            }).catch((err) => {
-                console.error('Updated product failed:', err);
-                return false;
-            });
+        if (!result.isConfirmed || !result.value) {
+            return false;
         }
+
+        const { description, price, tags } = result.value;
+
+        const data = {};
+        if (description) data.description = description;
+        if (price) data.price = price;
+        if (tags) data.tags = tags;
+
+        return callApiUpdatePoducts(nameFile, data).then((data) => {
+            if (data && data.status == '200') {
+                //reload page
+                return true;
+            } else {
+                // don't reload
+                return false;
+            }
+        }).catch((err) => {
+            console.error('Updated product failed:', err);
+            return false;
+        });
     });
 };

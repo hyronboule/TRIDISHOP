@@ -8,6 +8,7 @@ import logoTridi from '../../assets/logoTridi.png'
 import { callApiLogin, callApiRegister } from '../../services/callApiUserAuth';
 import { useUserContext } from '../../context/User';
 import Swal from 'sweetalert2';
+import { callApiCreateProfilUser } from '../../services/callApiProfilUser';
 
 
 export const Sign = () => {
@@ -48,21 +49,25 @@ export const Sign = () => {
       })
       return;
     }
+    let newDate = formatDate(date)
 
-    callApiRegister(pseudo, email, password, date).then((data) => {
+    callApiRegister(pseudo, email, password, newDate).then((data) => {
       if (data) {
         // create profil
-        
-        // call api for login user
-        callApiLogin(email, password).then((data) => {
+        callApiCreateProfilUser(pseudo, email).then((data) => {
           if (data) {
-            setToken(data.token);
-            navigate('/Profil');
+            // call api for login user
+            callApiLogin(email, password).then((data) => {
+              if (data) {
+                setToken(data.token);
+                navigate('/Profil');
+              }
+            }).catch((error) => {
+
+              console.error('Error during login API call:', error);
+            })
           }
-        }).catch((error) => {
-          
-          console.error('Error during login API call:', error);
-        })
+        }).catch((err => { console.error('Error during login API call:', err) }))
       }
     }).catch((error) => {
       console.error("error in registration api call", error);

@@ -1,32 +1,32 @@
 const { getGfs } = require('../config/db');
 
-// Fonction utilitaire pour uploader un fichier
+// function for uploading files
 const uploadFile = async (newFile, fileName, newProductInfo) => {
     try {
-        const gfsBucket = getGfs(); // Récupère l'instance GridFS
+        const gfsBucket = getGfs();
        
         const file = newFile;
 
         if (!file) {
-            throw new Error('No file uploaded'); // Lance une erreur si aucun fichier n'est uploadé
+            throw new Error('No file uploaded');
         }
         const writestream = gfsBucket.openUploadStream(fileName);
 
-        // Promesse pour gérer l'événement 'finish' du stream
+       
         await new Promise((resolve, reject) => {
-            writestream.on('finish', resolve); // Résout la promesse quand le fichier est écrit
-            writestream.on('error', reject); // Rejette la promesse en cas d'erreur
-            writestream.write(file.buffer); // Écrit le fichier dans le stream
-            writestream.end(); // Termine le stream
+            writestream.on('finish', resolve); 
+            writestream.on('error', reject); 
+            writestream.write(file.buffer); 
+            writestream.end(); 
         });
 
-        // Sauvegarde les informations du produit après l'upload du fichier
+       
         await newProductInfo.save();
         
-        return { msg: 'File uploaded and product saved' }; // Retourne un message de succès
+        return { msg: 'File uploaded and product saved' };
 
     } catch (err) {
-        throw new Error(`File upload failed: ${err.message}`); // Lance une erreur en cas de problème
+        throw new Error(`File upload failed: ${err.message}`); 
     }
 };
 

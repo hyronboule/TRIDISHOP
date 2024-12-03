@@ -47,12 +47,11 @@ export const callApiUpdateUserAuth = async (data, email) => {
 
         return response.data;
     } catch (error) {
-        if (error.response.status === 400) {
-
-            return {status: 400,message : "Email ou pseudo déjà utilisé"};
+        if (error.response?.status === 400) {
+            return { status: 400, message: "Email ou pseudo déjà utilisé" };
         } else {
             console.error('Error updating user info:', error.response?.data || error.message);
-            throw error;
+            throw new Error('Unexpected error'); 
         }
     }
 };

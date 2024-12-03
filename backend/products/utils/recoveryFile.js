@@ -26,7 +26,7 @@ const recoveryFile = async (nameFile) => {
 
 const displayFilefunction = async (filename, res) => {
   try {
-      const bucket = getGfs(); // Récupère l'instance GridFSBucket
+      const bucket = getGfs(); 
       const files = await bucket.find({ filename }).toArray();
 
       if (!files || files.length === 0) {
