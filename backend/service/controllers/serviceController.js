@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const { paypalConfig } = require('../config/paypalConfig');
 dotenv.config();
 const path = require('path');
+const Transaction = require('../models/PaypalData');
 
 
 const PORT = process.env.BASE_PORT;
@@ -61,13 +62,16 @@ const cancelPayments = (req, res) => {
 }
 
 // Success payment and paid seller and the fees to site
-const successPayments = (req, res) => {
+
+
+const successPayments = async (req, res) => {
     const paymentId = req.query.paymentId;
     const payerId = { payer_id: req.query.PayerID };
 
+    // Récupérer les paiements envoyés par le client
     const payments = JSON.parse(decodeURIComponent(req.query.payments));
 
-    paypal.payment.execute(paymentId, payerId, (error, payment) => {
+    paypal.payment.execute(paymentId, payerId, async (error, payment) => {
         if (error) {
             return res.status(500).json({ error: 'Error while executing payment', details: error.response });
         } else {
@@ -75,15 +79,51 @@ const successPayments = (req, res) => {
                 if (!Array.isArray(payments) || payments.length === 0) {
                     return res.status(400).json({ message: 'No valid payments to distribute' });
                 }
-                distributePayments(payments, res);
-                // displays page html
-                res.sendFile(path.join(__dirname, '../html/renderSucessPaiement.html'))
+
+                try {
+                   
+                    const buyer = {
+                        email: payment.payer.payer_info.email,
+                        id: payment.payer.payer_info.payer_id,
+                    };
+
+                    const sellers = payments.map((paymentDetail) => ({
+                        email: paymentDetail.sellerPayPalId, 
+                        amount: parseFloat(paymentDetail.amount).toFixed(2),
+                    }));
+
+                    
+                    const totalAmount = payments.reduce((sum, paymentDetail) => sum + parseFloat(paymentDetail.amount), 0);
+                    const status = payment.state;
+
+                   
+                    const transaction = new Transaction({
+                        transactionId: paymentId,
+                        buyer: buyer,
+                        sellers: sellers,
+                        totalAmount: totalAmount.toFixed(2),
+                        status: status,
+                        createdAt: new Date(),
+                    });
+
+                   
+                    await transaction.save();
+
+                    
+                    distributePayments(payments, res);
+
+                    res.sendFile(path.join(__dirname, '../html/renderSucessPaiement.html'));
+                } catch (dbError) {
+                    console.error('Error saving transaction to database:', dbError);
+                    return res.status(500).json({ message: 'Error saving transaction to database', error: dbError });
+                }
             } else {
                 res.status(400).json({ status: 203, message: 'Paiement non approuvé' });
             }
         }
     });
-}
+};
+
 
 // function paid seller and the fees to site
 const distributePayments = (payments, res) => {
@@ -153,9 +193,15 @@ const distributePayments = (payments, res) => {
         return res.status(500).json({ message: 'Error distributing payment: ', error: errorMessage });
     }
     
-
 }
 
+const findPayment = async (req,res)=>{
+    const data = await Transaction.find();
+    res.json(data)
+ }
+
+
+
 module.exports = {
-    paypalPayement, cancelPayments, successPayments
+    paypalPayement, cancelPayments, successPayments, findPayment
 }

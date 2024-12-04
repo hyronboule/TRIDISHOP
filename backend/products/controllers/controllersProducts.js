@@ -269,7 +269,7 @@ const uniqueProductId = async (req, res) => {
         }
 
         if (tags !== undefined) {
-            console.log("ici0");
+
             const result = arrayTags(tags);
             if (result.error) {
                 return res.status(400).json({ message: result.message });

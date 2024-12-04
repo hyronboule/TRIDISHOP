@@ -3,9 +3,9 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const DATABASE_URI = process.env.DATABASE_URI_AUTH;
+const DATABASE_URI = process.env.DATABASE_URI;
 
-const connectDBAuth = async () => {
+const connectDBService = async () => {
     try {
         await mongoose.connect(DATABASE_URI);
         console.log("MongoDB Connected");
@@ -15,5 +15,4 @@ const connectDBAuth = async () => {
     }
 };
 
-
-module.exports = { connectDBAuth };
+module.exports = { connectDBService };

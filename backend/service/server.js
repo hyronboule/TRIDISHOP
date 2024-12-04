@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const { connectDBService } = require('./config/db.js');
 dotenv.config()
 
+connectDBService()
 const serviceRoutes = require('./routes/serviceRoutes')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

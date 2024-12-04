@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const axios = require('axios');
 const dotenv = require('dotenv');
+
 dotenv.config()
 
 // controllers for interacting to database authentication 
@@ -97,6 +98,5 @@ const deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
-
 
 module.exports = { getUsers, getUser, deleteUser }

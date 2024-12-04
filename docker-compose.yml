@@ -60,6 +60,7 @@ services:
     depends_on:
       - mongodb-products
       - mongodb-auth
+      - mongodb-service
     env_file:
       - ./backend/admin/.env
     ports:
@@ -130,6 +131,8 @@ services:
       - ./backend/service:/app
     ports:
       - "8085:8085"
+    depends_on:
+      - mongodb-service
 
     develop:
       watch:
@@ -200,7 +203,20 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
 
+  mongodb-service:
+    image: mongo:latest
+    container_name: mongodb-service
+    restart: always
+    ports:
+      - "27021:27017"
+    volumes:
+      - mongodb-service:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
 volumes:
   mongodb-auth:
   mongodb-products:
   mongodb-profil:
+  mongodb-service:

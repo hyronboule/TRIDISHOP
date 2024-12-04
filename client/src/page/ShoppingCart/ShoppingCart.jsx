@@ -94,8 +94,7 @@ const ShoppingCart = () => {
 
         //Check if the message indicates that the payment was successful
         if (event.data && event.data.message === 'paiementRéussi') {
-          console.log(event.data);
-
+          
           resolve(true);
           paymentWindow.close(); // close window
         }
