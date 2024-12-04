@@ -33,7 +33,8 @@ export const updateProductForm = (nameFile) => {
 
             //  valide tags 
             if (tags.trim() !== '') {
-                if (/^([a-zA-Z]+(,\s*)?[a-zA-Z]*)*$/.test(tags)) {
+                if (/^([\p{L}]+(,\s*)?[\p{L}]*)*$/u
+                    .test(tags)) {
                     let tagArray = tags.split(',').map(tag => tag.trim());
                     tags = tagArray;
                 } else {

@@ -162,11 +162,16 @@ const newProduct = async (req, res) => {
 
         const fileName = uuidv4();
 
+        const tagsResult = arrayTags(req.body.tags);
+        if (tagsResult.error) {
+            return res.status(400).json({ message: tagsResult.message });
+        }
+
         const newProductInfo = new Product({
             nameFile: fileName,
             pseudo: req.body.pseudo,
             description: req.body.description,
-            tags: arrayTags(req.body.tags),
+            tags: tagsResult.data,
             price: req.body.price,
             image: imageFile.buffer,
         });
@@ -264,8 +269,14 @@ const uniqueProductId = async (req, res) => {
         }
 
         if (tags !== undefined) {
-            product.tags = arrayTags(tags);
+            console.log("ici0");
+            const result = arrayTags(tags);
+            if (result.error) {
+                return res.status(400).json({ message: result.message });
+            }
+            product.tags = result.data;
         };
+        
         if (description !== undefined) product.description = description;
         if (download !== undefined) product.download = download;
         if (price !== undefined) product.price = price;
