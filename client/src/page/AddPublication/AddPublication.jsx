@@ -32,6 +32,13 @@ const AddPublication = () => {
         tags.split(',').forEach(tag => {
           tagArray.push(tag.trim());
         });
+        if (price < 0) {
+          Swal.fire({
+            text: "Le prix ne peut pas être négatif.",
+            icon: 'error',
+          })
+          return;
+        }
         let data = {
           pseudo: infoUser.pseudo,
           description: description,
@@ -39,8 +46,7 @@ const AddPublication = () => {
           files: [file, file2],
           price: price
         }
-        console.log(data);
-        
+
         addNewProductApi(data).then((data) => {
           data && (
             Swal.fire({
@@ -48,7 +54,12 @@ const AddPublication = () => {
               icon: 'success',
             })
           )
-        }).catch(err => console.error('not add a new product: ', err));
+        }).catch((err) => {
+          Swal.fire({
+            title: 'Erreur lors de l\'ajout du produit',
+            icon: 'error',
+          })
+          console.error('not add a new product: ', err) });
         setDescription("")
         setFile()
         setFile2()
@@ -72,14 +83,14 @@ const AddPublication = () => {
   // add file to the variable file or file2
   const addFileInput = (event, setFileFunc, typeFile) => {
     const selectedFile = event.target.files[0];
-        
+
     if (selectedFile && selectedFile.name.split('.')[1] === typeFile) {
       setFileFunc(selectedFile);
 
       if (selectedFile.name.split('.')[1] === "jpeg") {
         setDisplayImage(selectedFile)
       }
-    }else{
+    } else {
       setFileFunc();
       setDisplayImage();
       Swal.fire({
@@ -87,7 +98,7 @@ const AddPublication = () => {
         icon: 'error',
       })
     }
-    
+
   };
 
   return (
@@ -113,21 +124,21 @@ const AddPublication = () => {
 
             </Grid>
 
-            <Grid item width={{ xs: "100%", md: "50%" }} height={{ xs: "50%" ,md: "70%", lg: "90%" }} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"}>
-              <Stack sx={{ width: { sm: "280px", xs: "200px", md:"350px" }, height: { xs: "40%", sm: "120px", md:"140px" }, background: "grey", marginTop: "10px", borderRadius: 3 }}>
+            <Grid item width={{ xs: "100%", md: "50%" }} height={{ xs: "50%", md: "70%", lg: "90%" }} display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"center"}>
+              <Stack sx={{ width: { sm: "280px", xs: "200px", md: "350px" }, height: { xs: "40%", sm: "120px", md: "140px" }, background: "grey", marginTop: "10px", borderRadius: 3 }}>
                 {
                   displayImage && (
                     <img alt="image" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} src={URL.createObjectURL(displayImage)} />
                   )
                 }
               </Stack>
-              <div style={{marginBottom:10}}>
-                <label htmlFor="file" className='labelAddFile'>{file?file.name:"Importer image (jpeg)..."}</label>
-                <input type="file" name="file" id="file" onChange={(e) => addFileInput(e, setFile, "jpeg")}  style={{ display: 'none' }}/>
+              <div style={{ marginBottom: 10 }}>
+                <label htmlFor="file" className='labelAddFile'>{file ? file.name : "Importer image (jpeg)..."}</label>
+                <input type="file" name="file" id="file" onChange={(e) => addFileInput(e, setFile, "jpeg")} style={{ display: 'none' }} />
               </div>
 
               <div>
-                <label htmlFor="file2" className='labelAddFile'>{file2?file2.name:"Importer fichier 3D..."}</label>
+                <label htmlFor="file2" className='labelAddFile'>{file2 ? file2.name : "Importer fichier 3D..."}</label>
                 <input type="file" name="file2" id="file2" onChange={(e) => addFileInput(e, setFile2, "glb")} style={{ display: 'none' }} />
               </div>
 
