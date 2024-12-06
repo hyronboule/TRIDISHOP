@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         lowercase: true,
-        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     },
     password: {
         type: String,
@@ -22,11 +22,6 @@ const userSchema = new mongoose.Schema({
         match: /^[a-zA-Z0-9]+$/,
         minlength: 3,
         maxlength: 10
-    }
-    ,
-    date: {
-        type: String,
-        required: true
     }
     ,
     role: {

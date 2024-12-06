@@ -30,14 +30,13 @@ const login = (async (req, res) => {
 const register = async (req, res) => {
     try {
         const { pseudo, email, password, role } = req.body;
-        let { date } = req.body;
 
         if (!pseudo || !email || !password) {
             return res.status(400).json({ message: 'email, pseudo and password are required' });
         }
 
         
-        const newUser = new User({ pseudo, email, password, date, role });
+        const newUser = new User({ pseudo, email, password, role });
 
         const savedUser = await newUser.save();
 
@@ -45,7 +44,6 @@ const register = async (req, res) => {
             id: savedUser._id,
             pseudo: savedUser.pseudo,
             email: savedUser.email,
-            date: savedUser.date,
             role: savedUser.role
         };
 
@@ -75,6 +73,10 @@ const getUserInfo = async (req, res) => {
 const updateUser = async (req, res) => {
     const { pseudo, email, newEmail, password } = req.body;
 
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    const pseudoRegex = /^[a-zA-Z0-9]+$/;
+
     if (!email) {
         return res.status(400).json({ message: 'Email of the user is required' });
     }
@@ -82,6 +84,9 @@ const updateUser = async (req, res) => {
     const updateData = {};
 
     if (pseudo) {
+        if (!pseudoRegex.test(pseudo)) {
+            return res.status(400).json({ message: 'Invalid pseudo format' });
+        }
         const existingPseudo = await User.findOne({ pseudo });
         if (existingPseudo && existingPseudo.email !== email) {
             return res.status(400).json({ message: 'Pseudo is already in use' });
@@ -90,6 +95,9 @@ const updateUser = async (req, res) => {
     }
 
     if (newEmail) {
+        if (!emailRegex.test(newEmail)) {
+            return res.status(400).json({ message: 'Invalid new email format' });
+        }
         const existingEmail = await User.findOne({ email: newEmail });
         if (existingEmail && existingEmail.email !== email) {
             return res.status(400).json({ message: 'New email is already in use' });
@@ -98,6 +106,12 @@ const updateUser = async (req, res) => {
     }
 
     if (password) {
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({
+                message:
+                    'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character',
+            });
+        }
         try {
             const hashedPassword = await hashPassword(password);
             updateData.password = hashedPassword;

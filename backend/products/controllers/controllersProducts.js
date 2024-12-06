@@ -295,9 +295,16 @@ const updateNameUserAllProducts = async (req, res) => {
     const nameUser = req.query.name;
     const newPseudo = req.query.pseudo;
 
+    const pseudoRegex = /^[a-zA-Z0-9]+$/;
+
     if (!nameUser || !newPseudo) {
         return res.status(404).send({
             message: "No name provided to change the pseudo of the products or no new pseudo",
+        });
+    }
+    if (!pseudoRegex.test(newPseudo)) {
+        return res.status(400).send({
+            message: "The new pseudo contains invalid characters",
         });
     }
     const existingProduct = await Product.findOne({ pseudo: newPseudo });

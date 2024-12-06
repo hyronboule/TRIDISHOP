@@ -3,7 +3,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    container_name: client-tridi
+    container_name: client
     environment:
       - CI=true
     ports:
@@ -60,7 +60,6 @@ services:
     depends_on:
       - mongodb-products
       - mongodb-auth
-      - mongodb-service
     env_file:
       - ./backend/admin/.env
     ports:
@@ -132,7 +131,7 @@ services:
     ports:
       - "8085:8085"
     depends_on:
-      - mongodb-service
+      - mongodb-transactions
 
     develop:
       watch:
@@ -203,14 +202,14 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
 
-  mongodb-service:
+  mongodb-transactions:
     image: mongo:latest
-    container_name: mongodb-service
+    container_name: mongodb-transactions
     restart: always
     ports:
       - "27021:27017"
     volumes:
-      - mongodb-service:/data/db
+      - mongodb-transactions:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -219,4 +218,4 @@ volumes:
   mongodb-auth:
   mongodb-products:
   mongodb-profil:
-  mongodb-service:
+  mongodb-transactions:

@@ -26,14 +26,26 @@ const ShoppingCart = () => {
     return total
   }
 
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  };
 
   const handleClick = () => {
-    if (name) {
+    if (name && productShops.length > 0) {
       addSeller()
       if (totalPrice() === 0) {
-       downaloadAndUpdateProduct()
+        downaloadAndUpdateProduct()
       } else {
         if (email) {
+
+          if (!validateEmail(email)) {
+            Swal.fire({
+              text: "Veuillez renseigner une email paypal valide.",
+              icon: 'error',
+            })
+            return;
+          }
           // call the API to get the Paypal email of each seller
           listSeller.map((e) => {
             apiCallUserProfil(e.sellerPayPalId).then((data) => {
@@ -66,10 +78,18 @@ const ShoppingCart = () => {
       }
 
     } else {
-      Swal.fire({
-        text: `Veuillez renseigner votre nom`,
-        icon: 'error',
-      })
+      if (!productShops.length > 0) {
+        Swal.fire({
+          text: `Veuillez ajouter des produits`,
+          icon: 'error',
+        })
+      } else {
+        Swal.fire({
+          text: `Veuillez renseigner votre nom`,
+          icon: 'error',
+        })
+
+      }
     }
   }
 
@@ -94,7 +114,7 @@ const ShoppingCart = () => {
 
         //Check if the message indicates that the payment was successful
         if (event.data && event.data.message === 'paiementRéussi') {
-          
+
           resolve(true);
           paymentWindow.close(); // close window
         }
@@ -128,26 +148,26 @@ const ShoppingCart = () => {
     });
   };
 
-const downaloadAndUpdateProduct = () => {
-  // download the files
-  downloadFiles(productShops, name, totalPrice())
+  const downaloadAndUpdateProduct = () => {
+    // download the files
+    downloadFiles(productShops, name, totalPrice())
 
-  //  appel api changement nombre de téléchargement
-  try {
-    productShops.forEach((item) => {
-      callApiUpdatePoducts(item.nameFile,{download: item.download += 1})
-    })
-    
-  } catch (error) {
-    console.error('Error updating download count:', error);
-   
+    //  appel api changement nombre de téléchargement
+    try {
+      productShops.forEach((item) => {
+        callApiUpdatePoducts(item.nameFile, { download: item.download += 1 })
+      })
+
+    } catch (error) {
+      console.error('Error updating download count:', error);
+
+    }
+
+    setName()
+    setEmail()
+    setListSeller([])
+    setProductShops([])
   }
-
-  setName()
-  setEmail()
-  setListSeller([])
-  setProductShops([])
-}
 
   return (
     <>
@@ -163,11 +183,11 @@ const downaloadAndUpdateProduct = () => {
                   values={productShops.length > 0 ? productShops : 0}
                   displayShowMore={true} displayButtonDelete={true} />
               </Stack>
-              <Stack sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "end", alignItems: "end", gap: 3, marginBottom:2 }}>
+              <Stack sx={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "end", alignItems: "end", gap: 3, marginBottom: 2 }}>
                 <p>Total: {productShops.length > 0 ? totalPrice() : 0} €</p>
                 <button className='buttonValidation boutonShop' onClick={() => handleClick()}>Payer</button>
               </Stack>
-              <p style={{fontSize:10}}>* Si le total dépasse 0 euro, des frais sont ajoutés égal à 5% du prix total</p>
+              <p style={{ fontSize: 10 }}>* Si le total dépasse 0 euro, des frais sont ajoutés égal à 5% du prix total</p>
             </Grid>
 
             <Grid item sx={{ background: colorVar.backgroundPaleGrey }} height={{ xs: "40%", md: "50%" }} width={{ xs: "100%", md: "45%" }} borderRadius={5}

@@ -17,7 +17,8 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
 
     if (!email || !password) {
       Swal.fire({
@@ -31,6 +32,7 @@ const Login = () => {
         icon: 'error',
         text: 'Format de l\'email incorrect'
       })
+      return;
     }
 
     callApiLogin(email, password).then((data) => {

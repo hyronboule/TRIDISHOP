@@ -45,13 +45,12 @@ test('callApiRegister - returns data on successful registration', async () => {
     const mockResponse = { data: { userId: 'user123' } };
     axios.post.mockResolvedValue(mockResponse);
 
-    const result = await callApiRegister('pseudo123', 'test@example.com', 'password123', '2024-01-01');
+    const result = await callApiRegister('pseudo123', 'test@example.com', 'password123');
 
     expect(axios.post).toHaveBeenCalledWith(expect.any(String), {
         pseudo: 'pseudo123',
         email: 'test@example.com',
         password: 'password123',
-        date: '2024-01-01',
     });
     expect(result).toEqual(mockResponse.data);
     console.error = originalConsoleError;

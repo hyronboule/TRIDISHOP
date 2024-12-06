@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const { paypalConfig } = require('../config/paypalConfig');
 dotenv.config();
 const path = require('path');
-const Transaction = require('../models/PaypalData');
+const Transactions = require('../models/PaypalData');
 
 
 const PORT = process.env.BASE_PORT;
@@ -97,7 +97,7 @@ const successPayments = async (req, res) => {
                     const status = payment.state;
 
                    
-                    const transaction = new Transaction({
+                    const transaction = new Transactions({
                         transactionId: paymentId,
                         buyer: buyer,
                         sellers: sellers,
@@ -196,7 +196,7 @@ const distributePayments = (payments, res) => {
 }
 
 const findPayment = async (req,res)=>{
-    const data = await Transaction.find();
+    const data = await Transactions.find();
     res.json(data)
  }
 

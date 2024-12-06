@@ -16,14 +16,13 @@ export const callApiLogin = async (email, password) => {
     }
 };
 
-export const callApiRegister = async (pseudo, email, password, date) => {
+export const callApiRegister = async (pseudo, email, password) => {
 
     try {
         const result = await axios.post(url.register, {
             pseudo: pseudo,
             email: email,
             password: password,
-            date: date
         });
         if (result.data) {
             return result.data;

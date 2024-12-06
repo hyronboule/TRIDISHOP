@@ -55,6 +55,7 @@ const updateProfil = async (req, res) => {
         const pseudo = req.params.pseudo;
         const { contentType, links, paypalEmail, newPseudo } = req.body;
         const updateFields = {};
+        const pseudoRegex = /^[a-zA-Z0-9]+$/
 
         if (newPseudo) {
             const existingProduct = await UserProfil.findOne({ pseudo: newPseudo });
@@ -76,6 +77,9 @@ const updateProfil = async (req, res) => {
             updateFields.paypalEmail = paypalEmail || '';
         }
         if (newPseudo) {
+            if (!pseudoRegex.test(newPseudo)) {
+                return res.status(400).json({ message: 'Le pseudo doit être unique et ne contenir que des lettres et des chiffres' });
+            }
             updateFields.pseudo = newPseudo || '';
         }
 
