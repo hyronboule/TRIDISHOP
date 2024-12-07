@@ -1,4 +1,4 @@
-import { Grid, Stack, Paper } from '@mui/material'
+import { Grid, Stack } from '@mui/material'
 import React from 'react'
 import { colorVar } from '../../style/colorVar'
 import ProductImage from '../ProductImage/ProductImage.jsx'

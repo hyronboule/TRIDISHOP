@@ -1,4 +1,4 @@
-@import "../../style/colorVar.scss";
+@use "../../style/colorVar.scss" as colors;
 
 
 .titleLogin{
@@ -6,7 +6,7 @@
     text-align: center;
     font-size: 35px;
     height: 60px;
-    font-family: $font2;
+    font-family: colors.$font2;
     font-weight: bolder;
     text-decoration: underline;
 }

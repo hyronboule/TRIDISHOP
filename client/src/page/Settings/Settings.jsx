@@ -20,7 +20,7 @@ const Settings = () => {
   const [linkFacebook, setLinkFacebook] = useState()
   const [paypalEmail, setPaypalEmail] = useState()
   const [newPassword, setNewPassword] = useState("")
-  const { infoUser, setToken } = useUserContext()
+  const { infoUser, setToken,token } = useUserContext()
   const navigate = useNavigate()
 
   const addImage = (e) => {
@@ -69,7 +69,7 @@ const Settings = () => {
       image: image,
       paypalEmail: paypalEmail
     }
-    updatedUserProfil(data, infoUser.pseudo).then((data) => {
+    updatedUserProfil(data, infoUser.pseudo,token).then((data) => {
       Swal.fire({
         title: data.message,
         icon: data.success ? 'success' : "error",
@@ -139,7 +139,7 @@ const Settings = () => {
       let data = { pseudo: newPseudo }; 
 
       try {
-        const response = await callApiUpdateUserAuth(data, emailUser);
+        const response = await callApiUpdateUserAuth(data, emailUser,token);
 
         if (response.status === 400) {
           Swal.fire({
@@ -149,8 +149,8 @@ const Settings = () => {
           });
           hasError = true;
         } else {
-          await updatedUserProfil(data, pseudoUser);
-          await updateNameUserAllProducts(pseudoUser, newPseudo);
+          await updatedUserProfil(data, pseudoUser,token);
+          await updateNameUserAllProducts(pseudoUser, newPseudo,token);
           hasUpdate = true;
         }
       } catch (err) {
@@ -166,7 +166,7 @@ const Settings = () => {
       if (newPassword) data.password = newPassword;
 
       try {
-        const response = await callApiUpdateUserAuth(data, emailUser);
+        const response = await callApiUpdateUserAuth(data, emailUser,token);
 
         if (response.status === 400) {
           Swal.fire({

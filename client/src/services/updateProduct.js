@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import { callApiUpdatePoducts } from './callApiProducts';
 
-export const updateProductForm = (nameFile) => {
+export const updateProductForm = (nameFile,token) => {
     return Swal.fire({
         title: 'Mise à jour du produit',
         html: `
@@ -58,7 +58,7 @@ export const updateProductForm = (nameFile) => {
         if (price) data.price = price;
         if (tags) data.tags = tags;
 
-        return callApiUpdatePoducts(nameFile, data).then((data) => {
+        return callApiUpdatePoducts(nameFile, data,token).then((data) => {
             if (data && data.status == '200') {
                 //reload page
                 return true;

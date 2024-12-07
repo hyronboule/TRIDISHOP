@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import "./home.scss"
 import React, { useEffect, useState } from 'react'
 import InputText from '../../components/InputText/InputText.jsx';
-import Select from '../../components/Select/Select.jsx';
+
 import Image3D from '../../components/Image3D/Image3D.jsx';
 import { callApiAllProducts, callApiSearchProduct } from '../../services/callApiProducts.js';
 

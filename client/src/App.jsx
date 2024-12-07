@@ -17,6 +17,7 @@ function App() {
   const location = useLocation();
   const [displayNav, setDisplayNav] = useState(true)
 
+
   useEffect(() => {
     if (location.pathname === "/login" ||  location.pathname === "/Sign" || location.pathname === "/Login" ) {
       setDisplayNav(false);

@@ -13,7 +13,7 @@ export const apiCallUserProfil = async (pseudo) => {
     }
 }
 
-export const updatedUserProfil = async (data, name) => {
+export const updatedUserProfil = async (data, name, token) => {
     try {
 
         const formData = new FormData();
@@ -38,6 +38,7 @@ export const updatedUserProfil = async (data, name) => {
         const response = await axios.put(`${url.updateProfil}/${name}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
             },
         });
 
@@ -68,7 +69,6 @@ export const callApiCreateProfilUser = async (pseudo, email) =>{
                 'Content-Type': 'multipart/form-data',
             },
         });
-        console.log(response.data);
         
         if (response.data) {
             return response.data

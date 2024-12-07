@@ -31,6 +31,8 @@ test('updatedUserProfil - successful profile update', async () => {
     const mockResponse = { data: { message: 'Profile updated successfully' } };
     axios.put.mockResolvedValue(mockResponse);
 
+    const token = 'mockToken123'; // Simuler un token pour les tests
+
     const data = {
         instagram: 'https://instagram.com/test',
         facebook: 'https://facebook.com/test',
@@ -39,12 +41,17 @@ test('updatedUserProfil - successful profile update', async () => {
         paypalEmail: 'test@example.com',
     };
 
-    const result = await updatedUserProfil(data, 'testPseudo');
+    const result = await updatedUserProfil(data, 'testPseudo', token);
 
     expect(axios.put).toHaveBeenCalledWith(
         `${url.updateProfil}/testPseudo`,
         expect.any(FormData),
-        { headers: { 'Content-Type': 'multipart/form-data' } }
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        }
     );
     expect(result).toEqual({
         success: true,
@@ -58,9 +65,11 @@ test('updatedUserProfil - handles API error', async () => {
     };
     axios.put.mockRejectedValue(mockError);
 
+    const token = 'mockToken123'; // Simuler un token pour les tests
+
     const data = { pseudo: 'invalidPseudo' };
 
-    const result = await updatedUserProfil(data, 'testPseudo');
+    const result = await updatedUserProfil(data, 'testPseudo', token);
 
     expect(result).toEqual({
         sucess: false,

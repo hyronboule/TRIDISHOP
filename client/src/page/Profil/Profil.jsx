@@ -3,7 +3,6 @@ import "./profil.scss"
 import { Container, Grid, Stack } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import { colorVar } from '../../style/colorVar.js';
-import Select from '../../components/Select/Select.jsx';
 import Image3D from '../../components/Image3D/Image3D.jsx';
 import NavigationButton from "../../components/NavigationButton/NavigationButton.jsx";
 import MenuLinks from '../../components/MenuLinks/MenuLinks.jsx';

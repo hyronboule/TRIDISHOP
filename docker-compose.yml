@@ -8,7 +8,7 @@ services:
       - CI=true
     ports:
       - "8080:8080"
-    command: sh -c "npm run test && npm run dev"
+    command: sh -c "npm run lint || true && npm run test && npm run dev"
 
   api-gateway:
     build:

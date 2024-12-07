@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { callApiDetailProduct } from '../../services/callApiProducts';
-import { Container, Grid, Stack } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import View3D from '../../components/View3D/View3D';
 import NavigationButton from '../../components/NavigationButton/NavigationButton';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';

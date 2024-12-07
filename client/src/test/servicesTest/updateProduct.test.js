@@ -17,6 +17,8 @@ vi.mock('../../services/callApiProducts', () => ({
     callApiUpdatePoducts: vi.fn(),
 }));
 
+const token = 'mockToken123'; // Simuler un token pour les tests
+
 // Test 1: Valid inputs
 test('updateProductForm - calls API with valid inputs', async () => {
     Swal.fire.mockResolvedValue({
@@ -30,13 +32,13 @@ test('updateProductForm - calls API with valid inputs', async () => {
 
     callApiUpdatePoducts.mockResolvedValue({ status: '200' });
 
-    const result = await updateProductForm('test-file');
+    const result = await updateProductForm('test-file', token);
 
     expect(callApiUpdatePoducts).toHaveBeenCalledWith('test-file', {
         description: 'New description',
         price: '100',
         tags: ['tag1', 'tag2'],
-    });
+    }, token);
 
     expect(result).toBe(true);
 });
@@ -55,7 +57,7 @@ test('updateProductForm - handles invalid price gracefully', async () => {
         value: null, 
     });
 
-    const result = await updateProductForm('test-file');
+    const result = await updateProductForm('test-file', token);
 
     expect(result).toBe(false);
 });
@@ -71,7 +73,7 @@ test('updateProductForm - handles empty fields gracefully', async () => {
         value: null, 
     });
 
-    const result = await updateProductForm('test-file');
+    const result = await updateProductForm('test-file', token);
 
     expect(result).toBe(false);
 });
@@ -82,7 +84,7 @@ test('updateProductForm - handles user cancellation', async () => {
         isConfirmed: false,
     });
 
-    const result = await updateProductForm('test-file');
+    const result = await updateProductForm('test-file', token);
 
     expect(result).toBe(false);
 });

@@ -1,13 +1,13 @@
-@import "../../style//colorVar.scss";
+@use "../../style/colorVar.scss" as colors;
 
 .inputSign{
     height: 35px;
+    border-radius: 10px;
+    background-color: colors.$backgroundPaleGrey;
+    width: 100%;
     @media (max-width:1200px) {
         height: 30px;
     }
-    border-radius: 10px;
-    background-color: $backgroundPaleGrey;
-    width: 100%;
 }
 .formSign > div{
     height: 75%;
@@ -17,15 +17,15 @@
 .dateSign{
     padding: 0px 15px;
     min-width: 100px;
-    border: 1px solid $backgroundGrey;
-    color:$backgroundGrey;
+    border: 1px solid colors.$backgroundGrey;
+    color:colors.$backgroundGrey;
 }
 .titleSign{
     height: 60px;
     margin-bottom: 15px;
     text-align: center;
     font-size: 35px;
-    font-family: $font2;
+    font-family: colors.$font2;
     font-weight: bolder;
     text-decoration: underline;
 }

@@ -1,4 +1,4 @@
-@import '../../style/colorVar.scss';
+@use '../../style/colorVar.scss' as colors;
 
 .buttonUpdateProduct{
     background-color: transparent;

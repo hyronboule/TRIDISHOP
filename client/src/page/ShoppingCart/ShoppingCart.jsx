@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import "./shoppingCart.scss"
 import { Container, Grid, Stack } from '@mui/material'
 import NavigationButton from '../../components/NavigationButton/NavigationButton'
@@ -17,6 +17,7 @@ const ShoppingCart = () => {
   const [listSeller, setListSeller] = useState([])
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const {token} = useUserContext()
 
   const totalPrice = () => {
     let total = 0
@@ -155,7 +156,7 @@ const ShoppingCart = () => {
     //  appel api changement nombre de téléchargement
     try {
       productShops.forEach((item) => {
-        callApiUpdatePoducts(item.nameFile, { download: item.download += 1 })
+        callApiUpdatePoducts(item.nameFile, { download: item.download += 1 },token)
       })
 
     } catch (error) {

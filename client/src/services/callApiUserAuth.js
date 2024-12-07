@@ -36,13 +36,21 @@ export const callApiRegister = async (pseudo, email, password) => {
     }
 }
 
-export const callApiUpdateUserAuth = async (data, email) => {
+export const callApiUpdateUserAuth = async (data, email,token) => {
     try {
         const requestBody = {
             email,
             ...data,
         };
-        const response = await axios.put(url.updateUserAuth, requestBody);
+        const response = await axios.put(
+            url.updateUserAuth,
+            requestBody,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
         return response.data;
     } catch (error) {

@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import { deleteProduct } from './callApiProducts';
 
 
-export const deleteConfirmation = (nameFile) => {
+export const deleteConfirmation = (nameFile,token) => {
     return Swal.fire({
         title: 'Êtes-vous sûr ?',
         text: 'Voulez vous supprimer le produit ?',
@@ -13,7 +13,7 @@ export const deleteConfirmation = (nameFile) => {
     }).then(async (result) => {
         if (result.isConfirmed) {
             // Code for confirm the deletion
-            const response = await deleteProduct(nameFile);
+            const response = await deleteProduct(nameFile,token);
             if (response) {
                 if (response == "200") {
                     return true;

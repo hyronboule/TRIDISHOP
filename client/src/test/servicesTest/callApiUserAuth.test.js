@@ -81,12 +81,21 @@ test('callApiUpdateUserAuth - updates user and returns data', async () => {
     const mockResponse = { data: { message: 'User updated successfully' } };
     axios.put.mockResolvedValue(mockResponse);
 
-    const result = await callApiUpdateUserAuth({ pseudo: 'newPseudo' }, 'test@example.com');
+    const token = 'mockToken123'; // Simuler un token pour le test
+    const result = await callApiUpdateUserAuth({ pseudo: 'newPseudo' }, 'test@example.com', token);
 
-    expect(axios.put).toHaveBeenCalledWith(expect.any(String), {
-        email: 'test@example.com',
-        pseudo: 'newPseudo',
-    });
+    expect(axios.put).toHaveBeenCalledWith(
+        expect.any(String),
+        {
+            email: 'test@example.com',
+            pseudo: 'newPseudo',
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
     expect(result).toEqual(mockResponse.data);
     console.error = originalConsoleError; 
 });
@@ -96,7 +105,8 @@ test('callApiUpdateUserAuth - handles 400 error', async () => {
     console.error = vi.fn(); 
     axios.put.mockRejectedValue({ response: { status: 400 } });
 
-    const result = await callApiUpdateUserAuth({ pseudo: 'newPseudo' }, 'test@example.com');
+    const token = 'mockToken123'; // Simuler un token pour le test
+    const result = await callApiUpdateUserAuth({ pseudo: 'newPseudo' }, 'test@example.com', token);
 
     expect(result).toEqual({
         status: 400,
@@ -108,9 +118,10 @@ test('callApiUpdateUserAuth - handles 400 error', async () => {
 test('callApiUpdateUserAuth - throws error on unexpected error', async () => {
     const originalConsoleError = console.error;
     console.error = vi.fn(); 
+    const token = 'mockToken123'; // Simuler un token pour le test
     axios.put.mockRejectedValue(new Error('Unexpected error'));
 
-    await expect(callApiUpdateUserAuth({ pseudo: 'newPseudo' }, 'test@example.com')).rejects.toThrow('Unexpected error');
+    await expect(callApiUpdateUserAuth({ pseudo: 'newPseudo' }, 'test@example.com', token)).rejects.toThrow('Unexpected error');
     console.error = originalConsoleError; 
 });
 

@@ -33,6 +33,7 @@ function CookieConsent() {
                 Ce site utilise uniquement les données nécessaires pour assurer son bon fonctionnement. Aucune donnée supplémentaire ne sera collectée ou utilisée.
             </p>
             <button
+                aria-label="Accepter les conditions"
                 style={{
                     backgroundColor: '#4CAF50',
                     color: 'white',

@@ -1,12 +1,12 @@
-@import "../../style//colorVar.scss";
+@use "../../style/colorVar.scss" as colors;
 
 .inputAddPubli {
     height: 35px;
     border-radius: 10px;
-    background-color: $backgroundPaleGrey;
+    background-color: colors.$backgroundPaleGrey;
     max-width: 85px;
     min-width: 60px;
-    border: 1px solid $backgroundGrey;
+    border: 1px solid colors.$backgroundGrey;
 }
 
 

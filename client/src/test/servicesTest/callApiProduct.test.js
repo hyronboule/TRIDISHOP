@@ -8,7 +8,6 @@ import {
     addNewProductApi,
     callApiUpdatePoducts,
     deleteProduct,
-    callApiSearchProduct,
     updateNameUserAllProducts
 } from '../../services/callApiProducts.js';
 import { url } from '../../services/url';
@@ -134,23 +133,44 @@ test('callApiUpdatePoducts - successful product update', async () => {
     const mockResponse = { data: { message: 'Product updated successfully' } };
     axios.put.mockResolvedValue(mockResponse);
 
+    const token = 'mockToken123';
     const updateData = { description: 'Updated product' };
 
-    const result = await callApiUpdatePoducts('testFile', updateData);
+    const result = await callApiUpdatePoducts('testFile', updateData, token);
 
     expect(axios.put).toHaveBeenCalledWith(
         `${url.updateProduct}/testFile`,
         expect.any(FormData),
-        { headers: { 'Content-Type': 'multipart/form-data' } }
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        }
     );
+
     expect(result).toEqual(mockResponse);
 });
+
 
 test('callApiUpdatePoducts - handles API error', async () => {
     axios.put.mockRejectedValue(new Error('API error'));
 
-    const result = await callApiUpdatePoducts('testFile', { description: 'Updated product' });
+    const token = 'mockToken123';
+    const updateData = { description: 'Updated product' };
 
+    const result = await callApiUpdatePoducts('testFile', updateData, token);
+
+    expect(axios.put).toHaveBeenCalledWith(
+        `${url.updateProduct}/testFile`,
+        expect.any(FormData), 
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
     expect(result).toBeUndefined(); 
 });
 
@@ -158,35 +178,80 @@ test('callApiUpdatePoducts - handles API error', async () => {
 test('deleteProduct - successful deletion', async () => {
     axios.delete.mockResolvedValue({ status: 200 });
 
-    const result = await deleteProduct('testFile');
+    const token = 'mockToken123';
+    const result = await deleteProduct('testFile', token);
 
-    expect(axios.delete).toHaveBeenCalledWith(`${url.deleteProduct}/testFile`);
+    expect(axios.delete).toHaveBeenCalledWith(
+        `${url.deleteProduct}/testFile`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
     expect(result).toBe(200);
 });
 
 test('deleteProduct - handles API error', async () => {
     axios.delete.mockRejectedValue(new Error('API error'));
 
-    const result = await deleteProduct('testFile');
+    const token = 'mockToken123';
+    const result = await deleteProduct('testFile', token);
 
-    expect(result).toBeUndefined(); // Function should return undefined on error
+    expect(axios.delete).toHaveBeenCalledWith(
+        `${url.deleteProduct}/testFile`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+    expect(result).toBeUndefined();
 });
+
 
 // Test for `updateNameUserAllProducts`
 test('updateNameUserAllProducts - successful update', async () => {
     const mockResponse = { data: { message: 'Name updated successfully' } };
     axios.put.mockResolvedValue(mockResponse);
 
-    const result = await updateNameUserAllProducts('oldName', 'newPseudo');
+    const token = 'mockToken123';
 
-    expect(axios.put).toHaveBeenCalledWith(url.updateNameUserAllProduct, null, {
-        params: { name: 'oldName', pseudo: 'newPseudo' },
-    });
+    const result = await updateNameUserAllProducts('oldName', 'newPseudo', token);
+
+    expect(axios.put).toHaveBeenCalledWith(
+        url.updateNameUserAllProduct,
+        null,
+        {
+            params: { name: 'oldName', pseudo: 'newPseudo' },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
     expect(result).toEqual(mockResponse.data);
 });
 
 test('updateNameUserAllProducts - handles API error', async () => {
-    const result = await updateNameUserAllProducts('oldName', 'newPseudo');
+    axios.put.mockRejectedValue(new Error('API error')); 
 
-    expect(result).toHaveProperty('message'); 
+    const token = 'mockToken123';
+
+    try {
+        await updateNameUserAllProducts('oldName', 'newPseudo', token);
+    } catch (error) {
+      
+        expect(error).toEqual(new Error('API error'));
+    }
+
+    expect(axios.put).toHaveBeenCalledWith(
+        url.updateNameUserAllProduct,
+        null,
+        {
+            params: { name: 'oldName', pseudo: 'newPseudo' },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
 });

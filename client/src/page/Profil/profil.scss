@@ -1,4 +1,4 @@
-@import "../../style/colorVar.scss";
+@use "../../style/colorVar.scss" as colors;
 
 .sidePadding{
     padding: 0px 50px;
@@ -13,7 +13,7 @@
     color: white;
     font-size: 20px;
     text-transform: uppercase;
-    background-color: $backgroundText;
+    background-color: colors.$backgroundText;
     padding: 5px;
     text-align: center;
     font-weight: 500;

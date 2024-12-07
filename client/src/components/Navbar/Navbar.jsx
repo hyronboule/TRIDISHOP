@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AppBar, Container, Stack } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
@@ -10,14 +10,14 @@ import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { colorVar } from "../../style/colorVar.js"
 import { useUserContext } from '../../context/User.jsx';
-import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/logoTridi.png'
+
+
 
 
 
 export const Navbar = () => {
     const { userLogin, productShops } = useUserContext()
-    const navigate = useNavigate()
+  
 
     return (
         <AppBar className='nav' position="fixed" sx={

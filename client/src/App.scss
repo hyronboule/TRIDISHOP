@@ -1,4 +1,4 @@
-@import "./style/colorVar.scss";
+@use "./style/colorVar.scss" as colors;
 
 #root {
     position: relative;
@@ -39,9 +39,9 @@ input,
 label {
     height: 40px;
     padding: 0px 15px;
-    border: 1px solid $backgroundGrey;
+    border: 1px solid colors.$backgroundGrey;
     border-radius: 10px;
-    background-color: $backgroundPaleGrey;
+    background-color: colors.$backgroundPaleGrey;
 }
 
 input {
@@ -55,7 +55,7 @@ label {
 }
 
 .page {
-    background: $backgroundLinearGradient;
+    background: colors.$backgroundLinearGradient;
 }
 
 .inputLogin {
@@ -95,8 +95,8 @@ label {
 .select {
     padding: 2px 4px;
     border-radius: 30px;
-    background-color: $backgroundPaleGrey;
-    border: 1px solid $backgroundGrey;
+    background-color: colors.$backgroundPaleGrey;
+    border: 1px solid colors.$backgroundGrey;
 }
 
 
@@ -109,7 +109,7 @@ label {
 
 .form>div {
     border-radius: 20px;
-    box-shadow: $shadow;
+    box-shadow: colors.$shadow;
     height: 75%;
     display: flex;
     flex-direction: column;
@@ -118,10 +118,10 @@ label {
 }
 
 .buttonValidation {
-    background-color: $backgroundPaleBlue;
+    background-color: colors.$backgroundPaleBlue;
     border: none;
-    box-shadow: $boxShadow;
-    font-family: $font2;
+    box-shadow: colors.$boxShadow;
+    font-family: colors.$font2;
     font-size: 20px;
     padding: 8px;
     border-radius: 10px;

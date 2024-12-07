@@ -56,8 +56,6 @@ export const callApiDetailProduct = async (id) => {
 
 export const addNewProductApi = async (addData) => {
     try {
-        console.log(addData.files);
-
         const formData = new FormData();
 
         formData.append("pseudo", addData.pseudo);
@@ -88,7 +86,7 @@ export const addNewProductApi = async (addData) => {
 }
 
 
-export const callApiUpdatePoducts = async (nameFile, data) => {
+export const callApiUpdatePoducts = async (nameFile, data,token) => {
     try {
         const formData = new FormData();
         if (data.description) {
@@ -106,6 +104,7 @@ export const callApiUpdatePoducts = async (nameFile, data) => {
         const response = await axios.put(`${url.updateProduct}/${nameFile}`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
             }
         });
 
@@ -116,9 +115,14 @@ export const callApiUpdatePoducts = async (nameFile, data) => {
     }
 }
 
-export const deleteProduct = async (nameFile) => {
+export const deleteProduct = async (nameFile,token) => {
     try {
-        const response = await axios.delete(`${url.deleteProduct}/${nameFile}`)
+        const response = await axios.delete(`${url.deleteProduct}/${nameFile}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    
         return response.status
     } catch (error) {
         console.error('Error during API call:', error);
@@ -143,14 +147,21 @@ export const callApiSearchProduct = async (search) => {
     }
 };
 
-export const updateNameUserAllProducts = async (name, pseudo) => {
+export const updateNameUserAllProducts = async (name, pseudo,token) => {
     try {
-        const response = await axios.put(url.updateNameUserAllProduct, null, {
-            params: {
-                name,
-                pseudo,
-            },
-        });
+        const response = await axios.put(
+            url.updateNameUserAllProduct,
+            null, // Pas de corps dans la requête PUT
+            {
+                params: {
+                    name,
+                    pseudo,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
         console.error('Error updating user name:', error.response?.data || error.message);

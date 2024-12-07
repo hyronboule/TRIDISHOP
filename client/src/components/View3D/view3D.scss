@@ -1,10 +1,10 @@
-@import '../../style/colorVar.scss';
+@use '../../style/colorVar.scss' as colors;
 
 .canva3D{
     border-radius: 10px ;
     margin: auto;
-    box-shadow: $boxShadow;
-    border: 1px solid $border3D;
-    background-color: $backgroundLinearGradient;
+    box-shadow: colors.$boxShadow;
+    border: 1px solid colors.$border3D;
+    background-color: colors.$backgroundLinearGradient;
    
 }

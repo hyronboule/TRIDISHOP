@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./addPublication.scss"
-import { Container, Stack, Grid, Box, Paper } from '@mui/material'
+import { Container, Stack, Grid } from '@mui/material'
 import NavigationButton from "../../components/NavigationButton/NavigationButton";
 import InputText from "../../components/InputText/InputText";
 import { colorVar } from '../../style/colorVar';
@@ -113,7 +113,7 @@ const AddPublication = () => {
             <Grid item width={{ xs: "100%", md: "50%" }} height={{ xs: "40%", md: "100%" }} display={"flex"} flexDirection={"column"} alignItems={{ xs: "center", md: "start" }} justifyContent={{ xs: "space-evenly", md: "flex-start" }} gap={{ md: 18 }}>
               <textarea className='inputAddPubli textarea' placeholder='Description...' value={description} onChange={(e) => {
                 setDescription(e.target.value)
-              }}></textarea>
+              }} />
               <Stack>
                 <Stack flexDirection={"row"} gap={5} >
                   <InputText placeholder={"Rentrez tags...."} className={"inputAddPubli"} value={tags} setValue={setTags} />

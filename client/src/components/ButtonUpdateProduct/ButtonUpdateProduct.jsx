@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Stack } from '@mui/material'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import './buttonUpdateProduct.scss';
@@ -14,11 +14,12 @@ import { useNavigate } from 'react-router-dom';
 const ButtonUpdateProduct = ({ name, productId, setReload }) => {
   const { infoUser } = useUserContext()
   const [nameUser, setNameUser] = useState(name)
+  const {token} = useUserContext()
   const navigate = useNavigate()
   
   const deleteProduct = () => {
     // open a form for delete product
-    deleteConfirmation(productId).then((result)=>{
+    deleteConfirmation(productId,token).then((result)=>{
       if (result) {
         // navigate to home page
         navigate('/')
@@ -29,7 +30,7 @@ const ButtonUpdateProduct = ({ name, productId, setReload }) => {
   const updateProduct = () => {
     // open a form for update product
     setReload(false)
-    updateProductForm(productId).then((result) => {
+    updateProductForm(productId,token).then((result) => {
       if (result === true) {        
         setReload(result)
       }

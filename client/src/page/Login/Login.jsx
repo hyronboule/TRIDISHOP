@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import "./login.scss"
 import InputText from "../../components/InputText/InputText";
 import { Container, Stack } from '@mui/material'
