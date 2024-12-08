@@ -58,20 +58,30 @@ test('callApiRegister - returns data on successful registration', async () => {
 
 test('callApiRegister - shows error alert on API error', async () => {
     const originalConsoleError = console.error;
-    console.error = vi.fn(); 
+    console.error = vi.fn();
 
-    axios.post.mockRejectedValue({ response: { status: 400 } });
+    axios.post.mockRejectedValue({
+        response: {
+            data: {
+                message: 'User validation failed:  pseudo: pseudo est déjà utilisé.',
+            },
+        },
+    });
 
-    const result = await callApiRegister('pseudo123', 'test@example.com', 'password123', '2024-01-01');
+    // Appel de la fonction
+    await callApiRegister('pseudo123', 'test@example.com', 'password123', '2024-01-01');
 
+   
     expect(Swal.fire).toHaveBeenCalledWith({
         icon: 'error',
-        text: "L'utilisateur existe déjà",
+        text: ' pseudo est déjà utilisé.', 
     });
-    expect(result).toBeUndefined();
+
+    expect(console.error).not.toHaveBeenCalled();
 
     console.error = originalConsoleError; 
 });
+
 
 
 // Tests pour callApiUpdateUserAuth
