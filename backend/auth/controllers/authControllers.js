@@ -75,7 +75,7 @@ const updateUser = async (req, res) => {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-    const pseudoRegex = /^[a-zA-Z0-9]+$/;
+    const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
 
     if (!email) {
         return res.status(400).json({ message: 'Email of the user is required' });

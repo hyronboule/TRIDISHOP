@@ -55,7 +55,7 @@ const updateProfil = async (req, res) => {
         const pseudo = req.params.pseudo;
         const { contentType, links, paypalEmail, newPseudo } = req.body;
         const updateFields = {};
-        const pseudoRegex = /^[a-zA-Z0-9]+$/
+        const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
 
         if (newPseudo) {
             const existingProduct = await UserProfil.findOne({ pseudo: newPseudo });

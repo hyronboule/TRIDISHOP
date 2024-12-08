@@ -24,7 +24,7 @@ export const Sign = () => {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-    const pseudoRegex = /^[a-zA-Z0-9]+$/
+    const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
 
     if (!email || !password || !pseudo) {
       Swal.fire({
@@ -45,15 +45,16 @@ export const Sign = () => {
     // test password regex
     if (!passwordRegex.test(password)) {
       Swal.fire({
+        title: "Veuillez renseigner une mot de passe valide.",
+        text: 'Le mot de passe doit contenir au moins 8 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre, et un caractère spécial (@, $, !, %, *, ?, &, ou #).',
         icon: 'error',
-        text: 'Veuillez rentrer un mot de passe valide ! ( Contient au moins 1 lettre majucule , minuscule, 1 chiffre, 1 caractère  spécial et minimum de 8 caractères...)'
       })
       return;
     }
     // test pseudo
     if (!pseudoRegex.test(pseudo)) {
       Swal.fire({
-        text: "Veuillez renseigner un pseudo valide.",
+        text: "Veuillez renseigner un pseudo valide. 10 caractères max, que de lettres et chiffres",
         icon: 'error',
       })
       return;

@@ -295,7 +295,8 @@ const updateNameUserAllProducts = async (req, res) => {
     const nameUser = req.query.name;
     const newPseudo = req.query.pseudo;
 
-    const pseudoRegex = /^[a-zA-Z0-9]+$/;
+    const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
+
 
     if (!nameUser || !newPseudo) {
         return res.status(404).send({

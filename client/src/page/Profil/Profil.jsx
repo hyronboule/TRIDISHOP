@@ -43,6 +43,7 @@ const Profil = () => {
       // retrieve the user's products
       callApiProductsUser(info).then((data) => {
         if (data) {
+         
           setProductsUser(data.data)
 
           setProductPage(data.urlPage)

@@ -54,7 +54,7 @@ const Settings = () => {
   }
 
   const validatePseudo = (pseudo) => {
-    const regex = /^[a-zA-Z0-9]+$/;
+    const regex = /^[a-zA-Z0-9]{1,10}$/;
     return regex.test(pseudo);
   }
 
@@ -118,14 +118,15 @@ const Settings = () => {
     }
     if (newPassword && !validatePassword(newPassword)) {
       Swal.fire({
-        text: "Veuillez renseigner une mot de passe valide.",
+        title: "Veuillez renseigner une mot de passe valide.",
+        text: 'Le mot de passe doit contenir au moins 8 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre, et un caractère spécial (@, $, !, %, *, ?, &, ou #).',
         icon: 'error',
       })
       return;
     }
     if (newPseudo && !validatePseudo(newPseudo)) {
       Swal.fire({
-        text: "Veuillez renseigner une pseudo valide.",
+        text: "Veuillez renseigner un pseudo valide. 10 caractères max, que de lettres et chiffres",
         icon: 'error',
       })
       return;

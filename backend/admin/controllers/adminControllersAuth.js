@@ -48,21 +48,37 @@ const deleteUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: `User not found ${userId}` });
         }
+        const authHeader = req.headers.authorization;
 
-        // delete all products of user
+        if (!authHeader) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+
+        const token = authHeader.split(' ')[1]; // "Bearer <token>"
+        if (!token) {
+            return res.status(401).json({ message: 'Invalid token format' });
+        }
+
         // delete all products of user
         try {
             const productsResponse = await axios.get(`${process.env.URL_GET_ALL_PRODUCTS_USER}`, {
                 params: { name: user.pseudo },
             });
 
-            const products = productsResponse.data;
-
+            const products = productsResponse.data.data;
+            console.log(products);
+            
             if (products && products.length > 0) {
                 // If products are found, delete them
                 const deleteProductsResponse = await axios.delete(
-                    `${process.env.URL_DELETE_ALL_PRODUCT_USER}${user.pseudo}`
+                    `${process.env.URL_DELETE_ALL_PRODUCT_USER}${user.pseudo}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`, 
+                        },
+                    }
                 );
+                
                 console.log('Products deletion response:', deleteProductsResponse.data);
             } else {
                 console.log(`No products found for user ${user.pseudo}`);
@@ -79,7 +95,14 @@ const deleteUser = async (req, res) => {
 
         // delete Profil
         try {
-            const profileResponse = await axios.delete(`${process.env.URL_DELETE_PROFIL}${user.pseudo}`);
+            const profileResponse = await axios.delete(
+                `${process.env.URL_DELETE_PROFIL}${user.pseudo}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             console.log('Profile deletion response:', profileResponse.data);
         } catch (error) {
             if (error.response && error.response.status === 404) {

@@ -28,11 +28,16 @@ export const callApiRegister = async (pseudo, email, password) => {
             return result.data;
         }
     } catch (error) {
-        console.error('Error during API call:', error);
-        Swal.fire({
-            icon: 'error',
-            text: "L'utilisateur existe déjà"
-        })
+        let errorMessage = error.response?.data?.message?.split(':')[2];
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                text: errorMessage || "L'utilisateur existe déjà"
+            });
+        } else {
+            console.error('Error during API call:', error);
+        }
     }
 }
 
