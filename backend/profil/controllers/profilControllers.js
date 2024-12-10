@@ -56,6 +56,9 @@ const updateProfil = async (req, res) => {
         const { contentType, links, paypalEmail, newPseudo } = req.body;
         const updateFields = {};
         const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
+        const paypalEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      
 
         if (newPseudo) {
             const existingProduct = await UserProfil.findOne({ pseudo: newPseudo });
@@ -74,6 +77,13 @@ const updateProfil = async (req, res) => {
             updateFields.contentType = contentType || 'image/jpeg';
         }
         if (paypalEmail) {
+    
+            if (!paypalEmailRegex.test(paypalEmail)){
+        
+                return res.status(404).send({
+                    message: "paypal email is not valid",
+                });
+            }
             updateFields.paypalEmail = paypalEmail || '';
         }
         if (newPseudo) {

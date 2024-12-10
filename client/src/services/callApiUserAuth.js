@@ -56,7 +56,7 @@ export const callApiUpdateUserAuth = async (data, email,token) => {
                 },
             }
         );
-
+    
         return response.data;
     } catch (error) {
         if (error.response?.status === 400) {

@@ -27,7 +27,6 @@ const Settings = () => {
     if (e.target.files[0]) {
       let file = e.target.files[0]
       let type = file.name.split('.')[1]
-      console.log(type);
 
       if (type === 'jpeg' || type === 'png') {
         setImage(file)
@@ -151,7 +150,8 @@ const Settings = () => {
           hasError = true;
         } else {
           await updatedUserProfil(data, pseudoUser,token);
-          await updateNameUserAllProducts(pseudoUser, newPseudo,token);
+          await updateNameUserAllProducts(pseudoUser, newPseudo,token)
+ 
           hasUpdate = true;
         }
       } catch (err) {
@@ -208,6 +208,20 @@ const Settings = () => {
     }
   };
 
+  const handleValidation = () => {
+    if (linkInstagram || linkFacebook || image || paypalEmail) {
+      upadateInfoUserProfil();
+    } else if (newPseudo || newEmail || newPassword) {
+      updatedUser();
+    } else {
+      Swal.fire({
+        text: "Veuillez renseigner au moins une information à modifier",
+        icon: 'error',
+      });
+    }
+  };
+  
+
   return (
     <Container className='page settings'
       maxWidth="100vw" display='flex' align='center'
@@ -257,18 +271,7 @@ const Settings = () => {
             value={paypalEmail} setValue={setPaypalEmail} />
         </Stack>
 
-        <button className='buttonValidation buttonSettings' style={{ position: 'inherit', margin: '20px 0px', marginLeft: 'auto' }} onClick={() => {
-          linkInstagram || linkFacebook || image || paypalEmail ? upadateInfoUserProfil() :
-            Swal.fire({
-              text: "Veuillez renseigner au moins une information à modifier",
-              icon: 'error',
-            })
-          newPseudo || newEmail || newPassword ? updatedUser() :
-            Swal.fire({
-              text: "Veuillez renseigner au moins une information à modifier",
-              icon: 'error',
-            })
-        }}>Valider</button>
+        <button className='buttonValidation buttonSettings' style={{ position: 'inherit', margin: '20px 0px', marginLeft: 'auto' }} onClick={handleValidation}>Valider</button>
       </Stack>
     </Container>
   )

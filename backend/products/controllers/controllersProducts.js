@@ -143,6 +143,13 @@ const newProduct = async (req, res) => {
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ msg: 'No files uploaded' });
         }
+       
+        if (!req.body.pseudo || !req.body.description || !req.body.price || !req.body.tags ){
+            return res.status(400).json({ message: 'pseudo, description, price and tags are required' });
+        }
+        if (!Array.isArray(req.body.tags) || req.body.tags.length === 0) {
+            return res.status(400).json({ message: 'Tags must be a non-empty array' });
+        }
 
         let file3D = null;
         let imageFile = null;
@@ -269,7 +276,9 @@ const uniqueProductId = async (req, res) => {
         }
 
         if (tags !== undefined) {
-
+            if (!Array.isArray(req.body.tags) || req.body.tags.length === 0) {
+                return res.status(400).json({ message: 'Tags must be a non-empty array' });
+            }
             const result = arrayTags(tags);
             if (result.error) {
                 return res.status(400).json({ message: result.message });
@@ -308,11 +317,15 @@ const updateNameUserAllProducts = async (req, res) => {
             message: "The new pseudo contains invalid characters",
         });
     }
-    const existingProduct = await Product.findOne({ pseudo: newPseudo });
-    if (existingProduct) {
+    const existingProductNewPseudo = await Product.findOne({ pseudo: newPseudo });
+    if (existingProductNewPseudo) {
         return res.status(400).send({
             message: "The new pseudo is already in use in the products collection",
         });
+    }
+    const existingProductUser = await Product.findOne({ pseudo: nameUser });
+    if (!existingProductUser) {
+        return res.status(404).send({ message: "No products found for this user" });
     }
 
     try {

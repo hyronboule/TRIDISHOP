@@ -11,7 +11,7 @@ describe('Login Controller', () => {
     it('email or password invalid , return 400', async () => {
         const response = await request(url.baseUrl).post(url.authUrlLogin).send({});
         expect(response.status).toBe(400);
-        expect(response.body.message).toBe('Invalid email or password');
+        expect(response.body.message).toBe('Email or password empty');
     });
     it('email and password is valid , return ', async () => {
         const response = await request(url.baseUrl).post(url.authUrlLogin).send({
@@ -22,13 +22,13 @@ describe('Login Controller', () => {
         expect(response.body.token).toBeTruthy();
         token = response.body.token;
     });
-    it("password is invalid , return 401", async () => {
+    it("password is invalid , return 400", async () => {
         const response = await request(url.baseUrl).post(url.authUrlLogin).send({
             email: process.env.EMAIL_TEST,
             password: "adjijfo"
         });
-        expect(response.status).toBe(401);
-        expect(response.body.message).toBe('Mot de passe incorrect');
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('Invalid password format. Must contain at least 8 characters, including uppercase, lowercase, number, and special characters');
     })
 })
 

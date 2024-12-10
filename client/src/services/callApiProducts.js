@@ -164,7 +164,8 @@ export const updateNameUserAllProducts = async (name, pseudo,token) => {
         );
         return response.data;
     } catch (error) {
-        console.error('Error updating user name:', error.response?.data || error.message);
-        throw error;
+        if (error.response?.status !== 404) {
+            console.error('Error updating user name:', error.response?.data || error.message);
+        }        
     }
 };

@@ -40,7 +40,7 @@ const profilSchema = new mongoose.Schema({
     paypalEmail: {
         type: String,
         required: true,
-        match: /.+@.+\..+/
+        match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     },
 })
 

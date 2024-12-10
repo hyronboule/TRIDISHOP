@@ -5,12 +5,22 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config()
 
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
+
 const login = (async (req, res) => {
     try {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ message: 'Invalid email or password' });
+            return res.status(400).json({ message: 'Email or password empty' });
+        }
+        if (email && !emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
+        }
+        if (password && !passwordRegex.test(password)) {
+            return res.status(400).json({ message: 'Invalid password format. Must contain at least 8 characters, including uppercase, lowercase, number, and special characters' });
         }
 
         const user = await User.findOne({ email });
@@ -73,10 +83,6 @@ const getUserInfo = async (req, res) => {
 const updateUser = async (req, res) => {
     const { pseudo, email, newEmail, password } = req.body;
 
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-    const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
-
     if (!email) {
         return res.status(400).json({ message: 'Email of the user is required' });
     }
@@ -88,7 +94,7 @@ const updateUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid pseudo format' });
         }
         const existingPseudo = await User.findOne({ pseudo });
-        if (existingPseudo && existingPseudo.email !== email) {
+        if (existingPseudo) {
             return res.status(400).json({ message: 'Pseudo is already in use' });
         }
         updateData.pseudo = pseudo;
@@ -99,7 +105,7 @@ const updateUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid new email format' });
         }
         const existingEmail = await User.findOne({ email: newEmail });
-        if (existingEmail && existingEmail.email !== email) {
+        if (existingEmail) {
             return res.status(400).json({ message: 'New email is already in use' });
         }
         updateData.email = newEmail;
