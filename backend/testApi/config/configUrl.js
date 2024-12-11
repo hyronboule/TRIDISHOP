@@ -12,8 +12,8 @@ const url = {
     displayProduct : '/products/displayFile/',
     detailProduct : '/products/detailProduct/',
     profilUser : '/profil/profilUser/testUser',
-    servicePayement: '/service/payments'
-
+    servicePayement: '/service/payments',
+    findPayment : '/service/findPayment'
 }
 
 module.exports = {url}

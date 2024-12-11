@@ -198,7 +198,7 @@ const distributePayments = (payments, res) => {
 const findPayment = async (req,res)=>{
     const data = await Transactions.find();
     res.json(data)
- }
+}
 
 
 
