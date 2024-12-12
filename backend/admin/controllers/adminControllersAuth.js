@@ -66,7 +66,6 @@ const deleteUser = async (req, res) => {
             });
 
             const products = productsResponse.data.data;
-            console.log(products);
             
             if (products && products.length > 0) {
                 // If products are found, delete them

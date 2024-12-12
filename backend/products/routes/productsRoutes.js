@@ -10,15 +10,14 @@ const upload = multer({
 const controllersProducts = require('../controllers/controllersProducts')
 
 router.get("/products", controllersProducts.getProducts)
-router.get("/displayFile/:id", controllersProducts.displayFile)
-router.get("/productsUser", controllersProducts.getUserProducts)
-router.get("/detailProduct/:id", controllersProducts.getDetailProduct)
+router.get("/file/:id", controllersProducts.displayFile)
+router.get("/products/user", controllersProducts.getUserProducts)
+router.get("/detail/:id", controllersProducts.getDetailProduct)
 router.post("/upload",upload.array('files',2), controllersProducts.newProduct)
-router.delete("/deleteProductUser/:id",token, controllersProducts.deleteProductUser)
-router.delete("/deleteAllProductUser/:pseudo",token, controllersProducts.deleteAllProductUser)
-router.put("/updateProduct/:id",token, upload.none(), controllersProducts.uniqueProductId)
-router.put("/updateNameUserAllProduct", token,upload.none(), controllersProducts.updateNameUserAllProducts)
-
+router.delete("/product/:id",token, controllersProducts.deleteProductUser)
+router.delete("/products/user/:pseudo",token, controllersProducts.deleteAllProductUser)
+router.put("/product/:id",token, upload.none(), controllersProducts.uniqueProductId)
+router.put("/products/user", token,upload.none(), controllersProducts.updateNameUserAllProducts)
 
 
 module.exports = router;

@@ -41,10 +41,10 @@ export const Navbar = () => {
                     <MenuICon icon={HomeIcon} path="/" />
                     <MenuICon
                         shopNumberProduct={productShops.length}
-                        icon={ShoppingBasketIcon} path="/ShoppingCart" />
-                    <MenuICon icon={AddCircleIcon} path="/AddPublication" verifCo={userLogin} />
-                    <MenuICon icon={AccountCircleIcon} path="/Profil" verifCo={userLogin} />
-                    <MenuICon icon={ContactSupportIcon} path="/PageSupport" />
+                        icon={ShoppingBasketIcon} path="/payments" />
+                    <MenuICon icon={AddCircleIcon} path="/publication" verifCo={userLogin} />
+                    <MenuICon icon={AccountCircleIcon} path="/profil" verifCo={userLogin} />
+                    <MenuICon icon={ContactSupportIcon} path="/support" />
                 </Stack>
 
                 <Stack marginLeft={{xs:'auto', sm:0}} marginTop={{xs:0,sm:'auto'}} direction={{ xs: "row", sm: "column" }} spacing={2}>
@@ -52,7 +52,7 @@ export const Navbar = () => {
                         !userLogin &&
                         <MenuICon icon={LogoutRoundedIcon} logount={true} />
                     }
-                    <MenuICon icon={SettingsIcon} path="/Settings" verifCo={userLogin} />
+                    <MenuICon icon={SettingsIcon} path="/settings" verifCo={userLogin} />
                 </Stack>
 
             </Container>

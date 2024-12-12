@@ -69,7 +69,7 @@ export const Sign = () => {
             callApiLogin(email, password).then((data) => {
               if (data) {
                 setToken(data.token);
-                navigate('/Profil');
+                navigate('/profil');
               }
             }).catch((error) => {
 
@@ -114,7 +114,7 @@ export const Sign = () => {
           </Stack>
         </Stack>
         <button className='buttonLogin' onClick={() => {
-          navigate("/Login")
+          navigate("/login")
         }}>Connexion</button>
       </Container>
     </>

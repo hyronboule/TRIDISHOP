@@ -199,7 +199,7 @@ const Settings = () => {
       setNewPassword("");
 
       setToken();
-      navigate("/Login");
+      navigate("/login");
     } else if (!hasError) {
       Swal.fire({
         title: "Aucune modification effectuée.",

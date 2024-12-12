@@ -10,9 +10,9 @@ const upload = multer({
     limits: { fileSize:100 * 1024 },
 });
 
-router.get("/profilUser/:pseudo", controllers.profilUser )
-router.post("/addProfil",upload.single('image') ,controllers.addProfil)
-router.put("/updateProfil/:pseudo",token,upload.single('image') ,controllers.updateProfil)
-router.delete("/deleteProfil/:pseudo",token,upload.none(),controllers.deleteProfil)
+router.get("/user/:pseudo", controllers.profilUser )
+router.post("/add",upload.single('image') ,controllers.addProfil)
+router.put("/user/:pseudo",token,upload.single('image') ,controllers.updateProfil)
+router.delete("/user/:pseudo",token,upload.none(),controllers.deleteProfil)
 
 module.exports = router;

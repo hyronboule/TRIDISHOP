@@ -7,8 +7,8 @@ const token = require('../middlewares/middlewareToken')
 
 router.post("/login",controllers.login)
 router.post("/register",controllers.register)
-router.get("/getRole", middleware,controllers.getUserInfo);
-router.put("/updateInfoUser",token,controllers.updateUser);
+router.get("/role", middleware,controllers.getUserInfo);
+router.put("/user",token,controllers.updateUser);
 
 
 module.exports = router;

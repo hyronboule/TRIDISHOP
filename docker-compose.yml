@@ -37,8 +37,6 @@ services:
       context: ./backend/auth
       dockerfile: Dockerfile
     container_name: auth
-    depends_on:
-      - mongodb-auth
     ports:
       - "8081:8081"
     env_file:
@@ -57,9 +55,6 @@ services:
       context: ./backend/admin
       dockerfile: Dockerfile
     container_name: admin
-    depends_on:
-      - mongodb-products
-      - mongodb-auth
     env_file:
       - ./backend/admin/.env
     ports:
@@ -77,8 +72,6 @@ services:
       context: ./backend/products
       dockerfile: Dockerfile
     container_name: products
-    depends_on:
-      - mongodb-products
     env_file:
       - ./backend/products/.env
     volumes:
@@ -102,7 +95,6 @@ services:
       dockerfile: Dockerfile
     container_name: profil
     depends_on:
-      - mongodb-profil
       - auth
     env_file:
       - ./backend/profil/.env
@@ -130,8 +122,6 @@ services:
       - ./backend/service:/app
     ports:
       - "8085:8085"
-    depends_on:
-      - mongodb-transactions
 
     develop:
       watch:
@@ -165,57 +155,3 @@ services:
       - ./backend/testApi/.env.test
     command: >
       ./wait-for-it.sh auth:8081 --  ./wait-for-it.sh service:8085 --  ./wait-for-it.sh profil:8084 --  ./wait-for-it.sh products:8083 --  ./wait-for-it.sh api-gateway:3000 --  npm test
-
-  mongodb-auth:
-    image: mongo:latest
-    container_name: mongodb-auth
-    restart: always
-    ports:
-      - "27018:27017"
-    volumes:
-      - mongodb-auth:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-
-  mongodb-products:
-    image: mongo:latest
-    container_name: mongodb-products
-    restart: always
-    ports:
-      - "27019:27017"
-    volumes:
-      - mongodb-products:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-
-  mongodb-profil:
-    image: mongo:latest
-    container_name: mongodb-profil
-    restart: always
-    ports:
-      - "27020:27017"
-    volumes:
-      - mongodb-profil:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-
-  mongodb-transactions:
-    image: mongo:latest
-    container_name: mongodb-transactions
-    restart: always
-    ports:
-      - "27021:27017"
-    volumes:
-      - mongodb-transactions:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-
-volumes:
-  mongodb-auth:
-  mongodb-products:
-  mongodb-profil:
-  mongodb-transactions:

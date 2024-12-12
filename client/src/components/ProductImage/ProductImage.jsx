@@ -6,7 +6,7 @@ const ProductImage = ({ img, productId }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/DetailProduct/${productId}`);
+        navigate(`/product/${productId}`);
     }
     return (
 

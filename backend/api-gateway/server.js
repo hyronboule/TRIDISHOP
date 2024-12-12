@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config()
 
+
 const corsOptions = {
   origin: process.env.ORIGIN,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
@@ -16,6 +17,7 @@ app.use(cors(corsOptions));
 
 app.use(bodyParser.json({ limit: '2400mb' }));
 app.use(bodyParser.urlencoded({ limit: '2400mb', extended: true }));
+
 
 // Routes
 app.use("/api/auth",proxy(process.env.URL_AUTH))
@@ -27,4 +29,5 @@ app.use("/api/service",proxy(process.env.URL_SERVICE))
 // Démarrer le serveur
 app.listen(process.env.PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${process.env.PORT}`);
+  console.log('Documentation Swagger disponible sur http://localhost:3000/api-docs');
 });

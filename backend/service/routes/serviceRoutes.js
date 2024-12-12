@@ -6,9 +6,9 @@ const adminUser = require('../middlewares/middlewareService');
 
 
 router.post('/payments', controllers.paypalPayement)
-router.get('/successPayments', controllers.successPayments);
-router.get('/cancelPayments', controllers.cancelPayments)
-router.get('/findPayment',adminUser,controllers.findPayment)
+router.get('/success', controllers.successPayments);
+router.get('/cancel', controllers.cancelPayments)
+router.get('/transactions',adminUser,controllers.findPayment)
 
 
 

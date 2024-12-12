@@ -1,5 +1,7 @@
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config()
 
 const token = async (req, res, next) => {
 
@@ -10,7 +12,7 @@ const token = async (req, res, next) => {
 
         const token = req.headers.authorization.split(' ')[1];
 
-        const response = await axios.get('http://auth:8081/getRole', {
+        const response = await axios.get(process.env.URL_ROLE, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -25,14 +27,11 @@ const token = async (req, res, next) => {
 
        
         if (role === 'user') {
-            console.log('ici');
             
             const decodedToken = jwt.decode(token);
             const tokenEmail = decodedToken.email;
-            console.log(tokenEmail);
             
             const requestEmail = req.body.email || req.query.email;
-            console.log(requestEmail);
             
 
             if (!requestEmail) {
@@ -40,7 +39,6 @@ const token = async (req, res, next) => {
             }
 
             if (requestEmail !== tokenEmail) {
-                console.log('là');
                 
                 return res.status(403).json({ message: "L'email ne correspond pas à celui du token" });
             }

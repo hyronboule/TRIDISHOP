@@ -1,4 +1,6 @@
 const axios = require('axios');
+const dotenv = require('dotenv');
+dotenv.config()
 
 const adminUser = async (req, res, next) => {
 
@@ -7,7 +9,7 @@ const adminUser = async (req, res, next) => {
            
             const token = req.headers.authorization.split(' ')[1];
         
-            const response = await axios.get('http://auth:8081/getRole', {
+            const response = await axios.get(process.env.URL_ROLE, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -21,7 +23,7 @@ const adminUser = async (req, res, next) => {
                 res.status(403).json({ message: "Vous n'avez pas accès à l'espace admin de l'api" });
             }
         } else {
-            res.status(403).json({ message: 'pas autorizé' });
+            res.status(403).json({ message: 'pas autorisé' });
         }
     } catch (error) {
         res.status(404).json({ message: 'error while using the admin middleware : ', error });

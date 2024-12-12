@@ -32,7 +32,7 @@ describe('Login Controller', () => {
     })
 })
 
-// test middleware and route auth/getRole
+// test middleware and route auth/role
 describe('get user role with the middleware of auth', () => {
     it('token valid, return 200', async () => {
         const response = await request(url.authUrlUserInfo)

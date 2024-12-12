@@ -44,6 +44,6 @@ const profilSchema = new mongoose.Schema({
     },
 })
 
-const UserProfil = mongoose.model("UserProfil", profilSchema);
+const UserProfil = mongoose.model("Profil", profilSchema);
 
 module.exports = UserProfil;

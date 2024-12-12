@@ -38,7 +38,7 @@ const Login = () => {
     callApiLogin(email, password).then((data) => {
       if (data) {
         setToken(data.token)
-        navigate('/Profil')
+        navigate('/profil')
       } else {
         Swal.fire({
           text: "L'utilisateur n'existe pas",
@@ -73,7 +73,7 @@ const Login = () => {
           </Stack>
         </Stack>
         <button className='buttonLogin' onClick={() => {
-          navigate("/Sign")
+          navigate("/sign")
         }}>Inscription</button>
       </Container>
 

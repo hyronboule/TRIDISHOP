@@ -1,5 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const { getGfs } = require("../config/db");
+const dotenv = require('dotenv');
+dotenv.config()
 
 const recoveryFile = async (nameFile) => {
   try {
@@ -12,7 +14,7 @@ const recoveryFile = async (nameFile) => {
       const files = await gfs.find({ filename: nameFile }).toArray();
 
       if (files.length > 0) {
-          const fileUrl = `http://localhost:3000/api/products/displayFile/${nameFile}`;
+          const fileUrl = `${process.env.URL_FILE}${nameFile}`;
           return { fileUrl, ...files[0] };
       } else {
           return null;

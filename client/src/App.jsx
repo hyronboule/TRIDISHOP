@@ -19,7 +19,7 @@ function App() {
 
 
   useEffect(() => {
-    if (location.pathname === "/login" ||  location.pathname === "/Sign" || location.pathname === "/Login" ) {
+    if (location.pathname === "/login" ||  location.pathname === "/sign" || location.pathname === "/Login" ) {
       setDisplayNav(false);
     }else{
       setDisplayNav(true);
@@ -32,14 +32,14 @@ function App() {
       <User>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/ShoppingCart" element={<ShoppingCart />} />
-          <Route path="/AddPublication" element={<AddPublication />} />
-          <Route path="/Profil/:nameOtherUser?" element={<Profil />} />
-          <Route path="/DetailProduct/:productId" element={<DetailProduct />} />
-          <Route path="/Settings" element={<Settings />} />
-          <Route path="/Sign" element={<Sign />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/PageSupport" element={<PageSupport />} />
+          <Route path="/payments" element={<ShoppingCart />} />
+          <Route path="/publication" element={<AddPublication />} />
+          <Route path="/profil/:nameOtherUser?" element={<Profil />} />
+          <Route path="/product/:productId" element={<DetailProduct />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/sign" element={<Sign />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/support" element={<PageSupport />} />
         </Routes>
         {
           displayNav &&(

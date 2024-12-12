@@ -22,7 +22,7 @@ describe('test service', () => {
     });
 });
 
-describe('Test /transactions/findPayment route', () => {
+describe('Test /transactions/transactions route', () => {
     it('should return 200 and a list of transactions with a valid admin token', async () => {
         const responseLogin = await request(url.baseUrl)
             .post(url.authUrlLogin)
@@ -47,6 +47,6 @@ describe('Test /transactions/findPayment route', () => {
 
         expect(response.status).toBe(403);
         expect(response.body).toHaveProperty('message');
-        expect(response.body.message).toBe('pas autorizé');
+        expect(response.body.message).toBe('pas autorisé');
     });
 });
