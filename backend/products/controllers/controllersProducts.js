@@ -195,7 +195,7 @@ const newProduct = async (req, res) => {
     }
 };
 
-// delete a product to user from id 
+// delete a product from id 
 const deleteProductUser = async (req, res) => {
     const namefile = req.params.id;
 

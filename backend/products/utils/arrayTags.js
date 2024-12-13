@@ -1,5 +1,5 @@
 const arrayTags = (tags, res) => {
-    const tagRegex = /^[\p{L}]+(?:\s*[\p{L}]*)*$/u; // Letters with accents, optional spaces between words
+    const tagRegex = /^(?:[\p{L}]+(?:,[\p{L}]+)*)?$/u; 
 
     if (typeof tags === 'string') {
 

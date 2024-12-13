@@ -7,7 +7,7 @@ export const updateProductForm = (nameFile,token) => {
         html: `
         <p>Entrer les champs qui doivent être modifiés (laissez vide pour ne pas modifier) :</p>
         <input type="text" id="description" class="swal2-input" placeholder="Description">
-        <input type="number" id="price" class="swal2-input" placeholder="Prix">
+        <input type="number" id="price" class="swal2-input" placeholder="Prix" min="0">
         <input type="text" id="tags" class="swal2-input" placeholder="Tags">
       `,
         focusConfirm: false,
@@ -26,14 +26,14 @@ export const updateProductForm = (nameFile,token) => {
             }
 
             // Ensure the price is a valid number if it is provided
-            if (price && (isNaN(price) || price <= 0)) {
+            if (price && (isNaN(price) || price < 0)) {
                 Swal.showValidationMessage('Entrez un prix valide');
                 return null;
             }
 
             //  valide tags 
             if (tags.trim() !== '') {
-                if (/^([\p{L}]+(,\s*)?[\p{L}]*)*$/u
+                if (/^(?:[\p{L}]+(?:,[\p{L}]+)*)?$/u
                     .test(tags)) {
                     let tagArray = tags.split(',').map(tag => tag.trim());
                     tags = tagArray;

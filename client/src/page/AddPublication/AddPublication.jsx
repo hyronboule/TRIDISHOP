@@ -21,7 +21,7 @@ const AddPublication = () => {
 
   const validTags = (tags) => {
     let bool = false;
-    return bool = /^([a-zA-Z]+,)*[a-zA-Z]+$/.test(tags);
+    return bool = /^(?:[\p{L}]+(?:,[\p{L}]+)*)?$/u.test(tags);
   }
 
   // add new product
