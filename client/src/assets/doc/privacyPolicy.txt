@@ -1,0 +1,62 @@
+Politique de Confidentialité
+Dernière mise à jour : 28/11/2024
+
+Cette politique de confidentialité explique comment nous collectons, utilisons et protégeons vos données personnelles lorsque vous utilisez notre site. Nous nous engageons à respecter votre vie privée et à traiter vos données personnelles conformément aux lois en vigueur, notamment le RGPD.
+
+1. Données collectées
+
+Nous collectons les données personnelles suivantes pour assurer le bon fonctionnement de notre service :
+
+* Compte utilisateur : Email, pseudonyme, mot de passe (crypté), email PayPal.
+* Profil utilisateur : Liens vers vos comptes Instagram et Facebook (facultatifs), image de profil.
+* Produits : Fichiers 3D, images associées aux produits publiés sur la plateforme.
+* Transactions : Nom et prénom utilisés pour les paiements (ces informations ne sont pas vérifiées).
+
+2. Utilisation des données
+
+Vos données personnelles sont utilisées pour :
+
+* Créer et gérer votre compte utilisateur.
+* Afficher votre profil public avec les liens vers vos réseaux sociaux (si renseignés).
+* Permettre la publication et la gestion de vos produits.
+* Traiter les transactions, y compris les paiements via PayPal.
+
+3. Partage des données
+
+Vos données personnelles ne sont jamais partagées avec des tiers à des fins commerciales. Cependant, elles peuvent être partagées dans les cas suivants :
+
+* Transactions : Les informations nécessaires (comme votre email PayPal) sont partagées avec PayPal pour effectuer les paiements.
+* Obligations légales : Si requis par la loi, nous pouvons partager certaines données avec les autorités compétentes.
+
+4. Conservation des données
+
+Vos données personnelles sont conservées :
+
+* Aussi longtemps que votre compte utilisateur est actif.
+* Pendant une période supplémentaire pour répondre aux obligations légales en cas de transactions.
+
+Vous pouvez demander la suppression de vos données à tout moment en nous contactant (voir section 6).
+
+5. Sécurité des données
+
+Nous mettons en place des mesures techniques et organisationnelles pour protéger vos données personnelles contre tout accès non autorisé, perte ou modification. Vos mots de passe sont cryptés et ne sont jamais stockés en clair.
+
+6. Vos droits
+
+Conformément au RGPD, vous disposez des droits suivants :
+
+* Droit d’accès : Vous pouvez demander une copie des données personnelles que nous détenons à votre sujet.
+* Droit de rectification : Vous pouvez demander la correction des données inexactes ou incomplètes.
+* Droit à l’effacement : Vous pouvez demander la suppression de vos données personnelles.
+* Droit d’opposition : Vous pouvez vous opposer à l’utilisation de vos données personnelles dans certains cas.
+* Droit à la portabilité : Vous pouvez demander que vos données personnelles soient transférées à un autre service.
+
+Pour exercer vos droits, contactez-nous à l’adresse email indiquée sur la page Support.
+
+7. Contact
+
+Si vous avez des questions ou des préoccupations concernant cette politique de confidentialité, vous pouvez nous écrire à l’adresse figurant sur la page Support.
+
+En savoir plus :
+Pour plus d'informations sur vos droits ou pour déposer une plainte, vous pouvez contacter l'autorité de protection des données de votre pays.
+

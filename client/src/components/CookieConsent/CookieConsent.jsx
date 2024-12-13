@@ -23,15 +23,38 @@ function CookieConsent() {
     }
 
     return (
-        <Stack color='white' padding={3} width={{ xs: 200, sm: 400 }} height={200} justifyContent={'space-evenly'} position={'fixed'} zIndex={2000} borderRadius={5} sx={{
-            background: '#333',
-            top: '10px',
-            left: '50%',
-            transform: 'translate( -50%)',
-        }}>
-            <p style={{ fontSize: '13px', }}>
-                Ce site utilise uniquement les données nécessaires pour assurer son bon fonctionnement. Aucune donnée supplémentaire ne sera collectée ou utilisée.
+        <Stack
+            color="white"
+            padding={3}
+            width={{ xs: 200, sm: 400 }}
+            height={300}
+            justifyContent="space-evenly"
+            position="fixed"
+            zIndex={2000}
+            borderRadius={5}
+            sx={{
+                background: '#333',
+                top: '10px',
+                left: '50%',
+                transform: 'translate(-50%)',
+            }}
+        >
+            <p style={{ fontSize: '13px' }}>
+                Ce site utilise uniquement des cookies strictement nécessaires pour assurer son bon fonctionnement. Aucun cookie tiers ou publicitaire n’est collecté.
             </p>
+            <p style={{ fontSize: '13px' }}>
+                Pour toute précision, veuillez consulter notre page de support. Une adresse email est disponible pour nous contacter.
+            </p>
+            <a
+                href="/support"
+                style={{
+                    color: '#4CAF50',
+                    textDecoration: 'underline',
+                    fontSize: '12px',
+                }}
+            >
+                En savoir plus
+            </a>
             <button
                 aria-label="Accepter les conditions"
                 style={{
@@ -47,6 +70,7 @@ function CookieConsent() {
                 J'accepte
             </button>
         </Stack>
+
     );
 }
 

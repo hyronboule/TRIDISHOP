@@ -11,14 +11,17 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import cguDoc from '../../assets/doc/cgu.txt';
 import cgvDoc from '../../assets/doc/cgv.txt'
+import privacyPolicyDoc from '../../assets/doc/privacyPolicy.txt'
 
 const PageSupport = () => {
   const [cgu, setCgu] = useState("");
   const [cgv, setCgv] = useState("");
+  const [privacyPolicy, setPrivacyPolicy] = useState("");
 
   useEffect(() => {
     fetchDoc(cguDoc, setCgu);
     fetchDoc(cgvDoc, setCgv);
+    fetchDoc(privacyPolicyDoc, setPrivacyPolicy);
   }, []);
 
   const fetchDoc = async (doc, varDoc) => {
@@ -63,7 +66,7 @@ const PageSupport = () => {
             </p>
             <a
               style={{ color: "#0057c7", textDecoration: "underline" }}
-              href="mailto:adresse@email.com"
+              href={`mailto:${import.meta.env.VITE_EMAIL_SUPPORT}`}
             >
               nom de l'adresse email
             </a>
@@ -72,6 +75,7 @@ const PageSupport = () => {
               problématique rencontrée.
             </p>
           </Stack>
+           {/* cgu accordion */}
           <Accordion
             sx={{
               backgroundColor: colorVar.backgroundPaleGrey,
@@ -108,6 +112,7 @@ const PageSupport = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
+          {/* cgv accordion */}
           <Accordion
             sx={{
               backgroundColor: colorVar.backgroundPaleGrey,
@@ -125,7 +130,7 @@ const PageSupport = () => {
                 fontWeight: "bold",
               }}
             >
-              <Typography>Ouvrir pour afficher les CGU</Typography>
+              <Typography>Ouvrir pour afficher les CGV</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography
@@ -144,6 +149,44 @@ const PageSupport = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
+          {/* Privacy Policy accordion */}
+          <Accordion
+            sx={{
+              backgroundColor: colorVar.backgroundPaleGrey,
+              borderRadius: "20px",
+              marginTop: 3,
+              width: "max-width",
+              boxShadow: "none",
+              border: "1px solid #e0e0e0",
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              sx={{
+                color: "#333",
+                fontWeight: "bold",
+              }}
+            >
+              <Typography>Ouvrir pour afficher la politique de confidentialité</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography
+                component="pre"
+                border={1}
+                borderColor={colorVar.backgroundGrey}
+                boxShadow={colorVar.boxShadow}
+                padding={2} 
+                sx={{
+                  whiteSpace: "pre-wrap",
+                  fontSize: "14px",
+                  lineHeight: "1.5",
+                }}
+              >
+                {privacyPolicy}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+
         </Stack>
       </Stack>
     </Container>
