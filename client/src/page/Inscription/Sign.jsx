@@ -20,68 +20,89 @@ export const Sign = () => {
   const { setToken } = useUserContext()
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    e.preventDefault();
+  
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
-    const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/
-
+    const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/;
+  
     if (!email || !password || !pseudo) {
       Swal.fire({
         icon: 'error',
-        text: 'Remplissez tous les champs'
-      })
+        text: 'Remplissez tous les champs',
+      });
       return;
     }
-
-    // test email regex
+  
+    // test email
     if (!emailRegex.test(email)) {
       Swal.fire({
         icon: 'error',
-        text: 'Format de l\'email incorrect'
-      })
+        text: 'Format de l\'email incorrect',
+      });
       return;
     }
-    // test password regex
+  
+    // test password
     if (!passwordRegex.test(password)) {
       Swal.fire({
-        title: "Veuillez renseigner une mot de passe valide.",
-        text: 'Le mot de passe doit contenir au moins 8 caractères, avec au moins une lettre majuscule, une lettre minuscule, un chiffre, et un caractère spécial (@, $, !, %, *, ?, &, ou #).',
+        title: "Mot de passe invalide",
+        text: 'Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre, et un caractère spécial (@, $, !, %, *, ?, &, ou #).',
         icon: 'error',
-      })
+      });
       return;
     }
+  
     // test pseudo
     if (!pseudoRegex.test(pseudo)) {
       Swal.fire({
-        text: "Veuillez renseigner un pseudo valide. 10 caractères max, que de lettres et chiffres",
+        text: "Pseudo invalide. 10 caractères max, uniquement lettres et chiffres.",
         icon: 'error',
-      })
+      });
       return;
     }
-
-    callApiRegister(pseudo, email, password).then((data) => {
-      if (data) {
-        // create profil
-        callApiCreateProfilUser(pseudo, email).then((data) => {
+  
+    // Confirmation avant l'enregistrement
+    Swal.fire({
+      title: "Confirmez votre email",
+      text: `Vous avez renseigné l'email : ${email}. Vérifiez bien qu'il est correct avant de continuer.`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, continuer',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // register user as confirmed
+        callApiRegister(pseudo, email, password).then((data) => {
           if (data) {
-            // call api for login user
-            callApiLogin(email, password).then((data) => {
+            // create profil
+            callApiCreateProfilUser(pseudo, email).then((data) => {
               if (data) {
-                setToken(data.token);
-                navigate('/profil');
+                // call api for login user
+                callApiLogin(email, password).then((data) => {
+                  if (data) {
+                    setToken(data.token);
+                    navigate('/profil');
+                  }
+                }).catch((error) => {
+                  console.error('Error during login API call:', error);
+                });
               }
-            }).catch((error) => {
-
-              console.error('Error during login API call:', error);
-            })
+            }).catch((err) => {
+              console.error('Error during profile creation API call:', err);
+            });
           }
-        }).catch((err => { console.error('Error during login API call:', err) }))
+        }).catch((error) => {
+          console.error("Error in registration API call", error);
+        });
+      } else {
+        Swal.fire({
+          text: "L'enregistrement a été annulé. Vérifiez vos informations avant de recommencer.",
+          icon: 'info',
+        });
       }
-    }).catch((error) => {
-      console.error("error in registration api call", error);
-    })
-  }
+    });
+  };
 
 
   return (
