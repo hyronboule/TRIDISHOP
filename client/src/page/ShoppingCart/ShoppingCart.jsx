@@ -17,7 +17,8 @@ const ShoppingCart = () => {
   const [listSeller, setListSeller] = useState([])
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const {token} = useUserContext()
+  const { token } = useUserContext()
+
 
   const totalPrice = () => {
     let total = 0
@@ -124,8 +125,6 @@ const ShoppingCart = () => {
     });
   }
 
-
-
   // add all seller and amount per seller
   const addSeller = () => {
     productShops.forEach(product => {
@@ -156,7 +155,7 @@ const ShoppingCart = () => {
     //  appel api changement nombre de téléchargement
     try {
       productShops.forEach((item) => {
-        callApiUpdatePoducts(item.nameFile, { download: item.download += 1 },token)
+        callApiUpdatePoducts(item.nameFile, { download: item.download += 1 }, token)
       })
 
     } catch (error) {
