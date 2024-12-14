@@ -103,7 +103,7 @@ const ShoppingCart = () => {
       if (!paymentWindow) {
         reject(
           Swal.fire({
-            text: 'Impossible d\'ouvrir la fenêtre de paiement.',
+            text: 'Impossible d\'ouvrir la fenêtre de paiement. Veuillez désactiver le bloqueur de pop-ups ou autoriser les fenêtres de ce site.',
             icon: 'error',
           })
         );
@@ -112,7 +112,7 @@ const ShoppingCart = () => {
 
       const receiveMessage = (event) => {
         //Check that the message comes from the correct origin
-        if (event.origin !== 'http://localhost:3000') return;
+        if (event.origin !== 'http://54.37.50.91:3000') return;
 
         //Check if the message indicates that the payment was successful
         if (event.data && event.data.message === 'paiementRéussi') {

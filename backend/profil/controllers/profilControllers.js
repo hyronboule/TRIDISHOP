@@ -4,7 +4,7 @@ const UserProfil = require("../models/Profil");
 const profilUser = async (req, res) => {
     try {
         const user = await UserProfil.findOne({ pseudo: req.params.pseudo });
-
+        console.log(`${req.params.pseudo} viens de se connecter` )    
         if (!user) {
             return res.status(404).json({ message: 'Utilisateur non trouvé' });
         }
@@ -18,6 +18,7 @@ const profilUser = async (req, res) => {
             image: imageSrc,
         });
     } catch (error) {
+        console.log(`${req.params.pseudo} error : ${error}` )    
         return res.status(500).json({ message: 'Erreur lors de la récupération du profil utilisateur', error });
     }
 };

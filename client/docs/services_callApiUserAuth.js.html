@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: services/callApiUserAuth.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: services/callApiUserAuth.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axios from 'axios';
+import { url } from './url';
+import Swal from 'sweetalert2';
+
+/**
+ * Authenticates a user by their email and password.
+ *
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise&lt;Object>} - The authentication data from the API if successful (token)
+ * @throws {Error} - Logs the error if the API call fails.
+ */
+export const callApiLogin = async (email, password) => {
+    try {
+        const result = await axios.post(url.auth, {
+            email: email,
+            password: password
+        });
+        if (result.data) {
+            return result.data;
+        }
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+};
+/**
+ * Registers a new user with the given pseudo, email, and password.
+ *
+ * @param {string} pseudo - The user's pseudo.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise&lt;Object>} - The registration data from the API if successful. The api returned the data of the registration
+ * @throws {Error} - Displays an error message using Swal if the user already exists or logs an error.
+ */
+export const callApiRegister = async (pseudo, email, password) => {
+
+    try {
+        const result = await axios.post(url.register, {
+            pseudo: pseudo,
+            email: email,
+            password: password,
+        });
+        if (result.data) {
+            return result.data;
+        }
+    } catch (error) {
+        let errorMessage = error.response?.data?.message?.split(':')[2];
+
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                text: errorMessage || "L'utilisateur existe déjà"
+            });
+        } else {
+            console.error('Error during API call:', error);
+        }
+    }
+}
+/**
+ * Updates user authentication information such as email, pseudo, or password.
+ *
+ * @param {Object} data - The fields to update (e.g., pseudo, password).
+ * @param {string} email - The current email of the user.
+ * @param {string} token - The authentication token for the API call.
+ * @returns {Promise&lt;Object>} - The response data if the update is successful. The data is the user data
+ * @throws {Error} - Returns a status and message if the email or pseudo is already used, or logs an error.
+ */
+export const callApiUpdateUserAuth = async (data, email,token) => {
+    try {
+        const requestBody = {
+            email,
+            ...data,
+        };
+        const response = await axios.put(
+            url.updateUserAuth,
+            requestBody,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+    
+        return response.data;
+    } catch (error) {
+        if (error.response?.status === 400) {
+            return { status: 400, message: "Email ou pseudo déjà utilisé" };
+        } else {
+            console.error('Error updating user info:', error.response?.data || error.message);
+            throw new Error('Unexpected error'); 
+        }
+    }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Model">Model</a></li><li><a href="global.html#View3D">View3D</a></li><li><a href="global.html#addNewProductApi">addNewProductApi</a></li><li><a href="global.html#apiCallUserProfil">apiCallUserProfil</a></li><li><a href="global.html#callApiAllProducts">callApiAllProducts</a></li><li><a href="global.html#callApiCreateProfilUser">callApiCreateProfilUser</a></li><li><a href="global.html#callApiDetailProduct">callApiDetailProduct</a></li><li><a href="global.html#callApiLogin">callApiLogin</a></li><li><a href="global.html#callApiPageProducts">callApiPageProducts</a></li><li><a href="global.html#callApiProductsUser">callApiProductsUser</a></li><li><a href="global.html#callApiRegister">callApiRegister</a></li><li><a href="global.html#callApiSearchProduct">callApiSearchProduct</a></li><li><a href="global.html#callApiServicePayment">callApiServicePayment</a></li><li><a href="global.html#callApiUpdatePoducts">callApiUpdatePoducts</a></li><li><a href="global.html#callApiUpdateUserAuth">callApiUpdateUserAuth</a></li><li><a href="global.html#deleteConfirmation">deleteConfirmation</a></li><li><a href="global.html#deleteProduct">deleteProduct</a></li><li><a href="global.html#downloadFiles">downloadFiles</a></li><li><a href="global.html#updateNameUserAllProducts">updateNameUserAllProducts</a></li><li><a href="global.html#updateProductForm">updateProductForm</a></li><li><a href="global.html#updatedUserProfil">updatedUserProfil</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Dec 14 2024 20:07:22 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

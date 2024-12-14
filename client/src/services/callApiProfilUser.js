@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { url } from './url';
 
+/**
+ * Fetches a user's profile by their pseudo.
+ *
+ * @param {string} pseudo - The user's pseudo.
+ * @returns {Promise<Object>} - The user's profile data.
+ */
 export const apiCallUserProfil = async (pseudo) => {
     try {
         const response = await axios.get(`${url.userProfil}/${pseudo}`);
@@ -12,7 +18,14 @@ export const apiCallUserProfil = async (pseudo) => {
         console.error('Error during API call:', error);
     }
 }
-
+/**
+ * Updates a user's profile with new data.
+ *
+ * @param {Object} data - The data to update in the profile.
+ * @param {string} name - The current user's name.
+ * @param {string} token - The authentication token.
+ * @returns {Object} - The response indicating success or failure, along with a message.
+ */
 export const updatedUserProfil = async (data, name, token) => {
     try {
 
@@ -57,7 +70,13 @@ export const updatedUserProfil = async (data, name, token) => {
 
 
 }
-
+/**
+ * Creates a new user profile with a pseudo and PayPal email.
+ *
+ * @param {string} pseudo - The user's pseudo.
+ * @param {string} email - The user's PayPal email.
+ * @returns {Promise<Object>} - The Api return the data of the new profile
+ */
 export const callApiCreateProfilUser = async (pseudo, email) =>{
     try {
         const formData = new FormData()

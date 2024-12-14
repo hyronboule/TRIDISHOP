@@ -28,8 +28,8 @@ const paypalPayement = (req, res) => {
             payment_method: 'paypal',
         },
         redirect_urls: {
-            return_url: `http://localhost:${PORT}/api/service/success?buyerId=${buyerId}&payments=${encodeURIComponent(JSON.stringify(payments))}`,
-            cancel_url: `http://localhost:${PORT}/api/service/cancel`,
+            return_url: `http://54.37.50.91:${PORT}/api/service/success?buyerId=${buyerId}&payments=${encodeURIComponent(JSON.stringify(payments))}`,
+            cancel_url: `http://54.37.50.91:${PORT}/api/service/cancel`,
         },
         transactions: [{
             amount: {

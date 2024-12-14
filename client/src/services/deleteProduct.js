@@ -1,7 +1,13 @@
 import Swal from 'sweetalert2';
 import { deleteProduct } from './callApiProducts';
 
-
+/**
+ * Displays a confirmation dialog to delete a product and handles the deletion logic.
+ *
+ * @param {string} nameFile - The identifier of the product to be deleted.
+ * @param {string} token - The authentication token for the API call.
+ * @returns {Promise<boolean>} - Resolves to `true` if the product is successfully deleted, otherwise `false`.
+ */
 export const deleteConfirmation = (nameFile,token) => {
     return Swal.fire({
         title: 'Êtes-vous sûr ?',

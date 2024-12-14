@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/View3D/View3D.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/View3D/View3D.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState, Suspense, useRef } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls, useGLTF } from '@react-three/drei';
+import * as THREE from 'three';
+import './view3D.scss'
+
+/**
+ * Component to load and display a 3D model, automatically adjusting the camera 
+ * to fit the model's size and center.
+ *
+ * @param {string} props.url - URL of the 3D model to load.
+ * @returns {JSX.Element} - A 3D model rendered in the scene.
+ */
+
+const Model = ({ url }) => {
+    const { scene } = useGLTF(url);
+    const modelRef = useRef();
+    const { camera } = useThree();
+
+    useEffect(() => {
+        if (modelRef.current) {
+             // Compute the bounding box of the model and adjust the camera accordingly.
+            const box = new THREE.Box3().setFromObject(modelRef.current);
+            const size = box.getSize(new THREE.Vector3());
+            const center = box.getCenter(new THREE.Vector3());
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const fov = camera.fov * (Math.PI / 180);
+            const distance = Math.abs(maxDim / Math.sin(fov / 2));
+
+            camera.position.set(center.x, center.y, distance * 0.50); // Position the camera.
+            camera.lookAt(center); // Make the camera look at the center of the model.
+            camera.updateProjectionMatrix();
+        }
+    }, [scene, camera]);
+
+    return &lt;primitive ref={modelRef} object={scene}  rotation={[Math.PI / 3, 0, 0]} />;
+};
+
+/**
+ * Wrapper component to manage and display a 3D model URL dynamically.
+ *
+ * @param {string} props.modelUrl - URL of the 3D model to render.
+ * @param {boolean} props.moveBool - (Optional) Controls model-specific behavior (future implementation).
+ * @returns {JSX.Element} - A 3D model viewer.
+ */
+const View3D = ({ modelUrl, moveBool }) => {
+    const [urlFile, setUrlFile] = useState(null);
+
+    useEffect(() => {
+        if (modelUrl) {
+            setUrlFile(modelUrl); // Update the URL when the prop changes.
+        }
+    }, [modelUrl]);
+
+    return (
+        &lt;Canvas className='canva3D' style={{
+            width: '100%',
+            height:'65vw',
+            maxHeight: '500px',
+            minHeight:'400px'
+        }}>
+            &lt;ambientLight intensity={5} />
+            &lt;directionalLight position={[0, 15, 15]} intensity={3.0} />
+            &lt;Suspense>
+                {urlFile ? &lt;Model url={urlFile} /> : &lt;p>Loading the file URL...&lt;/p>}
+            &lt;/Suspense>
+            {moveBool &amp;&amp; &lt;OrbitControls />}
+        &lt;/Canvas>
+
+    );
+};
+
+export default View3D;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Model">Model</a></li><li><a href="global.html#View3D">View3D</a></li><li><a href="global.html#addNewProductApi">addNewProductApi</a></li><li><a href="global.html#apiCallUserProfil">apiCallUserProfil</a></li><li><a href="global.html#callApiAllProducts">callApiAllProducts</a></li><li><a href="global.html#callApiCreateProfilUser">callApiCreateProfilUser</a></li><li><a href="global.html#callApiDetailProduct">callApiDetailProduct</a></li><li><a href="global.html#callApiLogin">callApiLogin</a></li><li><a href="global.html#callApiPageProducts">callApiPageProducts</a></li><li><a href="global.html#callApiProductsUser">callApiProductsUser</a></li><li><a href="global.html#callApiRegister">callApiRegister</a></li><li><a href="global.html#callApiSearchProduct">callApiSearchProduct</a></li><li><a href="global.html#callApiServicePayment">callApiServicePayment</a></li><li><a href="global.html#callApiUpdatePoducts">callApiUpdatePoducts</a></li><li><a href="global.html#callApiUpdateUserAuth">callApiUpdateUserAuth</a></li><li><a href="global.html#deleteConfirmation">deleteConfirmation</a></li><li><a href="global.html#deleteProduct">deleteProduct</a></li><li><a href="global.html#downloadFiles">downloadFiles</a></li><li><a href="global.html#updateNameUserAllProducts">updateNameUserAllProducts</a></li><li><a href="global.html#updateProductForm">updateProductForm</a></li><li><a href="global.html#updatedUserProfil">updatedUserProfil</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Dec 14 2024 20:07:22 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

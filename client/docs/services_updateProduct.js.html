@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: services/updateProduct.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: services/updateProduct.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Swal from 'sweetalert2';
+import { callApiUpdatePoducts } from './callApiProducts';
+
+/**
+ * Displays a form using Swal (SweetAlert) to update a product and handles the update process.
+ *
+ * @param {string} nameFile - The identifier of the product to be updated.
+ * @param {string} token - The authentication token for the API call.
+ * @returns {Promise&lt;boolean>} - Resolves to `true` if the product is successfully updated, otherwise `false`.
+ */
+export const updateProductForm = (nameFile,token) => {
+    return Swal.fire({
+        title: 'Mise à jour du produit',
+        html: `
+        &lt;p>Entrer les champs qui doivent être modifiés (laissez vide pour ne pas modifier) :&lt;/p>
+        &lt;input type="text" id="description" class="swal2-input" placeholder="Description">
+        &lt;input type="number" id="price" class="swal2-input" placeholder="Prix" min="0">
+        &lt;input type="text" id="tags" class="swal2-input" placeholder="Tags">
+      `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Modifier',
+        cancelButtonText: 'Annuler',
+        preConfirm: () => {
+            // Get the values from the inputs
+            const description = Swal.getPopup().querySelector('#description').value;
+            const price = Swal.getPopup().querySelector('#price').value;
+            let tags = Swal.getPopup().querySelector('#tags').value;
+
+            if (!description &amp;&amp; !price &amp;&amp; !tags) {
+                Swal.showValidationMessage('Remplissez au moins un champ pour mettre à jour');
+                return null;
+            }
+
+            // Ensure the price is a valid number if it is provided
+            if (price &amp;&amp; (isNaN(price) || price &lt; 0)) {
+                Swal.showValidationMessage('Entrez un prix valide');
+                return null;
+            }
+
+            //  valide tags 
+            if (tags.trim() !== '') {
+                if (/^(?:[\p{L}]+(?:,[\p{L}]+)*)?$/u
+                    .test(tags)) {
+                    let tagArray = tags.split(',').map(tag => tag.trim());
+                    tags = tagArray;
+                } else {
+                    Swal.showValidationMessage('Tags incorrect (ex : tag1, tag2)');
+                    return null;
+                }
+            }
+
+            // return data (description or price or description and price)
+            return { description: description || null, price: price || null, tags: tags || null };
+        }
+    }).then((result) => {
+        if (!result.isConfirmed || !result.value) {
+            return false;
+        }
+
+        const { description, price, tags } = result.value;
+
+        const data = {};
+        if (description) data.description = description;
+        if (price) data.price = price;
+        if (tags) data.tags = tags;
+
+        return callApiUpdatePoducts(nameFile, data,token).then((data) => {
+            if (data &amp;&amp; data.status == '200') {
+                //reload page
+                return true;
+            } else {
+                // don't reload
+                return false;
+            }
+        }).catch((err) => {
+            console.error('Updated product failed:', err);
+            return false;
+        });
+    });
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Model">Model</a></li><li><a href="global.html#View3D">View3D</a></li><li><a href="global.html#addNewProductApi">addNewProductApi</a></li><li><a href="global.html#apiCallUserProfil">apiCallUserProfil</a></li><li><a href="global.html#callApiAllProducts">callApiAllProducts</a></li><li><a href="global.html#callApiCreateProfilUser">callApiCreateProfilUser</a></li><li><a href="global.html#callApiDetailProduct">callApiDetailProduct</a></li><li><a href="global.html#callApiLogin">callApiLogin</a></li><li><a href="global.html#callApiPageProducts">callApiPageProducts</a></li><li><a href="global.html#callApiProductsUser">callApiProductsUser</a></li><li><a href="global.html#callApiRegister">callApiRegister</a></li><li><a href="global.html#callApiSearchProduct">callApiSearchProduct</a></li><li><a href="global.html#callApiServicePayment">callApiServicePayment</a></li><li><a href="global.html#callApiUpdatePoducts">callApiUpdatePoducts</a></li><li><a href="global.html#callApiUpdateUserAuth">callApiUpdateUserAuth</a></li><li><a href="global.html#deleteConfirmation">deleteConfirmation</a></li><li><a href="global.html#deleteProduct">deleteProduct</a></li><li><a href="global.html#downloadFiles">downloadFiles</a></li><li><a href="global.html#updateNameUserAllProducts">updateNameUserAllProducts</a></li><li><a href="global.html#updateProductForm">updateProductForm</a></li><li><a href="global.html#updatedUserProfil">updatedUserProfil</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Dec 14 2024 20:07:22 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -3,6 +3,15 @@ import { saveAs } from 'file-saver';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 
+
+/**
+ * Downloads a list of files, generates a receipt, and saves them as a ZIP archive.
+ *
+ * @param {Array<Object>} files - The list of files to download. Each file object should contain a `file.fileUrl` property.
+ * @param {string} name - The name of the buyer.
+ * @param {number} total - The total amount paid by the buyer.
+ * @returns {Promise<void>} - Resolves when the ZIP file is successfully generated and saved.
+ */
 export const downloadFiles = async (files, name, total) => {
     const zip = new JSZip();
 

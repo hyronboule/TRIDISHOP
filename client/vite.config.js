@@ -7,14 +7,21 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 8080,
-    host: '0.0.0.0',
+    host: '54.37.50.91',
     watch: {
       usePolling: true,
     },
-    https: {
-      key: localhostKey,
-      cert: localhostCert,
-    },
+    // https: { // ssl certificate
+    //   key: localhostKey,
+    //   cert: localhostCert,
+    // },
+    proxy: {
+      '/api': {
+        target: 'http://54.37.50.91:3000', // Adresse de votre backend
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   },
   // configuration:  test
   test: {

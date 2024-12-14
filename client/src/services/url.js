@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3000/api"
+const baseUrl = "http://54.37.50.91:3000/api"
 
 export const url = {
     auth: `${baseUrl}/auth/login`,

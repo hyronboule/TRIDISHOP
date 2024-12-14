@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: services/callApiProducts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: services/callApiProducts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axios from 'axios';
+import { url } from './url';
+
+/**
+ * Fetches products for a specific user by their pseudo.
+ *
+ * @param {string} pseudo - The user's pseudo.
+ * @returns {Promise&lt;Object>} - The API response data. the returned object contains the products for the user.
+ */
+export const callApiProductsUser = async (pseudo) => {
+    try {
+        const response = await axios.get(url.userProducts, {
+            params: {
+                name: pseudo,
+            },
+        })
+
+        if (response.data) {
+            return response.data
+        }
+
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+
+}
+/**
+ * Fetches all products from the API.
+ *
+ * @returns {Promise&lt;Object>} - the API returned all products.
+ */
+export const callApiAllProducts = async () => {
+    try {
+
+        const response = await axios.get(url.products)
+
+        if (response.data) {
+            return response.data
+        }
+
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+
+}
+/**
+ * Fetches paginated products from a specific URL.
+ *
+ * @param {string} url - The URL for the paginated products. For example: url + ?page=1
+ * @returns {Promise&lt;Object>} - The API response data. Products for the selected page
+ */
+export const callApiPageProducts = async (url) => {
+    try {
+        const response = await axios.get(url);
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+}
+/**
+ * Fetches the details of a specific product by its ID.
+ *
+ * @param {string} id - The product ID.
+ * @returns {Promise&lt;Object>} - The API returned the details of the product 
+ */
+export const callApiDetailProduct = async (id) => {
+    try {
+        const response = await axios.get(`${url.product}/${id}`);
+        if (response.data) {
+            return response.data
+        }
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+}
+/**
+ * Sends a new product to the API with its data and files.
+ *
+ * @param {Object} addData - The product data, including tags (array) and files.
+ * @returns {Promise&lt;Object>} - The API returned a confirmation message
+ */
+export const addNewProductApi = async (addData) => {
+    try {
+        const formData = new FormData();
+
+        formData.append("pseudo", addData.pseudo);
+        formData.append("description", addData.description);
+        addData.tags.forEach(tag => {
+            formData.append('tags[]', tag);
+        });
+        formData.append("price", addData.price);
+
+        if (addData.files) {
+            addData.files.forEach(file => {
+                formData.append("files", file);
+            });
+        }
+
+        const response = await axios.post(url.upload, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
+
+        if (response.data) {
+            return response;
+        }
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+}
+
+/**
+ * Updates a product's information by its file name.
+ *
+ * @param {string} nameFile - The product's file name.
+ * @param {Object} data - The updated product data.
+ * @param {string} token - The authentication token.
+ * @returns {Promise&lt;Object>} - The API response returned the data and status 200
+ */
+
+export const callApiUpdatePoducts = async (nameFile, data,token) => {
+    try {
+        const formData = new FormData();
+        if (data.description) {
+            formData.append("description", data.description);
+        } else if (data.tags) {
+            data.tags.forEach(tag => {
+                formData.append('tags[]', tag);
+            });
+        } else if (data.price) {
+            formData.append("price", data.price);
+        } else if (data.download) {
+            formData.append("download", data.download);
+        }
+
+        const response = await axios.put(`${url.updateProduct}/${nameFile}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+            }
+        });
+
+        return response
+
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+}
+/**
+ * Deletes a product by its file name.
+ *
+ * @param {string} nameFile - The product's file name.
+ * @param {string} token - The authentication token.
+ * @returns {Promise&lt;number>} - The HTTP status code of the response ,200.
+ */
+export const deleteProduct = async (nameFile,token) => {
+    try {
+        const response = await axios.delete(`${url.deleteProduct}/${nameFile}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    
+        return response.status
+    } catch (error) {
+        console.error('Error during API call:', error);
+    }
+
+}
+/**
+ * Searches for products by a search term.
+ *
+ * @param {string} search - The search query.
+ * @returns {Promise&lt;Object>} - The API returned the data for the search
+ */
+export const callApiSearchProduct = async (search) => {
+    try {
+        const response = await axios.get(`${url.products}`, {
+            params: {
+                search: search
+            }
+        });
+        
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Error during API call:', error);
+        return null;
+    }
+};
+/**
+ * Updates the user name for all products in the database.
+ *
+ * @param {string} name - The old user name.
+ * @param {string} pseudo - The new user name.
+ * @param {string} token - The authentication token.
+ * @returns {Promise&lt;Object>} - The API returned the message and the status for the update
+ */
+export const updateNameUserAllProducts = async (name, pseudo,token) => {
+    try {
+        const response = await axios.put(
+            url.updateNameUserAllProduct,
+            null, 
+            {
+                params: {
+                    name,
+                    pseudo,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.response?.status !== 404) {
+            console.error('Error updating user name:', error.response?.data || error.message);
+        }        
+    }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Model">Model</a></li><li><a href="global.html#View3D">View3D</a></li><li><a href="global.html#addNewProductApi">addNewProductApi</a></li><li><a href="global.html#apiCallUserProfil">apiCallUserProfil</a></li><li><a href="global.html#callApiAllProducts">callApiAllProducts</a></li><li><a href="global.html#callApiCreateProfilUser">callApiCreateProfilUser</a></li><li><a href="global.html#callApiDetailProduct">callApiDetailProduct</a></li><li><a href="global.html#callApiLogin">callApiLogin</a></li><li><a href="global.html#callApiPageProducts">callApiPageProducts</a></li><li><a href="global.html#callApiProductsUser">callApiProductsUser</a></li><li><a href="global.html#callApiRegister">callApiRegister</a></li><li><a href="global.html#callApiSearchProduct">callApiSearchProduct</a></li><li><a href="global.html#callApiServicePayment">callApiServicePayment</a></li><li><a href="global.html#callApiUpdatePoducts">callApiUpdatePoducts</a></li><li><a href="global.html#callApiUpdateUserAuth">callApiUpdateUserAuth</a></li><li><a href="global.html#deleteConfirmation">deleteConfirmation</a></li><li><a href="global.html#deleteProduct">deleteProduct</a></li><li><a href="global.html#downloadFiles">downloadFiles</a></li><li><a href="global.html#updateNameUserAllProducts">updateNameUserAllProducts</a></li><li><a href="global.html#updateProductForm">updateProductForm</a></li><li><a href="global.html#updatedUserProfil">updatedUserProfil</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Dec 14 2024 20:07:22 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

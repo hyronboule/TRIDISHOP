@@ -4,8 +4,10 @@ const dotenv = require('dotenv');
 const adminRouter = require('./routes/adminRoutes');
 const { connectDBAuth } = require("./config/db.js");
 
+
 dotenv.config()
 connectDBAuth()
+
 
 app.use(express.json());
 //routes

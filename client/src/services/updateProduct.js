@@ -1,6 +1,13 @@
 import Swal from 'sweetalert2';
 import { callApiUpdatePoducts } from './callApiProducts';
 
+/**
+ * Displays a form using Swal (SweetAlert) to update a product and handles the update process.
+ *
+ * @param {string} nameFile - The identifier of the product to be updated.
+ * @param {string} token - The authentication token for the API call.
+ * @returns {Promise<boolean>} - Resolves to `true` if the product is successfully updated, otherwise `false`.
+ */
 export const updateProductForm = (nameFile,token) => {
     return Swal.fire({
         title: 'Mise à jour du produit',
