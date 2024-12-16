@@ -7,9 +7,10 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config()
 
+const allowedOrigins = [process.env.ORIGIN, process.env.ORIGIN_DOMAIN];
 
 const corsOptions = {
-  origin: process.env.ORIGIN,
+  origin: allowedOrigins,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
   credentials: true, 
 };
@@ -29,5 +30,4 @@ app.use("/api/service",proxy(process.env.URL_SERVICE))
 // Démarrer le serveur
 app.listen(process.env.PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${process.env.PORT}`);
-  console.log('Documentation Swagger disponible sur http://localhost:3000/api-docs');
 });
