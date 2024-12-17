@@ -4,8 +4,16 @@ import { Stack } from '@mui/material';
 
 function CookieConsent() {
     const [showBanner, setShowBanner] = useState(false);
+    const isLocalhost = window.location.hostname === 'localhost';
+    const config = { 
+        expires: 365, 
+        sameSite: 'Lax',
+        domain: isLocalhost ? undefined : 'tridishop.site',
+        path: '/'
+    }
 
     useEffect(() => {
+        // Récupère la valeur du consentement
         const consent = Cookies.get('siteConsent');
         if (!consent) {
             setShowBanner(true);
@@ -13,13 +21,19 @@ function CookieConsent() {
     }, []);
 
     const handleAccept = () => {
+        // Définit le consentement sur 'accepted'
+        Cookies.set('siteConsent', 'accepted', config);
+        setShowBanner(false);
+    };
 
-        Cookies.set('siteConsent', 'true', { expires: 365, secure: true, sameSite: 'strict' });
+    const handleReject = () => {
+        // Définit le consentement sur 'rejected'
+        Cookies.set('siteConsent', 'rejected', config);
         setShowBanner(false);
     };
 
     if (!showBanner) {
-        return null;
+        return null; // Cache la bannière si le consentement existe déjà
     }
 
     return (
@@ -27,7 +41,6 @@ function CookieConsent() {
             color="white"
             padding={3}
             width={{ xs: 200, sm: 400 }}
-            height={300}
             justifyContent="space-evenly"
             position="fixed"
             zIndex={2000}
@@ -55,22 +68,35 @@ function CookieConsent() {
             >
                 En savoir plus
             </a>
-            <button
-                aria-label="Accepter les conditions"
-                style={{
-                    backgroundColor: '#4CAF50',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 20px',
-                    cursor: 'pointer',
-                    marginTop: '10px',
-                }}
-                onClick={handleAccept}
-            >
-                J'accepte
-            </button>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                <button
+                    aria-label="Accepter les conditions"
+                    style={{
+                        backgroundColor: '#4CAF50',
+                        color: 'white',
+                        border: 'none',
+                        padding: '10px 20px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={handleAccept}
+                >
+                    J'accepte
+                </button>
+                <button
+                    aria-label="Refuser les conditions"
+                    style={{
+                        backgroundColor: '#f44336',
+                        color: 'white',
+                        border: 'none',
+                        padding: '10px 20px',
+                        cursor: 'pointer',
+                    }}
+                    onClick={handleReject}
+                >
+                    Je refuse
+                </button>
+            </div>
         </Stack>
-
     );
 }
 

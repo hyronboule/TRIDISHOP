@@ -13,6 +13,8 @@ import jsPDF from 'jspdf';
  * @returns {Promise<void>} - Resolves when the ZIP file is successfully generated and saved.
  */
 export const downloadFiles = async (files, name, total) => {
+    console.log("la");
+    
     const zip = new JSZip();
 
     await Promise.all(files.map(async (file, i) => {

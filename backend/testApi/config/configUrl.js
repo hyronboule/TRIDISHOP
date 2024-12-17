@@ -1,8 +1,8 @@
 const url = {
-    baseUrl: "http://api-gateway:3000/api",
+    baseUrl: "https://tridishop.site/api",
     authUrlLogin: "/auth/login",
     authUrlRegister: "/auth/register",
-    authUrlUserInfo : 'http://auth:8081/role',
+    authUrlUserInfo : 'https://tridishop.site/api/auth/role',
     adminUsers: '/admin/users?page=0',
     adminUser: '/admin/user/testUser',
     adminNotUserValid: '/admin/user/testPatate',

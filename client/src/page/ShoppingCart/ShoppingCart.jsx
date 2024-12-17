@@ -63,7 +63,9 @@ const ShoppingCart = () => {
               let url = data.approvalUrl
 
               openPaymentWindow(url).then((message) => {
+                
                 if (message == true) {
+                  
                   downaloadAndUpdateProduct()
                 }
               });
@@ -111,9 +113,10 @@ const ShoppingCart = () => {
       }
 
       const receiveMessage = (event) => {
+       
         //Check that the message comes from the correct origin
-        if (event.origin !== 'http://54.37.50.91:3000') return;
-
+        if (event.origin !== 'https://tridishop.site') return;
+  
         //Check if the message indicates that the payment was successful
         if (event.data && event.data.message === 'paiementRéussi') {
 

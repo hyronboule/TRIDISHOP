@@ -9,13 +9,13 @@ import Swal from 'sweetalert2';
 const MenuICon = ({ icon, path, verifCo, shopNumberProduct, logount }) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const {setToken,setInfoUser} = useUserContext();
+    const { setToken, setInfoUser } = useUserContext();
 
     const onClick = () => {
         if (verifCo) {
             navigate('/login')
-        }else{
-            if (logount) { 
+        } else {
+            if (logount) {
                 Swal.fire({
                     text: "Vous avez été déconnecté",
                     icon: 'success',
@@ -29,20 +29,30 @@ const MenuICon = ({ icon, path, verifCo, shopNumberProduct, logount }) => {
                     pseudo: "",
                     email: "",
                 })
-            }else{
+            } else {
                 navigate(path)
             }
-        }   
+        }
     }
-   
+
 
     return (
         <>
-            {React.createElement(icon, { onClick, sx: { color: pathname === path ? colorVar.backgroundPaleBlue : "white", height: "auto", fontSize:"23px"} })}
-            {shopNumberProduct > 0 && <Stack sx={{ 
+
+            <div tabIndex={0} role='button' onClick={onClick} onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onClick();
+                }
+            }}>
+                {React.createElement(icon, { sx: { color: pathname === path ? colorVar.backgroundPaleBlue : "white", height: "auto", fontSize: "23px" } })}
+            </div>
+            {shopNumberProduct > 0 && <Stack sx={{
                 position: 'absolute',
-                top: {xs:20,sm:58}, right: {sm: 3},left:{xs:50, sm: 'auto'},
-            backgroundColor: 'red', color: 'white', padding: '2px 5px', borderRadius: '100%', fontSize: 10 }}>{shopNumberProduct}</Stack>}
+                top: { xs: 20, sm: 58 }, right: { sm: 3 }, left: { xs: 50, sm: 'auto' },
+                backgroundColor: 'red', color: 'white', padding: '2px 5px', borderRadius: '100%', fontSize: 10
+            }}>{shopNumberProduct}</Stack>}
+
         </>
     )
 }

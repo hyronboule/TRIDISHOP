@@ -21,11 +21,11 @@ export const Sign = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
     const pseudoRegex = /^[a-zA-Z0-9]{1,10}$/;
-  
+
     if (!email || !password || !pseudo) {
       Swal.fire({
         icon: 'error',
@@ -33,7 +33,7 @@ export const Sign = () => {
       });
       return;
     }
-  
+
     // test email
     if (!emailRegex.test(email)) {
       Swal.fire({
@@ -42,7 +42,7 @@ export const Sign = () => {
       });
       return;
     }
-  
+
     // test password
     if (!passwordRegex.test(password)) {
       Swal.fire({
@@ -52,7 +52,7 @@ export const Sign = () => {
       });
       return;
     }
-  
+
     // test pseudo
     if (!pseudoRegex.test(pseudo)) {
       Swal.fire({
@@ -61,7 +61,7 @@ export const Sign = () => {
       });
       return;
     }
-  
+
     // Confirmation avant l'enregistrement
     Swal.fire({
       title: "Confirmez votre email",
@@ -109,9 +109,16 @@ export const Sign = () => {
     <>
       <Container className='page' maxWidth="100vw" sx={{ padding: { xs: "0 0 50px 0", sm: " 0px 40px 0px 0px", lg: "0px 15vw 0px 0px" }, minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "end", justifyContent: "center", gap: 5 }}  >
         <Stack className='logo' flexDirection={"row"} justifyContent={"space-evenly"} alignItems={'center'}>
-          <h1 onClick={() => {
+          <h1 tabIndex={0} onClick={() => {
             navigate("/")
-          }}>TRIDISHOP</h1>
+          }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                navigate("/")
+              }
+            }}
+          >TRIDISHOP</h1>
           <img src={logoTridi} />
         </Stack>
         <Stack width={{ xs: "100vw", sm: "500px" }} height={{ xs: "450px" }} sx={{ backgroundColor: colorVar.backgroundPaleGrey, borderRadius: "20px" }}>

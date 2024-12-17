@@ -7,7 +7,9 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config()
 
-const allowedOrigins = [process.env.ORIGIN, process.env.ORIGIN_DOMAIN];
+const allowedOrigins = [
+  // process.env.ORIGIN, 
+  process.env.ORIGIN_DOMAIN];
 
 const corsOptions = {
   origin: allowedOrigins,
@@ -29,5 +31,5 @@ app.use("/api/service",proxy(process.env.URL_SERVICE))
 
 // Démarrer le serveur
 app.listen(process.env.PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${process.env.PORT}`);
+  console.log(`Serveur démarré sur https://tridishop.site`);
 });

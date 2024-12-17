@@ -16,6 +16,7 @@ const NavigationButton = ({ url, onClick }) => {
     return (
         <Button
             variant="contained"
+            tabIndex={0}
             sx={{
                 background: colorVar.backgroundPaleBlue,
                 position: 'absolute',

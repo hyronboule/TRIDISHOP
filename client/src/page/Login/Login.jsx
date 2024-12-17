@@ -53,9 +53,16 @@ const Login = () => {
     <>
       <Container className='page' maxWidth="100vw" sx={{ padding: { xs: "0 0 50px 0", sm: " 0px 40px 0px 0px", lg: "0px 15vw 0px 0px" }, minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "end", justifyContent: "center", gap: 5 }}  >
         <Stack className='logo' flexDirection={"row"} justifyContent={"space-evenly"} alignItems={'center'}>
-          <h1 onClick={() => {
+          <h1 role='button' tabIndex={0} onClick={() => {
             navigate("/")
-          }}>TRIDISHOP</h1>
+          }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                navigate("/")
+              }
+            }}
+          >TRIDISHOP</h1>
           <img src={logoTridi} />
         </Stack>
         <Stack width={{ xs: "100%", sm: "500px" }} height={{ xs: "450px" }} sx={{ backgroundColor: colorVar.backgroundPaleGrey, borderRadius: "20px" }}>

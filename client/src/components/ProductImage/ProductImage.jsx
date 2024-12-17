@@ -10,10 +10,16 @@ const ProductImage = ({ img, productId }) => {
     }
     return (
 
-        <img
-            key={ productId}
+        <img tabIndex="0"
+            key={productId}
             onClick={() => {
-               handleClick()
+                handleClick()
+            }}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleClick()
+                }
             }}
             src={`data:image/jpeg;base64,${img}`}
             alt="3D Model image"

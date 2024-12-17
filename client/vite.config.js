@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 8080,
-    host: '54.37.50.91',
+    host: '0.0.0.0',
     watch: {
       usePolling: true,
     },
@@ -17,7 +17,7 @@ export default defineConfig({
     // },
     proxy: {
       '/api': {
-        target: 'http://54.37.50.91:3000', // Adresse de votre backend
+        target: 'https://tridishop.site', // Adresse de votre backend
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }

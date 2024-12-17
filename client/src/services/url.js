@@ -1,4 +1,4 @@
-const baseUrl = "http://54.37.50.91:3000/api"
+const baseUrl = "https://tridishop.site/api"
 
 export const url = {
     auth: `${baseUrl}/auth/login`,
