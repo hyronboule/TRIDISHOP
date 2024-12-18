@@ -31,5 +31,5 @@ app.use("/api/service",proxy(process.env.URL_SERVICE))
 
 // Démarrer le serveur
 app.listen(process.env.PORT, () => {
-  console.log(`Serveur démarré sur https://tridishop.site`);
+  console.log(`Serveur démarré sur ${process.env.ORIGIN_DOMAIN}`);
 });

@@ -1,4 +1,4 @@
-const baseUrl = "https://tridishop.site/api"
+const baseUrl = import.meta.env.VITE_URL_BASE
 
 export const url = {
     auth: `${baseUrl}/auth/login`,
