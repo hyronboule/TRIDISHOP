@@ -41,7 +41,7 @@ export const Navbar = () => {
                     <MenuICon icon={HomeIcon} path="/" />
                     <MenuICon
                         shopNumberProduct={productShops.length}
-                        icon={ShoppingBasketIcon} path="/payments" />
+                        icon={ShoppingBasketIcon} path="/payments" verifCo={userLogin}/>
                     <MenuICon icon={AddCircleIcon} path="/publication" verifCo={userLogin} />
                     <MenuICon icon={AccountCircleIcon} path="/profil" verifCo={userLogin} />
                     <MenuICon icon={ContactSupportIcon} path="/support" />
