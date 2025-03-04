@@ -8,6 +8,7 @@ import { addNewProductApi } from '../../services/callApiProducts';
 import { useUserContext } from '../../context/User';
 import Swal from 'sweetalert2'
 
+
 const AddPublication = () => {
   const [description, setDescription] = useState("")
   const [tags, setTags] = useState("")
