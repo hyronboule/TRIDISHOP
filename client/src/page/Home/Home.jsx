@@ -43,8 +43,8 @@ const Home = () => {
 
   return (
     <>
-      <Container className='page' maxWidth="100vw" sx={{ padding: { sm: " 0px 40px 0px 0px", xs: "0 0 50px 0" }, minHeight: "100%" }}  >
-        <Grid container gap={3} direction="column" justifyContent="space-between" sx={{ padding: "0px 30px", paddingTop: 5 }} >
+      <Container className='page' maxWidth="100vw" sx={{ minHeight: "100%" }}  >
+        <Grid container gap={3} direction="column" justifyContent="space-between"  sx={{ padding: "0px 30px",  }} >
           <Grid item width={"100%"} sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: { xs: 2, sm: 3 } }} >
             <InputText placeholder={"Recherche..."} className={"inputHome"} value={search} setValue={setSearch} icon={
               <button id='buttonSearch' onClick={() => searchProduct()}>

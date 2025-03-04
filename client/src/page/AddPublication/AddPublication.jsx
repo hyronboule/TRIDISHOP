@@ -104,8 +104,8 @@ const AddPublication = () => {
   return (
     <>
       <NavigationButton url={'/'} />
-      <Container className='page' maxWidth="100vw" sx={{ padding: { sm: " 0px 40px 0px 0px", xs: "0 0 50px 0" }, minHeight: "100%", display: "flex", justifyContent: "center" }} >
-        <Stack margin={"0px 20px"} marginTop={8} height={{ xs: "80vh", md: "70vh" }} width={{ xs: "100vw", lg: "90vw" }} display={"flex"} justifyContent={"space-between"} alignItems={"center"} flexDirection={"column"}>
+      <Container className='page' maxWidth="100vw" sx={{  minHeight: "100%", display: "flex", justifyContent: "center", }} >
+        <Stack margin={"0px 20px"}  height={{ xs: "80vh", md: "70vh" }} width={{ xs: "100vw", lg: "90vw" }} display={"flex"} justifyContent={"space-between"} alignItems={"center"} flexDirection={"column"}>
           <h1 className="secondTitle" style={{ width: "100%" }}>Nouvelle Publication:</h1>
 
           <Grid position={"relative"} height={{ xs: "90%" }} width={'100%'} borderRadius={5} padding={{ xs: 3, md: 5, lg: 10 }} container sx={{ background: colorVar.backgroundPaleGrey }} flexDirection={{ xs: "column", md: "row" }} >

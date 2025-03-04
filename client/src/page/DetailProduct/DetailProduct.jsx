@@ -50,10 +50,10 @@ const DetailProduct = () => {
     return (
         <>
             {product && (
-                <Container className='page' maxWidth="100vw" sx={{ padding: { sm: "0px 40px 0px 0px", xs: "0 0 50px 0" }, minHeight: "100%" }}>
+                <Container className='page' maxWidth="100vw" sx={{ minHeight: "100%", }}>
                     <ButtonUpdateProduct name={product.pseudo} productId={product.nameFile} setReload={setReload} />
-                    <NavigationButton url={"/"} />
-                    <Grid container gap={3} width={{ xs: "90%", md: "85%" }} margin={"auto"} direction="column" color={"white"} justifyContent="space-between" fontSize={{ xs: "12px", sm: "14px" }} sx={{ padding: { md: "0 30px", xs: "0px 10px" }, paddingTop: { xs: 10, md: 15 } }}>
+                    <NavigationButton url={"/home"} />
+                    <Grid container gap={3} width={{ xs: "90%", md: "85%" }} margin={"auto"} direction="column" color={"white"} justifyContent="space-between" fontSize={{ xs: "12px", sm: "14px" }} sx={{ padding: { md: "0 30px", xs: "0px 10px" }, }}>
 
                         <View3D
                             modelUrl={product.file.fileUrl}

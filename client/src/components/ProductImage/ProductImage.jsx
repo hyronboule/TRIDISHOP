@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const ProductImage = ({ img, productId }) => {
+const ProductImage = ({ img, productId, description }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -22,7 +22,7 @@ const ProductImage = ({ img, productId }) => {
                 }
             }}
             src={`data:image/jpeg;base64,${img}`}
-            alt="3D Model image"
+            alt={!description?"3D Model image" : description}
             style={{ width: '100%', height: '100%', objectFit: "cover", cursor: 'pointer' }}
         />
 

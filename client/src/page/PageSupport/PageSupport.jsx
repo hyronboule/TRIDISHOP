@@ -2,51 +2,51 @@ import React, { useEffect, useState } from 'react';
 import { Container, Stack } from '@mui/material';
 import { colorVar } from '../../style/colorVar';
 
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import cguDoc from '../../assets/doc/cgu.txt';
-import cgvDoc from '../../assets/doc/cgv.txt'
-import privacyPolicyDoc from '../../assets/doc/privacyPolicy.txt'
+// import {
+//   Accordion,
+//   AccordionSummary,
+//   AccordionDetails,
+//   Typography,
+// } from '@mui/material';
+// import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// import cguDoc from '../../assets/doc/cgu.txt';
+// import cgvDoc from '../../assets/doc/cgv.txt'
+// import privacyPolicyDoc from '../../assets/doc/privacyPolicy.txt'
 
 const PageSupport = () => {
-  const [cgu, setCgu] = useState("");
-  const [cgv, setCgv] = useState("");
-  const [privacyPolicy, setPrivacyPolicy] = useState("");
+  // const [cgu, setCgu] = useState("");
+  // const [cgv, setCgv] = useState("");
+  // const [privacyPolicy, setPrivacyPolicy] = useState("");
 
-  useEffect(() => {
-    fetchDoc(cguDoc, setCgu);
-    fetchDoc(cgvDoc, setCgv);
-    fetchDoc(privacyPolicyDoc, setPrivacyPolicy);
-  }, []);
+  // useEffect(() => {
+  //   fetchDoc(cguDoc, setCgu);
+  //   fetchDoc(cgvDoc, setCgv);
+  //   fetchDoc(privacyPolicyDoc, setPrivacyPolicy);
+  // }, []);
 
-  const fetchDoc = async (doc, varDoc) => {
-    try {
-      const response = await fetch(doc);
-      const data = await response.text(); 
-      varDoc(data)
+  // const fetchDoc = async (doc, varDoc) => {
+  //   try {
+  //     const response = await fetch(doc);
+  //     const data = await response.text(); 
+  //     varDoc(data)
        
-    } catch (err) {
-      console.error("Error while downloading file: ", err);
-    }
-  };
+  //   } catch (err) {
+  //     console.error("Error while downloading file: ", err);
+  //   }
+  // };
 
 
   return (
     <Container
       className="page"
       maxWidth="100vw"
+      
       sx={{
-        padding: { sm: "0px 40px 0px 0px", xs: "0 0 50px 0" },
         minHeight: "100%",
       }}
     >
-      <Stack padding={{ xs: 1, sm: 5 }} alignItems={"center"}>
-        <h2 className="secondTitle">Support : </h2>
+      <Stack alignItems={"center"}>
+        <h1 className="secondTitle">Support : </h1>
         <Stack width={"80vw"}>
           <Stack
             sx={{
@@ -62,20 +62,19 @@ const PageSupport = () => {
             <p>
               Bienvenue sur la page support. Pour toute aide , veuillez adresser
               un message à l'adresse mail suivante :
-              (pour une suppression de compte veuillez nous adresser la demande)
             </p>
             <a
               style={{ color: "#0057c7", textDecoration: "underline" }}
               href={`mailto:${import.meta.env.VITE_EMAIL_SUPPORT}`}
             >
-              nom de l'adresse email
+              tridi.help@gmail.com
             </a>
             <p style={{ fontSize: "11px" }}>
               *Veuillez à fournir le plus de détail possible suivant la
               problématique rencontrée.
             </p>
           </Stack>
-           {/* cgu accordion */}
+           {/* cgu accordion
           <Accordion
             sx={{
               backgroundColor: colorVar.backgroundPaleGrey,
@@ -113,7 +112,7 @@ const PageSupport = () => {
             </AccordionDetails>
           </Accordion>
           {/* cgv accordion */}
-          <Accordion
+          {/* <Accordion
             sx={{
               backgroundColor: colorVar.backgroundPaleGrey,
               borderRadius: "20px",
@@ -148,9 +147,9 @@ const PageSupport = () => {
                 {cgv}
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           {/* Privacy Policy accordion */}
-          <Accordion
+          {/* <Accordion
             sx={{
               backgroundColor: colorVar.backgroundPaleGrey,
               borderRadius: "20px",
@@ -185,7 +184,7 @@ const PageSupport = () => {
                 {privacyPolicy}
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
 
         </Stack>
       </Stack>

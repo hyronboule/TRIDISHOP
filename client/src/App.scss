@@ -1,87 +1,97 @@
 @use "./style/colorVar.scss" as colors;
 
 #root {
-    position: relative;
-    height: 100vh;
-
+  position: relative;
+  min-height: 100vh;
+  background: colors.$backgroundLinearGradient;
 }
 
 * {
-    z-index: 1;
+  z-index: 1;
 }
 
 p,
 input {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 .logo {
-    width: 150px;
-    height: 40px;
-    color: white;
-    font-size: 12px;
-    letter-spacing: 2px;
-    position: absolute;
-    top: 20px;
-    left: 10px;
+  width: 150px;
+  height: 40px;
+  color: white;
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-right: auto;
 
-    >img {
-        width: auto;
-        height: 100%;
-    }
+  > img {
+    width: auto;
+    height: 100%;
+  }
 
-    >h1 {
-        cursor: pointer;
-    }
+  > h1 {
+    cursor: pointer;
+  }
 }
 
 input,
 label {
-    height: 40px;
-    padding: 0px 15px;
-    border: 1px solid colors.$backgroundGrey;
-    border-radius: 10px;
-    background-color: colors.$backgroundPaleGrey;
+  height: 40px;
+  padding: 0px 15px;
+  border: 1px solid colors.$backgroundGrey;
+  border-radius: 10px;
+  background-color: colors.$backgroundPaleGrey;
 }
 
 input {
-    @media (max-width:600px) {
-        font-size: 13px;
-    }
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 }
 
 label {
-    padding: 5px;
+  padding: 5px;
 }
 
 .page {
-    background: colors.$backgroundLinearGradient;
+  padding-top: 80px;
+  padding-bottom: 200px;
+  @media (max-width: 600px) {
+    padding-bottom: 250px;
+  }
+  background: colors.$backgroundLinearGradient;
+}
+.formSign {
+  @media (min-width: 600px) {
+    margin-right: 2% !important;
+  }
+}
+.hoverLink :hover {
+  text-decoration: underline;
 }
 
 .inputLogin {
-
-    padding: 0px 15px;
-    width: 100%;
-    min-width: 50px;
+  padding: 0px 15px;
+  width: 100%;
+  min-width: 50px;
 }
 
 .search {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    height: fit-content;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  height: fit-content;
 }
 
 .title {
-    color: rgb(22, 22, 22);
-    font-size: 30px;
-    letter-spacing: 1px;
-    text-align: start;
+  color: rgb(22, 22, 22);
+  font-size: 30px;
+  letter-spacing: 1px;
+  text-align: start;
 
-    @media (max-width:600px) {
-        font-size: 20px;
-        text-align: center;
-    }
+  @media (max-width: 600px) {
+    font-size: 20px;
+    text-align: center;
+  }
 }
 
 // .inputText {
@@ -91,103 +101,112 @@ label {
 //     border: 1px solid $backgroundGrey;
 // }
 
-
 .select {
-    padding: 2px 4px;
-    border-radius: 30px;
-    background-color: colors.$backgroundPaleGrey;
-    border: 1px solid colors.$backgroundGrey;
+  padding: 2px 4px;
+  border-radius: 30px;
+  background-color: colors.$backgroundPaleGrey;
+  border: 1px solid colors.$backgroundGrey;
 }
-
 
 .form {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
-.form>div {
-    border-radius: 20px;
-    box-shadow: colors.$shadow;
-    height: 75%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 0px 40px;
+.form > div {
+  border-radius: 20px;
+  box-shadow: colors.$shadow;
+  height: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 0px 20px;
 }
 
 .buttonValidation {
-    background-color: colors.$backgroundPaleBlue;
-    border: none;
-    box-shadow: colors.$boxShadow;
-    font-family: colors.$font2;
-    font-size: 20px;
-    padding: 8px;
-    border-radius: 10px;
-    letter-spacing: 2px;
-    cursor: pointer;
+  background-color: colors.$backgroundPaleBlue;
+  border: none;
+  box-shadow: colors.$boxShadow;
+  font-family: colors.$font2;
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
 
+.buttonVitrine {
+  background-color: colors.$backgroundPaleBlue;
+  border: none;
+  box-shadow: colors.$boxShadow;
+  font-family: colors.$font2;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: fit-content;
 }
 
 .buttonSignLogin {
-    position: inherit;
-    width: 100%;
+  position: inherit;
+  width: 100%;
 }
 
 .buttonLogin {
-    margin-right: 30px;
-    background: none;
-    color: white;
-    border: none;
-    letter-spacing: 1px;
+  margin-right: 30px;
+  background: none;
+  color: white;
+  border: none;
+  letter-spacing: 1px;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
     text-decoration: underline;
-    cursor: pointer;
+  }
 
-    &:hover {
-        text-decoration: underline;
-    }
-
-    &:hover {
-        text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .boutonShop {
-    position: inherit;
-    font-size: 16px;
-    width: 100px;
-    padding: 3px 17px;
+  position: inherit;
+  font-size: 16px;
+  width: 100px;
+  padding: 3px 17px;
 }
 
 .secondTitle {
-    font-size: 30px;
-    font-weight: bold;
-    text-decoration: underline;
-    letter-spacing: 2px;
-    text-align: start;
-    color: white;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: underline;
+  letter-spacing: 2px;
+  text-align: start;
+  color: white;
 
-    @media (max-width:600px) {
-        text-align: center;
-        font-size: 21px;
-    }
+  @media (max-width: 600px) {
+    text-align: center;
+    font-size: 21px;
+  }
 }
 
 #menuLinks {
-    height: 100%;
-    display: flex;
-    align-items: end;
+  height: 100%;
+  display: flex;
+  align-items: end;
 }
 
 .imgProfile {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .image3DShop {
-    box-shadow: none !important;
-    border: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }

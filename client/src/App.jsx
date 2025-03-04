@@ -12,26 +12,30 @@ import { Sign } from "./page/Inscription/Sign"
 import Login from "./page/Login/Login"
 import User from "./context/User"
 import DetailProduct from "./page/DetailProduct/DetailProduct"
+import Vitrine from "./page/Vitrine/Vitrine.jsx";
+import Footer from "./components/Footer/Footer.jsx";
+import Cgv from "./page/conditions/Cgv/Cgv.jsx"
+import Cgu from "./page/conditions/Cgu/Cgu.jsx"
+import Pdc from "./page/conditions/Pdc/Pdc.jsx"
 
 function App() {
   const location = useLocation();
-  const [displayNav, setDisplayNav] = useState(true)
 
-
-  useEffect(() => {
-    if (location.pathname === "/login" ||  location.pathname === "/sign" || location.pathname === "/Login" ) {
-      setDisplayNav(false);
-    }else{
-      setDisplayNav(true);
-    }
-  }, [location])
+  // useEffect(() => {
+  //   if (location.pathname === "/login" ||  location.pathname === "/sign" || location.pathname === "/Login" ) {
+  //     setDisplayNav(false);
+  //   }else{
+  //     setDisplayNav(true);
+  //   }
+  // }, [location])
 
 
   return (
     <>
       <User>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Vitrine />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/payments" element={<ShoppingCart />} />
           <Route path="/publication" element={<AddPublication />} />
           <Route path="/profil/:nameOtherUser?" element={<Profil />} />
@@ -40,12 +44,16 @@ function App() {
           <Route path="/sign" element={<Sign />} />
           <Route path="/login" element={<Login />} />
           <Route path="/support" element={<PageSupport />} />
+
+          // Routes CGU CGV and policy confidentiality
+          <Route path="/cgv" element={<Cgv />}/>
+          <Route path="/cgu" element={<Cgu />}/>
+          <Route path="/pdc" element={<Pdc />}/>
         </Routes>
-        {
-          displayNav &&(
-           <Navbar />   
-          )
-        }
+
+          <Navbar/>
+          <Footer/>
+
       </User>
     </>
   )

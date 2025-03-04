@@ -58,10 +58,10 @@ const Profil = () => {
   return (
     <>
       <NavigationButton url={"/"} />
-      <Container className='page' maxWidth="100vw" sx={{ padding: { xs: "0 0 50px 0", sm: " 0px 40px 0px 0px", lg: "0px 45px 0px 0px" }, minHeight: "100%" }}>
+      <Container className='page' maxWidth="100vw" sx={{ minHeight: "100%" ,  }} >
         <Grid container gap={3} direction="column" justifyContent="space-between"  >
           <Grid item width={"100%"} height={200} paddingBottom={3} paddingLeft={{ xs: 3, md: 15, lg: 20 }} paddingRight={{ xs: 3, md: 15, lg: 20 }} sx={{ display: "flex", flexDirection: "row", alignItems: { xs: "end", sm: "center" }, justifyContent: "space-between", background: colorVar.backgroundBlue, gap: { xs: 2, sm: 3 } }} >
-            <Stack height={{ xs: 90, sm: 150 }} width={{ xs: 90, sm: 150 }} top={{ xs: 60, sm: 100 }} borderRadius={100} border={`2px solid ${colorVar.backgroundPaleBlue}`} className='positionAbsolute' >
+            <Stack height={{ xs: 90, sm: 150 }} width={{ xs: 90, sm: 150 }} top={{ xs: 135, sm: 170 }} borderRadius={100} border={`2px solid ${colorVar.backgroundPaleBlue}`} className='positionAbsolute' >
               {profilUser && <img className='imgProfile' src={profilUser.image} alt="image profile" />}
             </Stack>
 

@@ -30,7 +30,7 @@ const Image3D = ({ values, classname, setValues, urlPage, setUrlPage, displaySho
                             }}>
                                 {
                                     value.image && (
-                                        <ProductImage productId={value.nameFile} img={value.image} />
+                                        <ProductImage productId={value.nameFile} img={value.image} description = {value.description}/>
                                     )
                                 }
                                 {
