@@ -22,7 +22,7 @@ const ButtonUpdateProduct = ({ name, productId, setReload }) => {
     deleteConfirmation(productId,token).then((result)=>{
       if (result) {
         // navigate to home page
-        navigate('/')
+        navigate('/home')
       }
     })
   }
@@ -45,7 +45,7 @@ const ButtonUpdateProduct = ({ name, productId, setReload }) => {
 
   return (
     <>
-      <Stack position={'absolute'} right={"15vw"} top={45} display={'flex'} flexDirection={'row'} gap={2}>
+      <Stack position={'absolute'} right={"15vw"} top={60} display={'flex'} flexDirection={'row'} gap={2}>
         {/* <button className='buttonUpdateProduct' onClick={() => {
           reportProduct()
         }}>

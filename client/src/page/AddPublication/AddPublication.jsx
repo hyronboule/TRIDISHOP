@@ -21,8 +21,8 @@ const AddPublication = () => {
     let bool = false;
     if (tags.trim() !== "") {
       return (bool = /^(?:[\p{L}]+(?:,[\p{L}]+)*)?$/u.test(tags));
-    }else{
-      return bool
+    } else {
+      return bool;
     }
   };
 
@@ -81,7 +81,6 @@ const AddPublication = () => {
           });
           console.error("not add a new product: ", err);
         });
-
       resetValue();
     } else {
       Swal.fire({

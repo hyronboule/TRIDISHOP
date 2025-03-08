@@ -50,7 +50,7 @@ const DetailProduct = () => {
     return (
         <>
             {product && (
-                <Container className='page' maxWidth="100vw" sx={{ minHeight: "100%", }}>
+                <Container className='page' maxWidth="100vw" sx={{ minHeight: "100%", paddingTop : "100px" }}>
                     <ButtonUpdateProduct name={product.pseudo} productId={product.nameFile} setReload={setReload} />
                     <NavigationButton url={"/home"} />
                     <Grid container gap={3} width={{ xs: "90%", md: "85%" }} margin={"auto"} direction="column" color={"white"} justifyContent="space-between" fontSize={{ xs: "12px", sm: "14px" }} sx={{ padding: { md: "0 30px", xs: "0px 10px" }, }}>
