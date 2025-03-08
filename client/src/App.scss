@@ -15,6 +15,16 @@ input {
   font-size: 15px;
 }
 
+.nameNav{
+  @media (max-width: 800px) {
+    font-size: 13px;
+  }
+  @media (min-width : 700px) {
+   display: block !important; 
+  }
+  display: none !important;
+}
+
 .logo {
   width: 150px;
   height: 40px;

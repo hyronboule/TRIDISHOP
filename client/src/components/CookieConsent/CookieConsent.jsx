@@ -59,7 +59,7 @@ function CookieConsent() {
                 Pour toute précision, veuillez consulter notre page de support. Une adresse email est disponible pour nous contacter.
             </p>
             <a
-                href="/support"
+                href="/pdc"
                 style={{
                     color: '#4CAF50',
                     textDecoration: 'underline',

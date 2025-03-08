@@ -57,7 +57,7 @@ const MenuICon = ({ icon, path, verifCo, logount, name }) => {
             },
           })}
           <Stack
-            display={{ xs: "none", sm: "block" }}
+          className="nameNav"
             sx={
               pathname === path
                 ? { color: colorVar.backgroundPaleBlue }

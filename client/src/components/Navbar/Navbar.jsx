@@ -44,7 +44,7 @@ export const Navbar = () => {
         </Stack>
         <Stack
           direction={"row"}
-          spacing={{ xs: 2, md: 8 }}
+          spacing={{ xs: 2, md: 5 }}
         >
           <MenuICon icon={HomeIcon} path="/home" name={"Acceuil"} />
 
@@ -74,7 +74,7 @@ export const Navbar = () => {
         </Stack>
 
         <Stack marginLeft={"auto"} marginTop={0} direction={"row"} spacing={2}>
-          {!userLogin && <MenuICon icon={LogoutRoundedIcon} logount={true} />}
+          {!userLogin && <MenuICon icon={LogoutRoundedIcon} logount={true} name={"Déconexion"} />}
           <MenuICon
             icon={SettingsIcon}
             path="/settings"
