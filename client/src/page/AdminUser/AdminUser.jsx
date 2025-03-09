@@ -4,18 +4,73 @@ import { Container, Stack } from "@mui/material";
 import { colorVar } from "../../style/colorVar";
 import { useUserContext } from "../../context/User";
 import { getUsers } from "../../services/callApiAdmin";
+import { deleteUserAccount } from "../../services/callApiUserAuth";
+import Swal from "sweetalert2";
 
 const AdminUser = () => {
   const { token } = useUserContext();
   const [users, setUsers] = useState();
+  const [reload, setReload] = useState(false)
 
   useEffect(() => {
+    setReload(false)
     getUsers(token).then((data) => {
       if (data) {
         setUsers(data);
       }
     });
-  }, []);
+  }, [reload]);
+
+  const deleteAccount = async (userId, email) => {
+    const confirm1 = await Swal.fire({
+      text: "Voulez-vous supprimer ce compte ?",
+      icon: "warning",
+      confirmButtonText: "Confirmer",
+      showCancelButton: true,
+    });
+
+    if (!confirm1.isConfirmed) return;
+
+    const confirm2 = await Swal.fire({
+      text: "Vous êtes sûr ?",
+      icon: "warning",
+      confirmButtonText: "Confirmer",
+      showCancelButton: true,
+    });
+
+    if (!confirm2.isConfirmed) return;
+
+    if (!token || !email.trim() || !userId) {
+      await Swal.fire({
+        icon: "warning",
+        text: `Il manque ${
+          !token
+            ? "le token"
+            : !email.trim()
+            ? "l'email de l'utilisateur"
+            : "l'id de l'utilisateur"
+        }`,
+      });
+      return;
+    }
+
+    const result = await deleteUserAccount(token, email, userId);
+
+    if (result) {
+      await Swal.fire({
+        text: "Ce compte a bien été supprimé",
+        icon: "success",
+      });
+      setReload(true)
+    } else {
+      await Swal.fire({
+        title: "Erreur lors de la suppression...",
+        text: "Contactez le support si le problème persiste",
+        icon: "warning",
+      });
+    }
+  };
+
   return (
     <>
       <NavbarAdmin />
@@ -83,6 +138,17 @@ const AdminUser = () => {
                   >
                     Email
                   </th>
+                  <th
+                    style={{
+                      padding: "12px",
+                      textAlign: "left",
+                      border: "1px solid #ddd",
+                      backgroundColor: "#f4f4f4",
+                      color: "#333",
+                    }}
+                  >
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -115,6 +181,30 @@ const AdminUser = () => {
                         }}
                       >
                         {user.email}
+                      </td>
+                      <td
+                        style={{
+                          padding: "5px",
+                          textAlign: "left",
+                          border: "1px solid #ddd",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: 10,
+                        }}
+                      >
+                        <button
+                          className="buttonVitrine"
+                          onClick={() => deleteAccount(user._id, user.email)}
+                        >
+                          supprimer
+                        </button>
+                        <button
+                          className="buttonVitrine"
+                          //   onClick={() => }
+                        >
+                          mettre à jour
+                        </button>
                       </td>
                     </tr>
                   ))
