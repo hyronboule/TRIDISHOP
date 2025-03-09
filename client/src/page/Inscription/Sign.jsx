@@ -73,7 +73,7 @@ export const Sign = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // register user as confirmed
-        callApiRegister(pseudo, email, password)
+        callApiRegister(pseudo, email, password, "user")
           .then((data) => {
             if (data) {
               // create profil

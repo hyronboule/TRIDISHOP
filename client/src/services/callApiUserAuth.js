@@ -32,12 +32,13 @@ export const callApiLogin = async (email, password) => {
  * @returns {Promise<Object>} - The registration data from the API if successful. The api returned the data of the registration
  * @throws {Error} - Displays an error message using Swal if the user already exists or logs an error.
  */
-export const callApiRegister = async (pseudo, email, password) => {
+export const callApiRegister = async (pseudo, email, password, role) => {
   try {
     const result = await axios.post(url.register, {
       pseudo: pseudo,
       email: email,
       password: password,
+      role : role,
     });
     if (result.data) {
       return result.data;
