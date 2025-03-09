@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { url } from './url';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import { url } from "./url";
+import Swal from "sweetalert2";
 
 /**
  * Authenticates a user by their email and password.
@@ -11,17 +11,17 @@ import Swal from 'sweetalert2';
  * @throws {Error} - Logs the error if the API call fails.
  */
 export const callApiLogin = async (email, password) => {
-    try {
-        const result = await axios.post(url.auth, {
-            email: email,
-            password: password
-        });
-        if (result.data) {
-            return result.data;
-        }
-    } catch (error) {
-        console.error('Error during API call:', error);
+  try {
+    const result = await axios.post(url.auth, {
+      email: email,
+      password: password,
+    });
+    if (result.data) {
+      return result.data;
     }
+  } catch (error) {
+    console.error("Error during API call:", error);
+  }
 };
 /**
  * Registers a new user with the given pseudo, email, and password.
@@ -33,29 +33,28 @@ export const callApiLogin = async (email, password) => {
  * @throws {Error} - Displays an error message using Swal if the user already exists or logs an error.
  */
 export const callApiRegister = async (pseudo, email, password) => {
-
-    try {
-        const result = await axios.post(url.register, {
-            pseudo: pseudo,
-            email: email,
-            password: password,
-        });
-        if (result.data) {
-            return result.data;
-        }
-    } catch (error) {
-        let errorMessage = error.response?.data?.message?.split(':')[2];
-
-        if (errorMessage) {
-            Swal.fire({
-                icon: 'error',
-                text: errorMessage || "L'utilisateur existe déjà"
-            });
-        } else {
-            console.error('Error during API call:', error);
-        }
+  try {
+    const result = await axios.post(url.register, {
+      pseudo: pseudo,
+      email: email,
+      password: password,
+    });
+    if (result.data) {
+      return result.data;
     }
-}
+  } catch (error) {
+    let errorMessage = error.response?.data?.message?.split(":")[2];
+
+    if (errorMessage) {
+      Swal.fire({
+        icon: "error",
+        text: errorMessage || "L'utilisateur existe déjà",
+      });
+    } else {
+      console.error("Error during API call:", error);
+    }
+  }
+};
 /**
  * Updates user authentication information such as email, pseudo, or password.
  *
@@ -65,29 +64,50 @@ export const callApiRegister = async (pseudo, email, password) => {
  * @returns {Promise<Object>} - The response data if the update is successful. The data is the user data
  * @throws {Error} - Returns a status and message if the email or pseudo is already used, or logs an error.
  */
-export const callApiUpdateUserAuth = async (data, email,token) => {
-    try {
-        const requestBody = {
-            email,
-            ...data,
-        };
-        const response = await axios.put(
-            url.updateUserAuth,
-            requestBody,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-    
-        return response.data;
-    } catch (error) {
-        if (error.response?.status === 400) {
-            return { status: 400, message: "Email ou pseudo déjà utilisé" };
-        } else {
-            console.error('Error updating user info:', error.response?.data || error.message);
-            throw new Error('Unexpected error'); 
-        }
+export const callApiUpdateUserAuth = async (data, email, token) => {
+  try {
+    const requestBody = {
+      email,
+      ...data,
+    };
+    const response = await axios.put(url.updateUserAuth, requestBody, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 400) {
+      return { status: 400, message: "Email ou pseudo déjà utilisé" };
+    } else {
+      console.error(
+        "Error updating user info:",
+        error.response?.data || error.message
+      );
+      throw new Error("Unexpected error");
     }
+  }
+};
+
+export const deleteUserAccount = async (token, email, id) => {
+  try {
+    if (token && email.trim() && id) {
+      const response = await axios.delete(`${url.urlDeleteUserAccount}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: { email },
+      });
+      if (response.status === 200) {
+        return true;
+      }
+    } else {
+      console.error("token , email and id is required");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error during the deletion of the account:", error);
+    return false;
+  }
 };

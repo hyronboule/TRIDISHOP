@@ -11,6 +11,7 @@ const UserProvider = ({ children }) => {
     const [token, setToken] = useState("")
     // const [parsedToken, setParsedToken] = useState(null);
     const [infoUser, setInfoUser] = useState({
+        id : "",
         pseudo: "",
         email: "",
     });
@@ -24,8 +25,9 @@ const UserProvider = ({ children }) => {
             
             if (decodedToken) {
                 setInfoUser({
+                    id : decodedToken.id,
                     pseudo: decodedToken.pseudo,
-                    email: decodedToken.email
+                    email: decodedToken.email,
                 });
             }
         } else {

@@ -9,6 +9,6 @@ router.post("/login",controllers.login)
 router.post("/register",controllers.register)
 router.get("/role", middleware,controllers.getUserInfo);
 router.put("/user",token,controllers.updateUser);
-
+router.delete("/user/:id",token, controllers.deleteUser)
 
 module.exports = router;

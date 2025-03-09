@@ -78,7 +78,7 @@ export const Navbar = () => {
           <MenuICon
             icon={SettingsIcon}
             path="/settings"
-            verifCo={userLogin}
+            // verifCo={userLogin}
           />
         </Stack>
       </Container>

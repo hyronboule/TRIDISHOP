@@ -3,6 +3,7 @@ const baseUrl = import.meta.env.VITE_URL_BASE
 export const url = {
     auth: `${baseUrl}/auth/login`,
     updateUserAuth : `${baseUrl}/auth/user`,
+    urlDeleteUserAccount : `${baseUrl}/auth/user`,
     products : `${baseUrl}/products/products`,
     register : `${baseUrl}/auth/register`,
     userProducts : `${baseUrl}/products/products/user`,
