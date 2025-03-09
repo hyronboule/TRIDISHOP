@@ -21,6 +21,7 @@ import { useUserContext } from "./context/User.jsx";
 import Admin from "./page/admin/Admin.jsx";
 import AdminUser from "./page/AdminUser/AdminUser.jsx";
 import AdminProduct from "./page/adminProduct/AdminProduct.jsx";
+import AdminTransaction from "./page/AdminTransaction/AdminTransaction.jsx";
 
 function App() {
   const location = useLocation();
@@ -53,11 +54,14 @@ function App() {
         <Route path="/cgv" element={<Cgv />} />
         <Route path="/cgu" element={<Cgu />} />
         <Route path="/pdc" element={<Pdc />} />
-        {/* {!infoUser.role === "admin" && !token && ( */}
-           <Route path="/admin" element={<Admin />} />
-           <Route path="/admin/users" element={<AdminUser />} />
-           <Route path="/admin/products" element={<AdminProduct />} />
-            {/* )} */}
+        {infoUser.role === "admin" && token && (
+          <>
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/users" element={<AdminUser />} />
+            <Route path="/admin/products" element={<AdminProduct />} />
+            <Route path="/admin/transactions" element={<AdminTransaction />} />
+          </>
+        )}
       </Routes>
 
       <Navbar />

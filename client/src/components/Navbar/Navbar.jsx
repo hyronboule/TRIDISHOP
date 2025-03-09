@@ -11,6 +11,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { colorVar } from "../../style/colorVar.js";
 import { useUserContext } from "../../context/User.jsx";
 import logo from "../../assets/logoTridi.png";
+import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded';
 
 export const Navbar = () => {
   const { userLogin, productShops, token, infoUser } = useUserContext();
@@ -72,10 +73,10 @@ export const Navbar = () => {
 
           <MenuICon icon={ContactSupportIcon} path="/support" name={"Aide"} />
           {
-            // token && infoUser.role === "admin" &&
-            // (
-            // )
-            <MenuICon icon={ContactSupportIcon} path="/admin" name={"Admin"} />
+            token && infoUser.role === "admin" &&
+            (
+              <MenuICon icon={AdminPanelSettingsRoundedIcon} path="/admin" name={"Admin"} />
+            )
           }
         </Stack>
 

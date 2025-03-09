@@ -17,4 +17,5 @@ export const url = {
     deleteProduct: `${baseUrl}/products/product`,
     servicePayment: `${baseUrl}/service/payments`,
     adminUsers: `${baseUrl}/admin/users`,
+    serviceTransaction: `${baseUrl}/service/transactions`,
 }

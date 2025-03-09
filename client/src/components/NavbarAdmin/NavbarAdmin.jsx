@@ -3,6 +3,9 @@ import { AppBar, Container, Stack } from "@mui/material";
 import { colorVar } from "../../style/colorVar.js";
 import MenuICon from "../MenuIcon/MenuICon.jsx";
 import HomeIcon from "@mui/icons-material/Home";
+import AccessibilityRoundedIcon from '@mui/icons-material/AccessibilityRounded';
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+import PaidRoundedIcon from '@mui/icons-material/PaidRounded';
 
 export const NavbarAdmin = () => {
   return (
@@ -28,8 +31,9 @@ export const NavbarAdmin = () => {
         }}
       >
         <Stack direction={"column"} spacing={{ xs: 2, md: 5 }}>
-          <MenuICon icon={HomeIcon} path="/admin/users" name={"Utilisateurs"} />
-          <MenuICon icon={HomeIcon} path="/admin/products" name={"Produits"} />
+          <MenuICon icon={AccessibilityRoundedIcon} path="/admin/users" name={"Utilisateurs"} />
+          <MenuICon icon={CategoryRoundedIcon} path="/admin/products" name={"Produits"} />
+          <MenuICon icon={PaidRoundedIcon} path="/admin/transactions" name={"Transactions"} />
         </Stack>
       </Container>
     </AppBar>

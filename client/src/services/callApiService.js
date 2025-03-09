@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { url } from './url';
+import axios from "axios";
+import { url } from "./url";
 
 /**
  * Sends a payment request to the API, specifying the buyer and multiple sellers.
@@ -10,23 +10,37 @@ import { url } from './url';
  * @throws {Error} - Throws an error if the sellers array is invalid or the API call fails.
  */
 export const callApiServicePayment = async (buyerId, sellers) => {
-    
-    try {
-      
-        if (!Array.isArray(sellers) || sellers.length === 0) {
-            throw new Error("Sellers must be a non-empty array");
-        }
-
-        const response = await axios.post(url.servicePayment, {
-            buyerId: buyerId, 
-            payments: sellers
-        });
-
-        if (response.status === 200) {
-            return response.data;
-        }
-    } catch (error) {
-        console.error('Error during API call:', error);
-        throw error; 
+  try {
+    if (!Array.isArray(sellers) || sellers.length === 0) {
+      throw new Error("Sellers must be a non-empty array");
     }
-}
+
+    const response = await axios.post(url.servicePayment, {
+      buyerId: buyerId,
+      payments: sellers,
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+};
+
+export const callApiServiceTransaction = async (token) => {
+  try {
+    const response = await axios.get(url.serviceTransaction, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+};
