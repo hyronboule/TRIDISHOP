@@ -16,17 +16,29 @@ const MenuICon = ({ icon, path, verifCo, logount, name }) => {
     } else {
       if (logount) {
         Swal.fire({
-          text: "Vous avez été déconnecté",
-          icon: "success",
-          confirmButtonText: "Ok",
+          text: "Voulez-vous vous déconnecté?",
+          icon: "info",
+          confirmButtonText: "Oui",
+          cancelButtonText: "Annuler",
+          showCancelButton: true,
           timer: 1500,
-          showConfirmButton: false,
-        });
-        navigate("/");
-        setToken();
-        setInfoUser({
-          pseudo: "",
-          email: "",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              text: "Vous avez été déconnecté",
+              icon: "success",
+              confirmButtonText: "Ok",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+            navigate("/");
+            setToken();
+            setInfoUser({
+              pseudo: "",
+              email: "",
+            });
+          }
         });
       } else {
         navigate(path);
@@ -57,7 +69,7 @@ const MenuICon = ({ icon, path, verifCo, logount, name }) => {
             },
           })}
           <Stack
-          className="nameNav"
+            className="nameNav"
             sx={
               pathname === path
                 ? { color: colorVar.backgroundPaleBlue }

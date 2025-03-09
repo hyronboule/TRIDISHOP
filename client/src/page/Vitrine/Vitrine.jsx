@@ -16,7 +16,7 @@ const navigate = useNavigate();
         >
             <Stack width={"80vw"} margin={"auto"} padding={{ xs: 2, sm: 5 }}  gap={3}  sx={{ backgroundColor: colorVar.backgroundPaleGrey, borderRadius: "20px" }}>
                 <h1 className={"title titleSign"} style={{ height: "fit-content" , paddingBottom:10}}>
-                    Bienvenue sur Tidishops
+                    Bienvenue sur Tridishop
                 </h1>
                 <Stack >
                     Tridishop est la plateforme idéale pour les passionnés et professionnels du design 3D.
@@ -41,7 +41,7 @@ const navigate = useNavigate();
                 <h2>Qui somme nous? </h2>
                 <p>Des passionnés de modèles 3D voulant créé une application intuitive pour le partage et la mise en vente de modèle 3D</p>
 
-                <h2> Débuter votre expérience sur Tidishop :</h2>
+                <h2> Débuter votre expérience sur Tridishop :</h2>
                 <Stack direction={'row'} gap={2} flexWrap={"wrap"} >
                     <button className={"buttonVitrine "} onClick={()=>{
                         navigate("/home")
