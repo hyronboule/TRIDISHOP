@@ -14,6 +14,7 @@ const UserProvider = ({ children }) => {
         id : "",
         pseudo: "",
         email: "",
+        role : ""
     });
     const [productShops, setProductShops] = useState([])
 
@@ -28,6 +29,7 @@ const UserProvider = ({ children }) => {
                     id : decodedToken.id,
                     pseudo: decodedToken.pseudo,
                     email: decodedToken.email,
+                    role : decodedToken.role
                 });
             }
         } else {

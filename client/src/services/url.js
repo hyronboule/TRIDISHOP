@@ -16,4 +16,5 @@ export const url = {
     updateProduct: `${baseUrl}/products/product`,
     deleteProduct: `${baseUrl}/products/product`,
     servicePayment: `${baseUrl}/service/payments`,
+    adminUsers: `${baseUrl}/admin/users`,
 }

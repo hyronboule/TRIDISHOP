@@ -15,12 +15,12 @@ input {
   font-size: 15px;
 }
 
-.nameNav{
-  @media (max-width: 800px) {
+.nameNav {
+  @media (max-width: 850px) {
     font-size: 13px;
   }
-  @media (min-width : 700px) {
-   display: block !important; 
+  @media (min-width: 760px) {
+    display: block !important;
   }
   display: none !important;
 }
@@ -188,7 +188,15 @@ label {
   width: 100px;
   padding: 3px 17px;
 }
-
+#admin {
+  padding-left: 190px;
+  @media (max-width: 600px) {
+    padding-left: 50px;
+  }
+  @media (min-width: 600px) and (max-width: 760px) {
+    padding-left: 90px;
+  }
+}
 .secondTitle {
   font-size: 30px;
   font-weight: bold;

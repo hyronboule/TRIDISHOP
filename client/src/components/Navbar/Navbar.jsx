@@ -13,7 +13,7 @@ import { useUserContext } from "../../context/User.jsx";
 import logo from "../../assets/logoTridi.png";
 
 export const Navbar = () => {
-  const { userLogin, productShops } = useUserContext();
+  const { userLogin, productShops, token, infoUser } = useUserContext();
 
   return (
     <AppBar
@@ -44,7 +44,7 @@ export const Navbar = () => {
         </Stack>
         <Stack
           direction={"row"}
-          spacing={{ xs: 2, md: 5 }}
+          spacing={{ xs: 1,sm:2, md: 5 }}
         >
           <MenuICon icon={HomeIcon} path="/home" name={"Acceuil"} />
 
@@ -71,6 +71,12 @@ export const Navbar = () => {
           />
 
           <MenuICon icon={ContactSupportIcon} path="/support" name={"Aide"} />
+          {
+            // token && infoUser.role === "admin" &&
+            // (
+            // )
+            <MenuICon icon={ContactSupportIcon} path="/admin" name={"Admin"} />
+          }
         </Stack>
 
         <Stack marginLeft={"auto"} marginTop={0} direction={"row"} spacing={2}>
@@ -78,7 +84,7 @@ export const Navbar = () => {
           <MenuICon
             icon={SettingsIcon}
             path="/settings"
-            // verifCo={userLogin}
+            verifCo={userLogin}
           />
         </Stack>
       </Container>
