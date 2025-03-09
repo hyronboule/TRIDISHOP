@@ -28,7 +28,6 @@ export const apiCallUserProfil = async (pseudo) => {
  */
 export const updatedUserProfil = async (data, name, token) => {
     try {
-
         const formData = new FormData();
 
         if (data.instagram) {
@@ -46,8 +45,7 @@ export const updatedUserProfil = async (data, name, token) => {
         if (data.paypalEmail) {
             formData.append('paypalEmail', data.paypalEmail);
         }
-
-
+        
         const response = await axios.put(`${url.updateProfil}/${name}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',

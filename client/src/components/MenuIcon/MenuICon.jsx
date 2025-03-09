@@ -21,7 +21,6 @@ const MenuICon = ({ icon, path, verifCo, logount, name }) => {
           confirmButtonText: "Oui",
           cancelButtonText: "Annuler",
           showCancelButton: true,
-          timer: 1500,
           showConfirmButton: true,
         }).then((result) => {
           if (result.isConfirmed) {

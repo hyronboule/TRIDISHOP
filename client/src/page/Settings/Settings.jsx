@@ -226,7 +226,6 @@ const Settings = () => {
     <Container className='page settings'
       maxWidth="100vw" display='flex' align='center'
       sx={{ minHeight: "100%" }}  >
-      <NavigationButton url={'/'} />
       <h1>Settings :</h1>
 
       <Stack sx={{

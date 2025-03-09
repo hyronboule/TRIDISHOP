@@ -172,7 +172,6 @@ const ShoppingCart = () => {
   return (
     <>
       <Container className="page" maxWidth="100vw" sx={{ minHeight: "100%" }}>
-        <NavigationButton url={"/"} />
         <Stack >
           <h1 className="secondTitle" style={{ width: "fit-content" }}>
             Panier:{" "}

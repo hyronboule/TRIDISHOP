@@ -120,7 +120,6 @@ const AddPublication = () => {
 
   return (
     <>
-      <NavigationButton url={"/"} />
       <Container
         className="page"
         maxWidth="100vw"
