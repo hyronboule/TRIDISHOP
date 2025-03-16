@@ -126,9 +126,11 @@ const AdminTransaction = () => {
                           padding: "12px",
                           textAlign: "left",
                           border: "1px solid #ddd",
+                          minWidth: "80px"
                         }}
                       >
-                        {data.totalAmount}
+                        <p>{data.totalAmount} €</p>
+                        <p>(frais : {data.totalAmount * 0.05}€ )</p>
                       </td>
                       <td
                         style={{

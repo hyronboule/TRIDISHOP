@@ -68,6 +68,7 @@ const Profil = () => {
   return (
     <>
       <Container className="page" maxWidth="100vw" sx={{ minHeight: "100%" }}>
+        <NavigationButton url={"/home"}/>
         <Button
           variant="contained"
           tabIndex={0}

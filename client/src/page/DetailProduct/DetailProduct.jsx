@@ -72,6 +72,7 @@ const DetailProduct = () => {
           maxWidth="100vw"
           sx={{ minHeight: "100%", paddingTop: "100px" }}
         >
+          <NavigationButton url={"/home"} />
           <ButtonUpdateProduct
             name={product.pseudo}
             productId={product.nameFile}

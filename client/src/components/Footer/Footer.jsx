@@ -8,73 +8,77 @@ import logo from "../../assets/logoTridi.png";
 function Footer() {
   const navigate = useNavigate();
   return (
-    <Container className={"footer"}>
-      <Grid
-        container
-        flexDirection={{ xs: "column", sm: "row" }}
-        height={100}
-        justifyContent={"space-between"}
-      >
+    <footer>
+      <Container className={"footer"}>
         <Grid
-          item
-          sm={4}
-          md={3}
-          borderRight={{ lg: "1px solid #B1E5F2" }}
-          alignContent={"center"}
+          container
+          flexDirection={{ xs: "column", sm: "row" }}
+          height={100}
+          justifyContent={"space-between"}
         >
-          <ul className="linksFooter">
-            <li
-              className="hoverLink"
-              onClick={() => {
-                navigate("/cgu ");
-              }}
-            >
-              Condition général d'utilisation
-            </li>
-            <li
-              className="hoverLink"
-              onClick={() => {
-                navigate("/cgv ");
-              }}
-            >
-              Condition général de vente
-            </li>
-            <li
-              className="hoverLink"
-              onClick={() => {
-                navigate("/pdc ");
-              }}
-            >
-              Politique de confidentialité
-            </li>
-          </ul>
+          <Grid
+            item
+            sm={4}
+            md={3}
+            borderRight={{ lg: "1px solid #B1E5F2" }}
+            alignContent={"center"}
+          >
+            <ul className="linksFooter">
+              <li
+                className="hoverLink"
+                onClick={() => {
+                  navigate("/cgu ");
+                }}
+              >
+                Condition général d'utilisation
+              </li>
+              <li
+                className="hoverLink"
+                onClick={() => {
+                  navigate("/cgv ");
+                }}
+              >
+                Condition général de vente
+              </li>
+              <li
+                className="hoverLink"
+                onClick={() => {
+                  navigate("/pdc ");
+                }}
+              >
+                Politique de confidentialité
+              </li>
+            </ul>
+          </Grid>
+          <Grid item sm={2} alignContent={"center"}>
+            <ul className="linksFooter">
+              <li
+                className="hoverLink"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                A' propos de nous
+              </li>
+            </ul>
+          </Grid>
+          <Grid sm={4} display={{ xs: "none", sm: "block" }}>
+            <Stack id="infoEntreprise">
+              <img src={logo} alt="Logo de tridishop" />
+              <h1>TridiShop</h1>
+            </Stack>
+          </Grid>
         </Grid>
-        <Grid item sm={2} alignContent={"center"}>
-          <ul className="linksFooter">
-            <li
-              className="hoverLink"
-              onClick={() => {
-                navigate("/");
-              }}
-            >
-              A' propos de nous
-            </li>
-          </ul>
-        </Grid>
-        <Grid sm={4} display={{ xs: "none", sm: "block" }}>
-          <Stack id="infoEntreprise">
-            <img src={logo} alt="Logo de tridishop" />
-            <h1>TridiShop</h1>
-          </Stack>
-        </Grid>
-      </Grid>
-      <Stack color={"#B1E5F2"}
-       fontSize={10}
-      width={"100%"}
-      alignItems={"center"}
-      >
-      © 2025 Tidishop </Stack>
-    </Container>
+        <Stack
+          color={"#B1E5F2"}
+          fontSize={10}
+          width={"100%"}
+          alignItems={"center"}
+        >
+          © 2025 Tidishop{" "}
+        </Stack>
+      </Container>
+    </footer>
   );
 }
 
