@@ -8,7 +8,10 @@ import InputText from "../../components/InputText/InputText";
 import { updatedUserProfil } from "../../services/callApiProfilUser.js";
 import { useUserContext } from "../../context/User.jsx";
 import { updateNameUserAllProducts } from "../../services/callApiProducts.js";
-import { callApiUpdateUserAuth, deleteUserAccount } from "../../services/callApiUserAuth.js";
+import {
+  callApiUpdateUserAuth,
+  deleteUserAccount,
+} from "../../services/callApiUserAuth.js";
 import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
@@ -26,9 +29,18 @@ const Settings = () => {
     if (e.target.files[0]) {
       let file = e.target.files[0];
       let type = file.name.split(".")[1];
+      const ko = 100;
+      const maxSize = ko * 1024; // 100 Ko
 
       if (type === "jpeg" || type === "png") {
-        setImage(file);
+        if (file.size > maxSize) {
+          Swal.fire({
+            icon : "error",
+            text: `La taille du fichier ne doit pas dépasser ${ko} Ko.`,
+          });
+        }else{
+          setImage(file);
+        }
       } else {
         Swal.fire({
           text: "Veuillez choisir une image au format jpeg ou png.",
@@ -243,7 +255,6 @@ const Settings = () => {
     if (!confirm2.isConfirmed) return;
 
     if (!token || !infoUser.email.trim() || !infoUser.id) {
-          
       await Swal.fire({
         icon: "warning",
         text: `Il manque ${
@@ -403,7 +414,7 @@ const Settings = () => {
         </Stack>
         <Stack flexDirection={"row"} gap={2} justifyContent={"flex-end"}>
           <button
-          onClick={()=> deleteAccount()}
+            onClick={() => deleteAccount()}
             className="buttonValidation buttonSettings"
             style={{
               position: "inherit",

@@ -101,12 +101,21 @@ const AddPublication = () => {
   // add file to the variable file or file2
   const addFileInput = (event, setFileFunc, typeFile) => {
     const selectedFile = event.target.files[0];
+    const mo = 300;
+    const maxSize = mo * 1024 * 1024; // 300 Mo
 
     if (selectedFile && selectedFile.name.split(".")[1] === typeFile) {
-      setFileFunc(selectedFile);
+      if (selectedFile.size > maxSize) {
+        Swal.fire({
+          icon: "error",
+          text: `La taille du fichier ne doit pas dépasser ${mo} Mo.`,
+        });
+      } else {
+        setFileFunc(selectedFile);
 
-      if (selectedFile.name.split(".")[1] === "jpeg") {
-        setDisplayImage(selectedFile);
+        if (selectedFile.name.split(".")[1] === "jpeg") {
+          setDisplayImage(selectedFile);
+        }
       }
     } else {
       setFileFunc();

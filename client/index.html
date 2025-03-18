@@ -1,9 +1,10 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="Content-Security-Policy" content="
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
   default-src 'self'; 
   script-src 'self' 'unsafe-eval' https://www.paypal.com https://www.sandbox.paypal.com; 
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
@@ -11,21 +12,23 @@
   connect-src 'self' blob: https://tridishop.site/api https://tridishop.site/api/* https://api.paypal.com https://api.sandbox.paypal.com wss://localhost:8080; 
   font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; 
   object-src 'none'; 
-  frame-src https://www.paypal.com https://www.sandbox.paypal.com;">
+  frame-src https://www.paypal.com https://www.sandbox.paypal.com;"
+    />
 
+    <meta
+      name="description"
+      content="Tridishop est la plateforme idéale pour les passionnés et professionnels du design 3D. 
+      Publiez, partagez ou achetez des modèles 3D de qualité. Découvrez une communauté active de créateurs et d'acheteurs et boostez vos projets avec des modèles 3D uniques.
+       Rejoignez Tridishop dès maintenant pour explorer un univers créatif sans limite."
+    />
 
-  <meta name="description" content="Tridishop est la plateforme idéale pour les passionnés et professionnels du design 3D. Publiez, partagez ou achetez des modèles 3D de qualité. Découvrez une communauté active de créateurs et d'acheteurs et boostez vos projets avec des modèles 3D uniques. Rejoignez Tridishop dès maintenant pour explorer un univers créatif sans limite.">
+    <link rel="icon" href="/src/assets/logoTridi.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TRIDISHOP</title>
+  </head>
 
-
-
-  <link rel="icon" href="/src/assets/logoTridi.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TRIDISHOP</title>
-</head>
-
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
-</body>
-
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

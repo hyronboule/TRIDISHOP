@@ -28,10 +28,19 @@ export const updateProfil = async (token, name) => {
         if (e.target.files.length > 0) {
           const file = e.target.files[0];
           const type = file.name.split(".").pop().toLowerCase();
+          const ko = 100;
+          const maxSize = ko * 1024 ; // 100 Ko
 
           if (type !== "jpeg" && type !== "png") {
             Swal.showValidationMessage(
               "Veuillez choisir une image au format jpeg ou png."
+            );
+            fileInput.value = "";
+            return;
+          }
+          if (file.size > maxSize) {
+            Swal.showValidationMessage(
+              `La taille du fichier ne doit pas dépasser ${ko} Ko.`
             );
             fileInput.value = "";
             return;
