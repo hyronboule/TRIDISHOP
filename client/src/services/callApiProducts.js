@@ -122,17 +122,21 @@ export const addNewProductApi = async (addData) => {
  */
 
 export const callApiUpdatePoducts = async (nameFile, data,token) => {
+
     try {
         const formData = new FormData();
         if (data.description) {
             formData.append("description", data.description);
-        } else if (data.tags) {
+        } 
+        if (data.tags) {
             data.tags.forEach(tag => {
                 formData.append('tags[]', tag);
             });
-        } else if (data.price) {
+        } 
+        if (data.price) {
             formData.append("price", data.price);
-        } else if (data.download) {
+        } 
+        if (data.download) {
             formData.append("download", data.download);
         }
 
@@ -142,7 +146,6 @@ export const callApiUpdatePoducts = async (nameFile, data,token) => {
                 Authorization: `Bearer ${token}`,
             }
         });
-
         return response
 
     } catch (error) {

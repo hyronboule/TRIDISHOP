@@ -47,8 +47,8 @@ const AdminProduct = () => {
     }
   };
 
-  const handleUpdate = async (nameFile) => {
-    const result = await updateProductForm(nameFile, token);
+  const handleUpdate = async (nameFile,tags) => {
+    const result = await updateProductForm(nameFile, token,tags);
     if (result) {
       setReload(true)
     }
@@ -229,7 +229,7 @@ const AdminProduct = () => {
                         </button>
                         <button
                           className="buttonVitrine"
-                          onClick={() => handleUpdate(product.nameFile)}
+                          onClick={() => handleUpdate(product.nameFile,product.tags)}
                         >
                           mettre à jour
                         </button>

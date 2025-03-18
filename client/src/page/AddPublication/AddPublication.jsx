@@ -33,7 +33,16 @@ const AddPublication = () => {
       tags.split(",").forEach((tag) => {
         tagArray.push(tag.trim());
       });
-      if (price < 0 || price.trim() === "" || typeof price === "number") {
+
+      if (tagArray.length > 5) {
+        Swal.fire({
+          text: "Le nombre de tags est limité à 5.",
+          icon: "error",
+        });
+        return;
+      }
+
+      if (price < 0 || price === undefined || typeof price === "number") {
         Swal.fire({
           text: "Le prix ne peut pas être négatif et doit être un chiffre.",
           icon: "error",
@@ -84,7 +93,7 @@ const AddPublication = () => {
       resetValue();
     } else {
       Swal.fire({
-        text: "Les tags doivent être séparés par une virgule, ne pas commencer ou finir par une virgule et les mots ne doivent pas contenir de caractère spéciaux.",
+        text: "Les tags doivent être séparés par une virgule, ne pas commencer ou finir par une virgule et les mots ne doivent pas contenir de caractère spéciaux ou de nombre.",
         icon: "error",
       });
     }

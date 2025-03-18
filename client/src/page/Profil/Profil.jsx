@@ -9,16 +9,16 @@ import MenuLinks from "../../components/MenuLinks/MenuLinks.jsx";
 import { useUserContext } from "../../context/User.jsx";
 import { callApiProductsUser } from "../../services/callApiProducts.js";
 import { apiCallUserProfil } from "../../services/callApiProfilUser.js";
-import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
+import BorderColorRoundedIcon from "@mui/icons-material/BorderColorRounded";
 import { updateProfil } from "../../services/updateProfil.js";
 
 const Profil = () => {
   const { infoUser, token } = useUserContext(); // user info who logged into the application
-  const { nameOtherUser } = useParams(); 
+  const { nameOtherUser } = useParams();
   const [productsUser, setProductsUser] = useState();
   const [profilUser, setProfilUser] = useState();
   const [productPage, setProductPage] = useState();
-  const [reload, setReload] = useState(false)
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     if (nameOtherUser) {
@@ -58,21 +58,20 @@ const Profil = () => {
   };
 
   const handleUpdate = async () => {
-    setReload(false)
-    updateProfil(token, infoUser.pseudo).then((success) => {   
-     setReload(success);
+    setReload(false);
+    updateProfil(token, infoUser.pseudo).then((success) => {
+      setReload(success);
     });
- };
-
+  };
 
   return (
     <>
       <Container className="page" maxWidth="100vw" sx={{ minHeight: "100%" }}>
-        <NavigationButton url={"/home"}/>
+        <NavigationButton url={"/home"} />
         <Button
           variant="contained"
           tabIndex={0}
-          onClick={()=> handleUpdate()}
+          onClick={() => handleUpdate()}
           sx={{
             background: colorVar.backgroundPaleBlue,
             position: "absolute",
@@ -85,7 +84,10 @@ const Profil = () => {
             color: colorVar.textColor,
             zIndex: 100,
           }}
-        > <BorderColorRoundedIcon sx={{color : "black", fontSize: 16}} /> </Button>
+        >
+          {" "}
+          <BorderColorRoundedIcon sx={{ color: "black", fontSize: 16 }} />{" "}
+        </Button>
         <Grid
           container
           gap={3}
@@ -126,22 +128,23 @@ const Profil = () => {
             </Stack>
 
             {profilUser && <h2 id="titleProfil">{`@${profilUser.pseudo}`}</h2>}
-            {profilUser && profilUser.links && (
-              <MenuLinks
-                links={[
-                  profilUser.links.instagram && {
-                    title: "Instagram",
-                    link: profilUser.links.instagram,
-                    icon: "",
-                  },
-                  profilUser.links.facebook && {
-                    title: "Facebook",
-                    link: profilUser.links.facebook,
-                    icon: "",
-                  },
-                ].filter(Boolean)}
-              />
-            )}
+            {profilUser &&
+              (profilUser.links.instagram || profilUser.links.facebook) && (
+                <MenuLinks
+                  links={[
+                    profilUser.links.instagram && {
+                      title: "Instagram",
+                      link: profilUser.links.instagram,
+                      icon: "",
+                    },
+                    profilUser.links.facebook && {
+                      title: "Facebook",
+                      link: profilUser.links.facebook,
+                      icon: "",
+                    },
+                  ].filter(Boolean)}
+                />
+              )}
           </Grid>
 
           <Image3D

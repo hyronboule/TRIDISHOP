@@ -37,13 +37,13 @@ const DetailProduct = () => {
       showCancelButton: true,
       showConfirmButton: true,
     }).then((result) => {
-    if (result.isConfirmed) {
-        setProductShops((allProducts) => [...allProducts, product]); 
+      if (result.isConfirmed) {
+        setProductShops((allProducts) => [...allProducts, product]);
         Swal.fire({
-            text:"Le produit a été ajouté",
-            icon : "info"
-        })
-    }
+          text: "Le produit a été ajouté",
+          icon: "info",
+        });
+      }
     });
   };
 
@@ -74,6 +74,7 @@ const DetailProduct = () => {
         >
           <NavigationButton url={"/home"} />
           <ButtonUpdateProduct
+            tags={product.tags}
             name={product.pseudo}
             productId={product.nameFile}
             setReload={setReload}

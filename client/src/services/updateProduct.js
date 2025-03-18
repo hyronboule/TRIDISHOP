@@ -1,81 +1,160 @@
-import Swal from 'sweetalert2';
-import { callApiUpdatePoducts } from './callApiProducts';
+import Swal from "sweetalert2";
+import { callApiUpdatePoducts } from "./callApiProducts";
 
 /**
- * Displays a form using Swal (SweetAlert) to update a product and handles the update process.
+ * Affiche un formulaire SweetAlert pour mettre à jour un produit et gère la mise à jour.
  *
- * @param {string} nameFile - The identifier of the product to be updated.
- * @param {string} token - The authentication token for the API call.
- * @returns {Promise<boolean>} - Resolves to `true` if the product is successfully updated, otherwise `false`.
+ * @param {string} nameFile - L'identifiant du produit à mettre à jour.
+ * @param {string} token - Le jeton d'authentification pour l'API.
+ * @param {Array<string>} tags - Les tags actuels du produit.
+ * @returns {Promise<boolean>} - Résout `true` si la mise à jour est réussie, sinon `false`.
  */
-export const updateProductForm = (nameFile,token) => {
-    return Swal.fire({
-        title: 'Mise à jour du produit',
-        html: `
-        <p>Entrer les champs qui doivent être modifiés (laissez vide pour ne pas modifier) :</p>
-        <input type="text" id="description" class="swal2-input" placeholder="Description">
-        <input type="number" id="price" class="swal2-input" placeholder="Prix" min="0">
-        <input type="text" id="tags" class="swal2-input" placeholder="Tags">
-      `,
-        focusConfirm: false,
-        showCancelButton: true,
-        confirmButtonText: 'Modifier',
-        cancelButtonText: 'Annuler',
-        preConfirm: () => {
-            // Get the values from the inputs
-            const description = Swal.getPopup().querySelector('#description').value;
-            const price = Swal.getPopup().querySelector('#price').value;
-            let tags = Swal.getPopup().querySelector('#tags').value;
+export const updateProductForm = (nameFile, token, tags) => {
+  let updatedTags = [...tags];
 
-            if (!description && !price && !tags) {
-                Swal.showValidationMessage('Remplissez au moins un champ pour mettre à jour');
-                return null;
-            }
+  return Swal.fire({
+    title: "Mise à jour du produit",
+    html: `
+      <p>Entrer les champs à modifier (laissez vide pour ne pas modifier) :</p>
+      <input type="text" id="description" class="swal2-input" placeholder="Description">
+      <input type="number" id="price" class="swal2-input" placeholder="Prix" min="0">
+      <p>Modifier les tags :</p>
+      <div id="tagContainer" style="display: flex; flex-wrap: wrap; gap: 5px;">
+        ${updatedTags
+          .map(
+            (tag) =>
+              `<span class="tag-item" style="padding: 5px 10px; background: #ddd; border-radius: 5px; cursor: pointer;" data-tag="${tag}">${tag} ✖</span>`
+          )
+          .join("")}
+      </div>
+      <input type="text" id="tagsInput" class="swal2-input" placeholder="Ajouter des tags (séparés par une virgule)">
+      <button id="addTagButton" class="swal2-confirm swal2-styled" style="margin-top: 10px;">Ajouter Tags</button>
+    `,
+    focusConfirm: false,
+    showCancelButton: true,
+    confirmButtonText: "Modifier",
+    cancelButtonText: "Annuler",
+    didOpen: () => {
+      const tagContainer = Swal.getPopup().querySelector("#tagContainer");
+      const tagsInput = Swal.getPopup().querySelector("#tagsInput");
+      const addTagButton = Swal.getPopup().querySelector("#addTagButton");
 
-            // Ensure the price is a valid number if it is provided
-            if (price && (isNaN(price) || price < 0)) {
-                Swal.showValidationMessage('Entrez un prix valide');
-                return null;
-            }
+      // Fonction pour supprimer un tag au clic
+      const removeTag = (tagElement, tag) => {
+        updatedTags = updatedTags.filter((t) => t !== tag);
+        tagElement.remove();
+      };
 
-            //  valide tags 
-            if (tags.trim() !== '') {
-                if (/^(?:[\p{L}]+(?:,[\p{L}]+)*)?$/u
-                    .test(tags)) {
-                    let tagArray = tags.split(',').map(tag => tag.trim());
-                    tags = tagArray;
-                } else {
-                    Swal.showValidationMessage('Tags incorrect (ex : tag1, tag2)');
-                    return null;
-                }
-            }
+      // Mettre à jour l'affichage des tags
+      const updateTagContainer = () => {
+        tagContainer.innerHTML = updatedTags
+          .map(
+            (tag) =>
+              `<span class="tag-item" style="padding: 5px 10px; background: #ddd; border-radius: 5px; cursor: pointer;" data-tag="${tag}">${tag} ✖</span>`
+          )
+          .join("");
 
-            // return data (description or price or description and price)
-            return { description: description || null, price: price || null, tags: tags || null };
-        }
-    }).then((result) => {
-        if (!result.isConfirmed || !result.value) {
-            return false;
-        }
-
-        const { description, price, tags } = result.value;
-
-        const data = {};
-        if (description) data.description = description;
-        if (price) data.price = price;
-        if (tags) data.tags = tags;
-
-        return callApiUpdatePoducts(nameFile, data,token).then((data) => {
-            if (data && data.status == '200') {
-                //reload page
-                return true;
-            } else {
-                // don't reload
-                return false;
-            }
-        }).catch((err) => {
-            console.error('Updated product failed:', err);
-            return false;
+        // Ajouter l'événement de suppression aux tags
+        tagContainer.querySelectorAll(".tag-item").forEach((tagElement) => {
+          const tag = tagElement.getAttribute("data-tag");
+          tagElement.addEventListener("click", () => {
+            removeTag(tagElement, tag);
+          });
         });
-    });
+      };
+
+      // Ajout de nouveaux tags
+      addTagButton.addEventListener("click", () => {
+        let newTags = tagsInput.value
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag);
+
+        if (newTags.some((tag) => !/^[\p{L}]+$/u.test(tag))) {
+          Swal.showValidationMessage(
+            "Tags incorrects (seules les lettres sont autorisées)"
+          );
+          return;
+        }
+
+        if (updatedTags.length + newTags.length > 5) {
+          Swal.showValidationMessage("Vous ne pouvez pas avoir plus de 5 tags");
+          return;
+        }
+
+        newTags.forEach((tag) => {
+          if (!updatedTags.includes(tag)) {
+            updatedTags.push(tag);
+            const span = document.createElement("span");
+            span.textContent = tag + " ✖";
+            span.classList.add("tag-item");
+            span.style.padding = "5px 10px";
+            span.style.background = "#ddd";
+            span.style.borderRadius = "5px";
+            span.style.cursor = "pointer";
+            span.setAttribute("data-tag", tag);
+            span.addEventListener("click", () => {
+              removeTag(span, tag);
+            });
+
+            tagContainer.appendChild(span);
+          }
+        });
+
+        tagsInput.value = "";
+        updateTagContainer();
+      });
+
+      updateTagContainer();
+    },
+    preConfirm: () => {
+      const description = Swal.getPopup().querySelector("#description").value;
+      const price = Number(Swal.getPopup().querySelector("#price").value);
+
+      if (!description && !price && updatedTags.length === tags.length) {
+        Swal.showValidationMessage(
+          "Remplissez au moins un champ pour mettre à jour"
+        );
+        return null;
+      }
+
+      if (price === undefined && (isNaN(price) || price < 0)) {
+        Swal.showValidationMessage("Entrez un prix valide");
+        return null;
+      }
+
+      return {
+        description: description || null,
+        price: price ?? null,
+        tags: updatedTags.length !== tags.length ? updatedTags : null,
+      };
+    },
+  }).then((result) => {
+    if (!result.isConfirmed || !result.value) {
+      return false;
+    }
+
+    const { description, price, tags } = result.value;
+
+    const data = {};
+    if (description) data.description = description;
+    if (price) data.price = price;
+    if (tags) data.tags = tags;
+
+    return callApiUpdatePoducts(nameFile, data, token)
+      .then((data) => {
+        if (data && data.status == "200") {
+          Swal.fire("Produit mis à jour avec succès !");
+          return true;
+        } else {
+          Swal.fire("Échec de la mise à jour du produit.");
+          return false;
+        }
+      })
+      .catch((err) => {
+        console.error("Échec de la mise à jour du produit:", err);
+        Swal.fire("Erreur lors de la mise à jour du produit.");
+        return false;
+      });
+  });
 };

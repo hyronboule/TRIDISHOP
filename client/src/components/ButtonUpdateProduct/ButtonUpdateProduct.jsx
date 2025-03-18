@@ -11,7 +11,7 @@ import { deleteConfirmation } from '../../services/deleteProduct';
 import { useNavigate } from 'react-router-dom';
 
 
-const ButtonUpdateProduct = ({ name, productId, setReload }) => {
+const ButtonUpdateProduct = ({ name, productId, setReload, tags }) => {
   const { infoUser } = useUserContext()
   const [nameUser, setNameUser] = useState(name)
   const {token} = useUserContext()
@@ -30,7 +30,7 @@ const ButtonUpdateProduct = ({ name, productId, setReload }) => {
   const updateProduct = () => {
     // open a form for update product
     setReload(false)
-    updateProductForm(productId,token).then((result) => {
+    updateProductForm(productId,token,tags).then((result) => {
       if (result === true) {        
         setReload(result)
       }
