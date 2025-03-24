@@ -15,21 +15,60 @@ export const updateProductForm = (nameFile, token, tags) => {
   return Swal.fire({
     title: "Mise à jour du produit",
     html: `
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
       <p>Entrer les champs à modifier (laissez vide pour ne pas modifier) :</p>
-      <input type="text" id="description" class="swal2-input" placeholder="Description">
-      <input type="number" id="price" class="swal2-input" placeholder="Prix" min="0">
-      <p>Modifier les tags :</p>
-      <div id="tagContainer" style="display: flex; flex-wrap: wrap; gap: 5px;">
+
+      <input type="text" id="description" class="swal2-input" placeholder="Description" 
+        style="width: 100%; max-width: 250px; text-align: center;">
+      <input type="number" id="price" class="swal2-input" placeholder="Prix" min="0" 
+        style="width: 100%; max-width: 250px; text-align: center;">
+
+      <p style="padding-top: 10px; padding-bottom: 10px;">Modifier les tags :</p>
+
+      <div id="tagContainer" style="
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 5px; 
+        padding: 10px; 
+        max-width: 100%; 
+        background: #f9f9f9;
+        justify-content: center;
+        text-align: center;
+        overflow-x: hidden;">
         ${updatedTags
           .map(
             (tag) =>
-              `<span class="tag-item" style="padding: 5px 10px; background: #ddd; border-radius: 5px; cursor: pointer;" data-tag="${tag}">${tag} ✖</span>`
+              `<span class="tag-item" style="
+                padding: 5px 10px; 
+                background: #ddd; 
+                border-radius: 5px; 
+                cursor: pointer;
+                font-size: 14px;
+                white-space: nowrap;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+              " data-tag="${tag}">
+                ${tag} <span style="font-weight: bold;">✖</span>
+              </span>`
           )
           .join("")}
       </div>
-      <input type="text" id="tagsInput" class="swal2-input" placeholder="Ajouter des tags (séparés par une virgule)">
-      <button id="addTagButton" class="swal2-confirm swal2-styled" style="margin-top: 10px;">Ajouter Tags</button>
-    `,
+
+      <input type="text" id="tagsInput" class="swal2-input" placeholder="Ajouter des tags (séparés par une virgule)" 
+        style="width: 100%; max-width: 250px; text-align: center;">
+
+      <button id="addTagButton" class="swal2-confirm swal2-styled" style="
+        margin-top: 10px; 
+        width: 100%; 
+        max-width: 250px;
+        padding: 10px;
+        font-size: 16px;
+        text-align: center;
+      ">
+        Ajouter Tags
+      </button>
+    </div>`,
     focusConfirm: false,
     showCancelButton: true,
     confirmButtonText: "Modifier",
