@@ -81,16 +81,21 @@ export const Sign = () => {
                 .then((data) => {
                   if (data) {
                     // call api for login user
-                    callApiLogin(email, password)
-                      .then((data) => {
-                        if (data) {
-                          setToken(data.token);
-                          navigate("/profil");
-                        }
-                      })
-                      .catch((error) => {
-                        console.error("Error during login API call:", error);
-                      });
+                    // callApiLogin(email, password)
+                    //   .then((data) => {
+                    //     if (data) {
+                    //       setToken(data.token);
+                    //       navigate("/profil");
+                    //     }
+                    //   })
+                    //   .catch((error) => {
+                    //     console.error("Error during login API call:", error);
+                    //   });
+
+                   Swal.fire({
+                    icon :"success",
+                    text : "Votre compte est créé. Un email de vérification vous a été envoyé."
+                   })
                   }
                 })
                 .catch((err) => {

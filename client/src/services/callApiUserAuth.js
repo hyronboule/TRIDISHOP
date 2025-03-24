@@ -16,10 +16,14 @@ export const callApiLogin = async (email, password) => {
       email: email,
       password: password,
     });
-    if (result.data) {
+   
+    if (result.data ) {
       return result.data;
     }
   } catch (error) {
+    if (error.response.status === 401) {
+      return error.response.data.message;
+    }
     console.error("Error during API call:", error);
   }
 };

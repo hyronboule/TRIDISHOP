@@ -36,12 +36,12 @@ const Login = () => {
 
     callApiLogin(email, password)
       .then((data) => {
-        if (data) {
+        if (typeof data !== 'string') {
           setToken(data.token);
           navigate("/profil");
         } else {
           Swal.fire({
-            text: "L'utilisateur n'existe pas",
+            text: data,
             icon: "error",
           });
         }

@@ -7,6 +7,7 @@ const token = require('../middlewares/middlewareToken')
 
 router.post("/login",controllers.login)
 router.post("/register",controllers.register)
+router.get("/verify-email/:email",controllers.verificationAccount);
 router.get("/role", middleware,controllers.getUserInfo);
 router.put("/user",token,controllers.updateUser);
 router.delete("/user/:id",token, controllers.deleteUser)
