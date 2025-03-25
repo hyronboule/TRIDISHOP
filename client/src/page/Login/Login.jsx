@@ -18,12 +18,15 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
 
     if (!email || !password) {
       Swal.fire({
-        text: `Entrez un ${!email ? "email" : "password"} valide`,
+        text: `Entrez un ${!email ? "email" : "mot de passe"}`,
         icon: "error",
       });
+      return;
     }
 
     if (!emailRegex.test(email)) {
@@ -33,10 +36,18 @@ const Login = () => {
       });
       return;
     }
+    if (!passwordRegex.test(password)) {
+      Swal.fire({
+        title: "Mot de passe invalide",
+        text: "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule, un chiffre, et un caractère spécial (@, $, !, %, *, ?, &, ou #).",
+        icon: "error",
+      });
+      return;
+    }
 
     callApiLogin(email, password)
       .then((data) => {
-        if (typeof data !== 'string') {
+        if (typeof data !== "string") {
           setToken(data.token);
           navigate("/profil");
         } else {
@@ -69,7 +80,6 @@ const Login = () => {
           flexDirection={"row"}
           justifyContent={"space-evenly"}
           alignItems={"center"}
-          
         >
           <h1
             role="button"
@@ -89,7 +99,7 @@ const Login = () => {
           <img src={logoTridi} />
         </Stack>
         <Stack
-         className="formSign"
+          className="formSign"
           width={{ xs: "100%", sm: "500px" }}
           height={{ xs: "450px" }}
           sx={{

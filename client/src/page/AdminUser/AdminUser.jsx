@@ -10,22 +10,68 @@ import {
   deleteUserAccount,
 } from "../../services/callApiUserAuth";
 import Swal from "sweetalert2";
-import { callApiCreateProfilUser, updatedUserProfil } from "../../services/callApiProfilUser";
+import {
+  callApiCreateProfilUser,
+  updatedUserProfil,
+} from "../../services/callApiProfilUser";
 import { updateNameUserAllProducts } from "../../services/callApiProducts";
+import TablePagination from "@mui/material/TablePagination";
 
 const AdminUser = () => {
   const { token } = useUserContext();
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [reload, setReload] = useState(false);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [paginatedUsers, setPaginatedUsers] = useState([]);
+  const [filter, setFilter] = useState({
+    status: null,
+  });
 
   useEffect(() => {
     setReload(false);
+    setPage(0);
     getUsers(token).then((data) => {
       if (data) {
         setUsers(data);
       }
     });
   }, [reload]);
+
+  useEffect(()=>{
+    setPage(0);
+  }, [filter])
+
+  useEffect(() => {
+    if (users.length > 0) {
+      let data = users.filter((value) => matchesFilter(value));
+      setFilteredUsers(data);
+      setPaginatedUsers(
+        data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      );
+    }
+  }, [users, page, rowsPerPage, filter]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const matchesFilter = (data) => {
+    let matchesStatus =
+      filter.status === null
+        ? true
+        : filter.status
+        ? data.isActived === true
+        : data.isActived === false;
+
+    return matchesStatus;
+  };
 
   const deleteAccount = async (userId, email) => {
     const confirm1 = await Swal.fire({
@@ -98,10 +144,14 @@ const AdminUser = () => {
     if (formValues) {
       const { newPseudo, newEmail, newPassword } = formValues;
 
-      if (newPseudo.trim() === "" && newEmail.trim() === "" && newPassword.trim() === "") {
+      if (
+        newPseudo.trim() === "" &&
+        newEmail.trim() === "" &&
+        newPassword.trim() === ""
+      ) {
         Swal.fire({
           text: "Erreur, veuillez rentrer au moins une nouvelle donnée",
-          icon: "error"
+          icon: "error",
         });
         return;
       }
@@ -134,8 +184,6 @@ const AdminUser = () => {
       let hasError = false;
       let hasUpdate = false;
 
-     
-
       if (newPseudo) {
         let data = { pseudo: newPseudo };
 
@@ -151,11 +199,7 @@ const AdminUser = () => {
             hasError = true;
           } else {
             await updatedUserProfil(data, userPseudo, token);
-            await updateNameUserAllProducts(
-              userPseudo,
-              newPseudo,
-              token
-            );
+            await updateNameUserAllProducts(userPseudo, newPseudo, token);
             hasUpdate = true;
           }
         } catch (err) {
@@ -165,7 +209,6 @@ const AdminUser = () => {
       }
 
       if (newEmail || newPassword) {
-       
         let data = {};
         if (newEmail) data.newEmail = newEmail;
         if (newPassword) data.password = newPassword;
@@ -180,7 +223,7 @@ const AdminUser = () => {
               icon: "error",
             });
             hasError = true;
-          }else{
+          } else {
             hasUpdate = true;
           }
         } catch (err) {
@@ -197,21 +240,21 @@ const AdminUser = () => {
         }
       }
 
-     if (hasUpdate) {
-           Swal.fire({
-             title: "Données mises à jour avec succès.",
-             text: hasError
-               ? "Certaines modifications ont échoué."
-               : "Données mise à jour avec succès , aucun problème à signaler",
-             icon: "success",
-           });
-           setReload(true)
-         } else if (!hasError) {
-           Swal.fire({
-             title: "Aucune modification effectuée.",
-             icon: "info",
-           });
-         }
+      if (hasUpdate) {
+        Swal.fire({
+          title: "Données mises à jour avec succès.",
+          text: hasError
+            ? "Certaines modifications ont échoué."
+            : "Données mise à jour avec succès , aucun problème à signaler",
+          icon: "success",
+        });
+        setReload(true);
+      } else if (!hasError) {
+        Swal.fire({
+          title: "Aucune modification effectuée.",
+          icon: "info",
+        });
+      }
     }
   };
 
@@ -232,7 +275,7 @@ const AdminUser = () => {
   };
 
   const handleAddUser = async () => {
-    setReload(false)
+    setReload(false);
     const { value: formValues } = await Swal.fire({
       title: "Ajouter un utilisateur",
       html: `
@@ -256,7 +299,7 @@ const AdminUser = () => {
         };
       },
     });
-  
+
     // Si l'utilisateur annule
     if (!formValues) {
       return Swal.fire({
@@ -264,9 +307,9 @@ const AdminUser = () => {
         icon: "info",
       });
     }
-  
+
     const { pseudo, email, password, role } = formValues;
-  
+
     // Vérifications avec tes fonctions
     if (!pseudo || !email || !password || !role) {
       return Swal.fire({
@@ -274,14 +317,14 @@ const AdminUser = () => {
         text: "Tous les champs sont obligatoires.",
       });
     }
-  
+
     if (!validateEmail(email)) {
       return Swal.fire({
         icon: "error",
         text: "Format de l'email incorrect.",
       });
     }
-  
+
     if (!validatePassword(password)) {
       return Swal.fire({
         title: "Mot de passe invalide",
@@ -289,50 +332,52 @@ const AdminUser = () => {
         icon: "error",
       });
     }
-  
+
     if (!validatePseudo(pseudo)) {
       return Swal.fire({
         text: "Pseudo invalide. 10 caractères max, uniquement lettres et chiffres.",
         icon: "error",
       });
     }
-  
+
     // Confirmation avant enregistrement
     const confirmResult = await Swal.fire({
       title: "Confirmez les informations",
       html: `
         <p><strong>Pseudo :</strong> ${pseudo}</p>
         <p><strong>Email :</strong> ${email}</p>
-        <p><strong>Rôle :</strong> ${role === "admin" ? "Administrateur" : "Utilisateur"}</p>
+        <p><strong>Rôle :</strong> ${
+          role === "admin" ? "Administrateur" : "Utilisateur"
+        }</p>
         <p>Êtes-vous sûr de vouloir ajouter cet utilisateur ?</p>`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Oui, ajouter",
       cancelButtonText: "Annuler",
     });
-  
+
     if (!confirmResult.isConfirmed) {
       return Swal.fire({
         text: "Ajout annulé.",
         icon: "info",
       });
     }
-  
+
     // Ajout de l'utilisateur
     try {
       const registerData = await callApiRegister(pseudo, email, password, role);
       if (!registerData) throw new Error("Échec de l'inscription");
-  
+
       const profileData = await callApiCreateProfilUser(pseudo, email);
       if (!profileData) throw new Error("Échec de la création du profil");
-  
+
       Swal.fire({
         icon: "success",
-        text: "Utilisateur ajouté avec succès !",
+        text: "Utilisateur ajouté avec succès, un email d'activation est envoyé à l'utilisateur !",
       });
-      setReload(true)
+      setReload(true);
     } catch (error) {
-      setReload(false)
+      setReload(false);
       console.error("Erreur lors du processus d'inscription :", error);
       Swal.fire({
         icon: "error",
@@ -340,8 +385,6 @@ const AdminUser = () => {
       });
     }
   };
-  
-  
 
   return (
     <>
@@ -356,17 +399,42 @@ const AdminUser = () => {
         }}
       >
         <h1 className="secondTitle">Compte utilisateurs</h1>
-        <Stack position={"absolute"} right={50}  top={160}>
-          <button className="buttonVitrine" onClick={()=>{
-            handleAddUser()
-          }}>Ajouter utilisateur</button>
+        <Stack display={"flex"} gap={2} marginTop={5} flexWrap={"wrap"} >
+          <select
+          style={{width: "fit-content"}}
+            className="inputHome"
+            name="price"
+            id="priceProducts"
+            onChange={(e) => {
+              setFilter((prevFilter) => ({
+                ...prevFilter,
+                status:
+                  e.target.value === "null" ? null : e.target.value === "true",
+              }));
+            }}
+          >
+            <option value="null">Status</option>
+            <option value="true">vérifié</option>
+            <option value="false">pas vérifié</option>
+          </select>
+        </Stack>
+
+        <Stack marginTop={"20px"} display={"flex"} alignItems={"flex-end"}>
+          <button
+            className="buttonVitrine"
+            onClick={() => {
+              handleAddUser();
+            }}
+          >
+            Ajouter utilisateur
+          </button>
         </Stack>
         <Stack
           color={"white"}
           height={"80%"}
           padding={2}
           justifyContent={"space-between"}
-          marginTop={13}
+          marginTop={3}
           backgroundColor={colorVar.backgroundPaleGrey}
           borderRadius={5}
         >
@@ -424,16 +492,28 @@ const AdminUser = () => {
                       color: "#333",
                     }}
                   >
+                    Status
+                  </th>
+                  <th
+                    style={{
+                      padding: "12px",
+                      textAlign: "left",
+                      border: "1px solid #ddd",
+                      backgroundColor: "#f4f4f4",
+                      color: "#333",
+                    }}
+                  >
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {users && users.length > 0 ? (
-                  users.map((user) => (
-                    <tr key={user._id} style={{
-                      color: user.role === "admin" ? "red" : "black",
-                    }}>
+                {paginatedUsers.length > 0 ? (
+                  paginatedUsers.map((user) => (
+                    <tr
+                      key={user._id}
+                      style={{ color: user.role === "admin" ? "red" : "black" }}
+                    >
                       <td
                         style={{
                           padding: "12px",
@@ -460,6 +540,15 @@ const AdminUser = () => {
                         }}
                       >
                         {user.email}
+                      </td>
+                      <td
+                        style={{
+                          padding: "12px",
+                          textAlign: "left",
+                          border: "1px solid #ddd",
+                        }}
+                      >
+                        {user.isActived ? "vérifié" : "pas vérifié"}
                       </td>
                       <td
                         style={{
@@ -492,7 +581,7 @@ const AdminUser = () => {
                 ) : (
                   <tr>
                     <td
-                      colSpan={3}
+                      colSpan={5}
                       style={{
                         textAlign: "center",
                         fontStyle: "italic",
@@ -507,6 +596,15 @@ const AdminUser = () => {
               </tbody>
             </table>
           </div>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={filteredUsers.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Stack>
       </Container>
     </>
