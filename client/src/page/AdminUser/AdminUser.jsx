@@ -27,6 +27,7 @@ const AdminUser = () => {
   const [paginatedUsers, setPaginatedUsers] = useState([]);
   const [filter, setFilter] = useState({
     status: null,
+    role: null,
   });
 
   useEffect(() => {
@@ -39,9 +40,9 @@ const AdminUser = () => {
     });
   }, [reload]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setPage(0);
-  }, [filter])
+  }, [filter]);
 
   useEffect(() => {
     if (users.length > 0) {
@@ -70,7 +71,14 @@ const AdminUser = () => {
         ? data.isActived === true
         : data.isActived === false;
 
-    return matchesStatus;
+    let matchesRole =
+      filter.role === null
+        ? true
+        : filter.role
+        ? data.role === "admin"
+        : data.role === "user";
+
+    return matchesStatus && matchesRole;
   };
 
   const deleteAccount = async (userId, email) => {
@@ -399,9 +407,9 @@ const AdminUser = () => {
         }}
       >
         <h1 className="secondTitle">Compte utilisateurs</h1>
-        <Stack display={"flex"} gap={2} marginTop={5} flexWrap={"wrap"} >
+        <Stack display={"flex"} gap={2} marginTop={5} flexWrap={"wrap"} flexDirection={"row"}>
           <select
-          style={{width: "fit-content"}}
+            style={{ width: "fit-content" }}
             className="inputHome"
             name="price"
             id="priceProducts"
@@ -416,6 +424,23 @@ const AdminUser = () => {
             <option value="null">Status</option>
             <option value="true">vérifié</option>
             <option value="false">pas vérifié</option>
+          </select>
+          <select
+            style={{ width: "fit-content" }}
+            className="inputHome"
+            name="price"
+            id="priceProducts"
+            onChange={(e) => {
+              setFilter((prevFilter) => ({
+                ...prevFilter,
+                role:
+                  e.target.value === "null" ? null : e.target.value === "true",
+              }));
+            }}
+          >
+            <option value="null">Rôle</option>
+            <option value="true">admin</option>
+            <option value="false">user</option>
           </select>
         </Stack>
 
@@ -470,7 +495,7 @@ const AdminUser = () => {
                       color: "#333",
                     }}
                   >
-                    Role
+                    Rôle
                   </th>
                   <th
                     style={{

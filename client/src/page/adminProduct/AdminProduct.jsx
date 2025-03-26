@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 import { useUserContext } from "../../context/User";
 import { NavbarAdmin } from "../../components/NavbarAdmin/NavbarAdmin";
 import { Container, Stack } from "@mui/material";
@@ -6,19 +6,28 @@ import { colorVar } from "../../style/colorVar";
 import {
   callApiAllProducts,
   callApiPageProducts,
+  callApiSearchProduct,
 } from "../../services/callApiProducts";
 import ProductImage from "../../components/ProductImage/ProductImage";
 import { deleteConfirmation } from "../../services/deleteProduct";
 import { updateProductForm } from "../../services/updateProduct";
+import TablePagination from "@mui/material/TablePagination";
+import SearchIcon from "@mui/icons-material/Search";
+import "./adminProduct.scss";
+import InputText from "../../components/InputText/InputText";
 
 
 const AdminProduct = () => {
   const { token } = useUserContext();
   const [products, setProducts] = useState([]);
-  const [reload, setReload] = useState(false)
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [paginatedProducts, setPaginatedProducts] = useState([]);
+  const [reload, setReload] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    setReload(false)
+    setReload(false);
     callApiAllProducts().then((data) => {
       if (data) {
         setProducts(data.data);
@@ -28,6 +37,25 @@ const AdminProduct = () => {
       }
     });
   }, [reload]);
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setPaginatedProducts(
+        products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      );
+    }else{
+      setPaginatedProducts([])
+    }
+  }, [products, page, rowsPerPage]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const callAllPageProducts = (data) => {
     callApiPageProducts(data.urlPage).then((newData) => {
@@ -41,19 +69,34 @@ const AdminProduct = () => {
   };
 
   const handleDelete = async (nameFile) => {
-    const result = await deleteConfirmation(nameFile, token)
+    const result = await deleteConfirmation(nameFile, token);
     if (result) {
-      setReload(true)
+      setReload(true);
     }
   };
 
-  const handleUpdate = async (nameFile,tags) => {
-    const result = await updateProductForm(nameFile, token,tags);
+  const handleUpdate = async (nameFile, tags) => {
+    const result = await updateProductForm(nameFile, token, tags);
     if (result) {
-      setReload(true)
+      setReload(true);
     }
   };
 
+  const searchProduct = () => {
+    callApiSearchProduct(search)
+      .then((products) => {
+        if (products) {
+          if (products.data) {
+            setProducts(products.data);
+          }
+        } else {
+          setProducts([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error, not found products:", error);
+      });
+  };
   return (
     <>
       <NavbarAdmin />
@@ -67,6 +110,19 @@ const AdminProduct = () => {
         }}
       >
         <h1 className="secondTitle">Produits des utilisateurs</h1>
+        <Stack marginTop={5}>
+          <InputText
+            placeholder={"Recherche..."}
+            className={"inputHome"}
+            value={search}
+            setValue={setSearch}
+            icon={
+              <button id="buttonSearch" onClick={() => searchProduct()}>
+                <SearchIcon sx={{ color: "white" }} />
+              </button>
+            }
+          />
+        </Stack>
         <Stack
           color={"white"}
           height={"80%"}
@@ -157,8 +213,8 @@ const AdminProduct = () => {
                 </tr>
               </thead>
               <tbody>
-                {products && products.length > 0 ? (
-                  products.map((product) => (
+                {paginatedProducts && paginatedProducts.length > 0 ? (
+                  paginatedProducts.map((product) => (
                     <tr key={product._id}>
                       <td
                         style={{
@@ -208,7 +264,7 @@ const AdminProduct = () => {
                           border: "1px solid #ddd",
                         }}
                       >
-                        {product.price} € 
+                        {product.price} €
                       </td>
                       <td
                         style={{
@@ -229,7 +285,9 @@ const AdminProduct = () => {
                         </button>
                         <button
                           className="buttonVitrine"
-                          onClick={() => handleUpdate(product.nameFile,product.tags)}
+                          onClick={() =>
+                            handleUpdate(product.nameFile, product.tags)
+                          }
                         >
                           mettre à jour
                         </button>
@@ -254,6 +312,15 @@ const AdminProduct = () => {
               </tbody>
             </table>
           </div>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={products.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Stack>
       </Container>
     </>

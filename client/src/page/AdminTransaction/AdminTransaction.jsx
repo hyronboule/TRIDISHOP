@@ -4,10 +4,14 @@ import { Container, Stack } from "@mui/material";
 import { useUserContext } from "../../context/User";
 import { callApiServiceTransaction } from "../../services/callApiService";
 import { colorVar } from "../../style/colorVar";
+import TablePagination from "@mui/material/TablePagination";
 
 const AdminTransaction = () => {
   const { token } = useUserContext();
-  const [transaction, setTransaction] = useState();
+  const [transaction, setTransaction] = useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [paginatedTransaction, setPaginatedTransaction] = useState([]);
 
   useEffect(() => {
     callApiServiceTransaction(token).then((data) => {
@@ -17,6 +21,33 @@ const AdminTransaction = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (transaction.length > 0) {
+      setPaginatedTransaction(
+        transaction.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      );
+    }
+  }, [transaction, page, rowsPerPage]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const formatDate = (date) => {
+    if (!date) return "";
+  
+    const [day, time] = date.split("T"); 
+    const formattedDate = day.split("-").reverse().join("/"); 
+    const formattedTime = time.split(".")[0].slice(0, 5); 
+  
+    return `${formattedDate} à ${formattedTime}`;
+  };
+  
   return (
     <>
       <NavbarAdmin />
@@ -35,7 +66,7 @@ const AdminTransaction = () => {
           height={"80%"}
           padding={2}
           justifyContent={"space-between"}
-          marginTop={13}
+          marginTop={5}
           backgroundColor={colorVar.backgroundPaleGrey}
           borderRadius={5}
         >
@@ -98,8 +129,8 @@ const AdminTransaction = () => {
                 </tr>
               </thead>
               <tbody>
-                {transaction && transaction.length > 0 ? (
-                  transaction.map((data) => (
+                {paginatedTransaction && paginatedTransaction.length > 0 ? (
+                  paginatedTransaction.map((data) => (
                     <tr key={data._id}>
                       <td
                         style={{
@@ -108,7 +139,7 @@ const AdminTransaction = () => {
                           border: "1px solid #ddd",
                         }}
                       >
-                       {data.transactionId}
+                        {data.transactionId}
                       </td>
                       <td
                         style={{
@@ -126,7 +157,7 @@ const AdminTransaction = () => {
                           padding: "12px",
                           textAlign: "left",
                           border: "1px solid #ddd",
-                          minWidth: "80px"
+                          minWidth: "80px",
                         }}
                       >
                         <p>{data.totalAmount} €</p>
@@ -139,7 +170,7 @@ const AdminTransaction = () => {
                           border: "1px solid #ddd",
                         }}
                       >
-                        {data.createdAt}
+                        {data.createdAt&& formatDate(data.createdAt)}
                       </td>
                     </tr>
                   ))
@@ -161,6 +192,15 @@ const AdminTransaction = () => {
               </tbody>
             </table>
           </div>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={transaction.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Stack>
       </Container>
     </>
