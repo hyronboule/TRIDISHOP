@@ -21,6 +21,8 @@ const Profil = () => {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
+    setProductsUser()
+    setProductPage()
     if (nameOtherUser) {
       callApiForRetrieveInfoUser(nameOtherUser);
     } else {
