@@ -22,7 +22,7 @@ const ButtonUpdateProduct = ({ name, productId, setReload, tags }) => {
     deleteConfirmation(productId,token).then((result)=>{
       if (result) {
         // navigate to home page
-        navigate('/home')
+        navigate('/products')
       }
     })
   }

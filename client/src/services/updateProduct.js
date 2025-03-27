@@ -150,7 +150,7 @@ export const updateProductForm = (nameFile, token, tags) => {
       const description = Swal.getPopup().querySelector("#description").value;
       const price = Number(Swal.getPopup().querySelector("#price").value);
 
-      if (!description && !price && updatedTags.length === tags.length) {
+      if (!description &&(price === "" || isNaN(price)) && updatedTags.length === tags.length) {
         Swal.showValidationMessage(
           "Remplissez au moins un champ pour mettre à jour"
         );
@@ -164,7 +164,7 @@ export const updateProductForm = (nameFile, token, tags) => {
 
       return {
         description: description || null,
-        price: price ?? null,
+        price: price >= 0 ? price : null,
         tags: updatedTags.length !== tags.length ? updatedTags : null,
       };
     },
@@ -177,7 +177,7 @@ export const updateProductForm = (nameFile, token, tags) => {
 
     const data = {};
     if (description) data.description = description;
-    if (price) data.price = price;
+    if (price >= 0) data.price = price;
     if (tags) data.tags = tags;
 
     return callApiUpdatePoducts(nameFile, data, token)

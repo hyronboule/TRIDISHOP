@@ -242,6 +242,7 @@ const AddPublication = () => {
                 </label>
                 <input
                   type="file"
+                  accept=".jpeg"
                   name="file"
                   id="file"
                   onChange={(e) => addFileInput(e, setFile, "jpeg")}
@@ -255,6 +256,7 @@ const AddPublication = () => {
                 </label>
                 <input
                   type="file"
+                  accept=".glb"
                   name="file2"
                   id="file2"
                   onChange={(e) => addFileInput(e, setFile2, "glb")}

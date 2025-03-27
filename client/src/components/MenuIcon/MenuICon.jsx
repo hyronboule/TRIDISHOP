@@ -5,7 +5,7 @@ import { Stack } from "@mui/material";
 import { useUserContext } from "../../context/User.jsx";
 import Swal from "sweetalert2";
 
-const MenuICon = ({ icon, path, verifCo, logount, name }) => {
+const MenuICon = ({ icon, path, verifCo, logount, name, className }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { setToken, setInfoUser } = useUserContext();
@@ -68,7 +68,7 @@ const MenuICon = ({ icon, path, verifCo, logount, name }) => {
             },
           })}
           <Stack
-            className="nameNav"
+            className={className}
             sx={
               pathname === path
                 ? { color: colorVar.backgroundPaleBlue }

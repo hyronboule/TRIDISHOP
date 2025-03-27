@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar, Container, Stack } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
+import ViewInArRoundedIcon from "@mui/icons-material/ViewInArRounded";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import MenuICon from "../MenuIcon/MenuICon";
@@ -12,9 +12,13 @@ import { colorVar } from "../../style/colorVar.js";
 import { useUserContext } from "../../context/User.jsx";
 import logo from "../../assets/logoTridi.png";
 import AdminPanelSettingsRoundedIcon from "@mui/icons-material/AdminPanelSettingsRounded";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 
 export const Navbar = () => {
   const { userLogin, productShops, token, infoUser } = useUserContext();
+  const LogoIcon = () => (
+    <img src={logo} alt="Logo de Tridishop" style={{ height: "23px" }} />
+  );
 
   return (
     <nav>
@@ -41,37 +45,63 @@ export const Navbar = () => {
             alignItems: "center",
           }}
         >
-          <Stack width={30} height={"auto"} paddingRight={2}>
-            <img src={logo} alt="Logo de tridishop" />
+          <Stack
+            width={"fit-content"}
+            height={"auto"}
+            paddingRight={{ xs: 2, md: 5 }}
+          >
+            <MenuICon
+              icon={LogoIcon}
+              path="/"
+              name={"Accueil"}
+              className={"nameNav"}
+            />
           </Stack>
           <Stack direction={"row"} spacing={{ xs: 1, sm: 2, md: 5 }}>
-            <MenuICon icon={HomeIcon} path="/home" name={"Acceuil"} />
-
             <MenuICon
+              className={"nameNav"}
+              icon={ViewInArRoundedIcon}
+              path="/products"
+              name={"Produits"}
+            />
+            <MenuICon
+              className={"nameNav"}
               //   shopNumberProduct={productShops.length}
               icon={ShoppingBasketIcon}
               path="/payments"
-              verifCo={userLogin}
+              // verifCo={userLogin}
               name={"Panier"}
             />
 
-            <MenuICon
-              icon={AddCircleIcon}
-              path="/publication"
-              verifCo={userLogin}
-              name={"Publier"}
-            />
+            {token && (
+              <>
+                <MenuICon
+                  className={"nameNav"}
+                  icon={AddCircleIcon}
+                  path="/publication"
+                  verifCo={userLogin}
+                  name={"Publier"}
+                />
+
+                <MenuICon
+                  className={"nameNav"}
+                  icon={AccountCircleIcon}
+                  path="/profil"
+                  verifCo={userLogin}
+                  name={"Profil"}
+                />
+              </>
+            )}
 
             <MenuICon
-              icon={AccountCircleIcon}
-              path="/profil"
-              verifCo={userLogin}
-              name={"Profil"}
+              icon={ContactSupportIcon}
+              className={"nameNav"}
+              path="/support"
+              name={"Aide"}
             />
-
-            <MenuICon icon={ContactSupportIcon} path="/support" name={"Aide"} />
             {token && infoUser.role === "admin" && (
               <MenuICon
+                className={"nameNav"}
                 icon={AdminPanelSettingsRoundedIcon}
                 path="/admin"
                 name={"Admin"}
@@ -87,16 +117,35 @@ export const Navbar = () => {
           >
             {!userLogin && (
               <MenuICon
+                className={"nameNav"}
                 icon={LogoutRoundedIcon}
                 logount={true}
                 name={"Déconexion"}
               />
             )}
-            <MenuICon
-              icon={SettingsIcon}
-              path="/settings"
-              verifCo={userLogin}
-            />
+            {token ? (
+              <MenuICon
+                className={"nameNav"}
+                icon={SettingsIcon}
+                path="/settings"
+                verifCo={userLogin}
+              />
+            ) : (
+              <Stack className="signDisplayNav" flexDirection={"row"} gap={{xs:3,sm:5}}>
+                <MenuICon
+                  className={"nameSignNav"}
+                  icon={AccountCircleIcon}
+                  path="/login"
+                  name={"Connexion"}
+                />
+                <MenuICon
+                  className={"nameSignNav"}
+                  icon={PersonAddAltRoundedIcon}
+                  path="/sign"
+                  name={"Inscription"}
+                />
+              </Stack>
+            )}
           </Stack>
         </Container>
       </AppBar>

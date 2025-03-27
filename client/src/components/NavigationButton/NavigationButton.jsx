@@ -20,7 +20,7 @@ const NavigationButton = ({ url, onClick }) => {
             sx={{
                 background: colorVar.backgroundPaleBlue,
                 position: 'absolute',
-                top: 60,
+                top: "80px",
                 left: 25,
                 padding: "3px",
                 minWidth: 0,

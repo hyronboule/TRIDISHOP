@@ -133,7 +133,7 @@ export const callApiUpdatePoducts = async (nameFile, data,token) => {
                 formData.append('tags[]', tag);
             });
         } 
-        if (data.price) {
+        if (data.price >= 0) {
             formData.append("price", data.price);
         } 
         if (data.download) {

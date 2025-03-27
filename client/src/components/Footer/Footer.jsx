@@ -30,7 +30,7 @@ function Footer() {
                   navigate("/cgu ");
                 }}
               >
-                Condition général d'utilisation
+                Conditions générales d'utilisation
               </li>
               <li
                 className="hoverLink"
@@ -38,7 +38,7 @@ function Footer() {
                   navigate("/cgv ");
                 }}
               >
-                Condition général de vente
+                Conditions générales de vente
               </li>
               <li
                 className="hoverLink"
@@ -58,7 +58,7 @@ function Footer() {
                   navigate("/");
                 }}
               >
-                A' propos de nous
+               À propos de nous
               </li>
             </ul>
           </Grid>

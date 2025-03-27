@@ -138,7 +138,7 @@ export const Sign = () => {
           <h1
             tabIndex={0}
             onClick={() => {
-              navigate("/home");
+              navigate("/products");
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {

@@ -69,7 +69,7 @@ const PageSupport = () => {
             >
               tridi.help@gmail.com
             </a>
-            <p style={{ fontSize: "11px" }}>
+            <p style={{ fontSize: "13px" }}>
               *Veuillez à fournir le plus de détail possible suivant la
               problématique rencontrée.
             </p>

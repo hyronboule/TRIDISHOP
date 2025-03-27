@@ -347,6 +347,7 @@ const Settings = () => {
             </label>
             <input
               type="file"
+              accept=".jpeg,.png"
               name="image"
               id="image"
               onChange={(e) => {

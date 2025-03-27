@@ -11,6 +11,7 @@ import { callApiServicePayment } from "../../services/callApiService";
 import { downloadFiles } from "../../services/downloadFiles";
 import Swal from "sweetalert2";
 import { callApiUpdatePoducts } from "../../services/callApiProducts";
+import { useNavigate } from "react-router-dom";
 
 const ShoppingCart = () => {
   const { productShops, setProductShops } = useUserContext();
@@ -18,6 +19,7 @@ const ShoppingCart = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const { token } = useUserContext();
+  const navigate = useNavigate()
 
   const totalPrice = () => {
     let total = 0;
@@ -169,6 +171,26 @@ const ShoppingCart = () => {
     setProductShops([]);
   };
 
+  const modal = () => {
+    Swal.fire({
+      title: "Action requise",
+      text: "Veuillez vous connecter ou vous inscrire avant le paiement.",
+      icon: "warning",
+      showCancelButton: true,
+      showDenyButton: true,
+      confirmButtonText: "Se connecter",
+      denyButtonText: "S'inscrire",
+      cancelButtonText: "Annuler",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login"); 
+      } else if (result.isDenied) {
+        navigate( "/sign"); 
+      }
+    });
+  };
+  
+
   return (
     <>
       <Container className="page" maxWidth="100vw" sx={{ minHeight: "100%" }}>
@@ -223,13 +245,15 @@ const ShoppingCart = () => {
                 </div>
                 <button
                   className="buttonValidation boutonShop"
-                  onClick={() => handleClick()}
+                  onClick={() => {
+                    token?
+                    handleClick(): modal()}}
                 >
                   Payer
                 </button>
               </Stack>
 
-              <p style={{ fontSize: 10 }}>
+              <p style={{ fontSize: 13 }}>
                 * Si le total dépasse 0 euro, des frais sont ajoutés égal à 5%
                 du prix total
               </p>
@@ -252,13 +276,16 @@ const ShoppingCart = () => {
                 flexDirection={"column"}
                 height={"70%"}
               >
-                <InputText
-                  className={"inputLogin inputShop"}
-                  type={"text"}
-                  placeholder={"Email du paypal..."}
-                  value={email}
-                  setValue={setEmail}
-                />
+                {
+                  totalPrice() > 0 &&
+                  <InputText
+                    className={"inputLogin inputShop"}
+                    type={"text"}
+                    placeholder={"Email du paypal..."}
+                    value={email}
+                    setValue={setEmail}
+                  />
+                }
                 <InputText
                   className={"inputLogin inputShop"}
                   type={"text"}

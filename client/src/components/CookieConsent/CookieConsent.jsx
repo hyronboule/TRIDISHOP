@@ -47,9 +47,8 @@ function CookieConsent() {
             borderRadius={5}
             sx={{
                 background: '#333',
-                top: '10px',
-                left: '50%',
-                transform: 'translate(-50%)',
+                bottom: '30px',
+                right: '50px',
             }}
         >
             <p style={{ fontSize: '13px' }}>

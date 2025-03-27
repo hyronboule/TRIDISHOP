@@ -63,7 +63,7 @@ label {
 }
 
 .page {
-  padding-top: 80px;
+  padding-top: 100px;
   padding-bottom: 200px;
   @media (max-width: 600px) {
     padding-bottom: 250px;
@@ -77,6 +77,9 @@ label {
 }
 .hoverLink :hover {
   text-decoration: underline;
+}
+.hoverLink{
+  cursor: pointer;
 }
 
 .inputLogin {
@@ -227,4 +230,12 @@ label {
 .image3DShop {
   box-shadow: none !important;
   border: none !important;
+}
+.nameSignNav{
+  @media (max-width: 955px) {
+    font-size: 13px;
+  }
+  @media (max-width: 400px) {
+    display: none !important;
+  }
 }

@@ -21,8 +21,8 @@ const Profil = () => {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    setProductsUser()
-    setProductPage()
+    setProductsUser();
+    setProductPage();
     if (nameOtherUser) {
       callApiForRetrieveInfoUser(nameOtherUser);
     } else {
@@ -69,27 +69,32 @@ const Profil = () => {
   return (
     <>
       <Container className="page" maxWidth="100vw" sx={{ minHeight: "100%" }}>
-        <NavigationButton url={"/home"} />
-        <Button
-          variant="contained"
-          tabIndex={0}
-          onClick={() => handleUpdate()}
-          sx={{
-            background: colorVar.backgroundPaleBlue,
-            position: "absolute",
-            top: 60,
-            right: 25,
-            padding: "5px",
-            minWidth: 0,
-            boxShadow: colorVar.boxShadow,
-            borderRadius: "100%",
-            color: colorVar.textColor,
-            zIndex: 100,
-          }}
-        >
-          {" "}
-          <BorderColorRoundedIcon sx={{ color: "black", fontSize: 16 }} />{" "}
-        </Button>
+        <NavigationButton url={"/products"} />
+        {token && !nameOtherUser &&
+          <Button
+            variant="contained"
+            tabIndex={0}
+            onClick={() => handleUpdate()}
+            sx={{
+              background: colorVar.backgroundPaleBlue,
+              position: "absolute",
+              top: "80px",
+              right: 25,
+              padding: "5px",
+              minWidth: 0,
+              boxShadow: colorVar.boxShadow,
+              borderRadius: "100%",
+              color: colorVar.textColor,
+              zIndex: 100,
+            }}
+          >
+            {" "}
+            <BorderColorRoundedIcon
+              sx={{ color: "black", fontSize: 16 }}
+            />{" "}
+          </Button>
+        }
+
         <Grid
           container
           gap={3}

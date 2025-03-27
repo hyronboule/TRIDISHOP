@@ -12,7 +12,7 @@ export const updateProfil = async (token, name) => {
             <label for="image" style="cursor: pointer; background: #B1E5F2; color: black; padding:10px; border-radius: 5px; border : none; height : fit-content">
                 Importer une image (jpeg ou png)
             </label>
-            <input type="file" id="image" style="display: none;" />
+            <input type="file" accept=".jpeg,.png" id="image" style="display: none;" />
             <p style="text-align: start; text-decoration: underline; margin: 0;">Liens de profil :</p>
             <input id="instagram" type="text" placeholder="Rentrez un lien Instagram..." class="swal2-input" />
             <input id="facebook" type="text" placeholder="Rentrez un lien Facebook..." class="swal2-input" />

@@ -41,12 +41,17 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Vitrine />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/products" element={<Home />} />
         <Route path="/payments" element={<ShoppingCart />} />
-        <Route path="/publication" element={<AddPublication />} />
-        <Route path="/profil/:nameOtherUser?" element={<Profil />} />
         <Route path="/product/:productId" element={<DetailProduct />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/profil/:nameOtherUser" element={<Profil />} />
+        {token && (
+          <>
+            <Route path="/profil" element={<Profil />} />
+            <Route path="/publication" element={<AddPublication />} />
+            <Route path="/settings" element={<Settings />} />
+          </>
+        )}
         <Route path="/sign" element={<Sign />} />
         <Route path="/login" element={<Login />} />
         <Route path="/support" element={<PageSupport />} />
