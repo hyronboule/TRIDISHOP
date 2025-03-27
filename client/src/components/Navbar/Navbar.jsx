@@ -30,10 +30,6 @@ export const Navbar = () => {
           minHeight: "35px",
           backgroundColor: colorVar.backgroundGrey,
           top: "0",
-
-          // [theme.breakpoints.up('sm')]: {
-          //     height: "100%", width: 40, backgroundColor: colorVar.backgroundGrey, top: 0, right: 0
-          // }
         }}
       >
         <Container
@@ -41,14 +37,14 @@ export const Navbar = () => {
           sx={{
             height: "100%",
             display: "flex",
-            padding: "0px 10px",
             alignItems: "center",
+            padding : "0px 15px !important"
           }}
         >
           <Stack
             width={"fit-content"}
             height={"auto"}
-            paddingRight={{ xs: 2, md: 5 }}
+            paddingRight={{ xs: 2, md: 3 }}
           >
             <MenuICon
               icon={LogoIcon}
@@ -57,7 +53,7 @@ export const Navbar = () => {
               className={"nameNav"}
             />
           </Stack>
-          <Stack direction={"row"} spacing={{ xs: 1, sm: 2, md: 5 }}>
+          <Stack direction={"row"} spacing={{ xs: 1, sm: 2, md: 3 }}>
             <MenuICon
               className={"nameNav"}
               icon={ViewInArRoundedIcon}
@@ -113,7 +109,7 @@ export const Navbar = () => {
             marginLeft={"auto"}
             marginTop={0}
             direction={"row"}
-            spacing={2}
+            spacing={{xs:1,md:2 ,lg:3}}
           >
             {!userLogin && (
               <MenuICon

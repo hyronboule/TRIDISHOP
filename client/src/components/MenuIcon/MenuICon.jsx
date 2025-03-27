@@ -59,7 +59,7 @@ const MenuICon = ({ icon, path, verifCo, logount, name, className }) => {
           }
         }}
       >
-        <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
+        <Stack flexDirection={"row"} alignItems={"center"} gap={"3px"}>
           {React.createElement(icon, {
             sx: {
               color: pathname === path ? colorVar.backgroundPaleBlue : "white",

@@ -16,7 +16,7 @@ const AdminTransaction = () => {
   useEffect(() => {
     callApiServiceTransaction(token).then((data) => {
       if (data) {
-        setTransaction(data);
+        setTransaction([...data].reverse());
       }
     });
   }, []);
