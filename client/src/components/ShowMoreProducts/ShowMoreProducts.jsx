@@ -16,7 +16,7 @@ export const ShowMoreProducts = ({ setData, urlPage, setUrlPage }) => {
                         setUrlPage(newData.urlPage); 
                     } else {
                         Swal.fire({
-                            title: 'Aucun produits trouvés',
+                            title: 'De nouvelles créations bientôt disponibles',
                             icon: 'error',
                         });
                     }
@@ -31,7 +31,7 @@ export const ShowMoreProducts = ({ setData, urlPage, setUrlPage }) => {
                 });
         } else {
             Swal.fire({
-                title: 'Aucun produits trouvés',
+                title: 'De nouvelles créations bientôt disponibles',
                 icon: 'error',
             });
         }

@@ -9,8 +9,8 @@ import CookieConsent from './components/CookieConsent/CookieConsent.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-    <CookieConsent />
     <User>
+    <CookieConsent />
     <App />
     </User>
     </BrowserRouter>

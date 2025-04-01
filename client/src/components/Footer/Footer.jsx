@@ -4,8 +4,10 @@ colorVar;
 import "./footer.scss";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logoTridi.png";
+import { useUserContext } from "../../context/User.jsx";
 
 function Footer() {
+  const {setDisplayCookies} = useUserContext()
   const navigate = useNavigate();
   return (
     <footer>
@@ -59,6 +61,14 @@ function Footer() {
                 }}
               >
                À propos de nous
+              </li>
+              <li
+                className="hoverLink"
+                onClick={() => {
+                  setDisplayCookies(true)
+                }}
+              >
+               Gérer cookies
               </li>
             </ul>
           </Grid>

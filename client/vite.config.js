@@ -21,7 +21,10 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
-    }
+    },
+    hmr: {
+      overlay: false, // Désactive l'overlay pour les erreurs
+    },
   },
   // configuration:  test
   test: {

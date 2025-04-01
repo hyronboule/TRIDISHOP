@@ -27,6 +27,12 @@ function App() {
   const location = useLocation();
   const { infoUser, token } = useUserContext();
 
+  window.addEventListener("error", (event) => {
+    if (event?.message?.includes("ENOENT")) {
+      event?.preventDefault(); // Empêche l'affichage dans la console
+    }
+  });
+
   // useEffect(() => {
   //   if (location.pathname === "/login" ||  location.pathname === "/sign" || location.pathname === "/Login" ) {
   //     setDisplayNav(false);
