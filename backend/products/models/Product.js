@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
         match: /^[a-zA-Z0-9]+$/,
-        minlength: 3,
+        minlength: 1,
         maxlength: 10
     },
     download: {

@@ -19,7 +19,7 @@ const profilSchema = new mongoose.Schema({
         required: true,
         unique: true,
         match: /^[a-zA-Z0-9]+$/,
-        minlength: 3,
+        minlength: 1,
         maxlength: 10
     },
     links: {

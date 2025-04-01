@@ -68,7 +68,7 @@ function Vitrine() {
               navigate("/sign");
             }}
           >
-            Créez un compte
+            Créer un compte
           </button>
           <button
             className={"buttonVitrine "}
