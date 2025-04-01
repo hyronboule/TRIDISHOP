@@ -226,7 +226,11 @@ label {
   border-radius: 50%;
   object-fit: cover;
 }
-
+.displayText{
+  @media (max-width : 800px) {
+    display: none !important;
+  }
+}
 .image3DShop {
   box-shadow: none !important;
   border: none !important;

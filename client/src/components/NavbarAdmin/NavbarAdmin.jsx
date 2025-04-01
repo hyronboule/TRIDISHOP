@@ -34,16 +34,19 @@ export const NavbarAdmin = () => {
       >
         <Stack direction={"column"} spacing={{ xs: 2, md: 5 }}>
           <MenuICon
+            className={"displayText"}
             icon={AccessibilityRoundedIcon}
             path="/admin/users"
             name={"Utilisateurs"}
           />
           <MenuICon
+           className={"displayText"}
             icon={CategoryRoundedIcon}
             path="/admin/products"
             name={"Produits"}
           />
           <MenuICon
+           className={"displayText"}
             icon={PaidRoundedIcon}
             path="/admin/transactions"
             name={"Transactions"}
